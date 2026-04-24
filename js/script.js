@@ -66,7 +66,6 @@ window.addEventListener("load", handleDialog("load"));
 window.addEventListener("resize", handleDialog("resize"));
 
 
-
 // openAsideWindow.addEventListener('click', () => {
 //     handleDialog("click");
 
