@@ -13,13 +13,12 @@
 <body>
     <div id="document-container">
 
-        <header class="header">
+        <header id="header">
             <i class="fa-solid fa-bars list-icon"></i>
             <h1>Days</h1>
         </header>
-<!--  -->
-        <main id="main">
 
+        <main id="main">
             <div id="today-view" class="main-window">
                 <section class="days-container">
                     <article class="day">
@@ -79,10 +78,40 @@
                     </article>
                 </section>
             </div>
+
+
+            <div id="note-list-view" class="main-window">
+
+                <p class="view-type">Notes</p>
+                <h2 class="note-list-title">Apps Ideas</h2>
+
+                <div class="notes-container">
+
+                    <div class="note">
+                        <div class="note-header">
+                            <h3 class="note-name">Todo List App</h3>
+                            <i class="fa-regular fa-trash-can note-delete-icon"></i>
+                        </div>
+
+                        <div class="note-description">
+                            <p>
+                                A simple application that will shows the task the app will be a website rather than a
+                                native application...
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- more notes here -->
+
+                </div>
+            </div>
+
         </main>
 
-        <dialog id="sidebar-dialog" class="modal">
-            <aside id="sidebar">
+        <!-- sidebar -->
+        <div id="sidebar-div" class="sidebar"></div>
+        <dialog id="sidebar-dialog" class="modal sidebar">
+            <aside class="sidebar-aside">
                 <header class="sidebar-header">
                     <h2 class="user-name">User Bauser</h2>
                     <i class="fa-solid fa-bars list-close-icon"></i>
@@ -128,8 +157,10 @@
             </aside>
         </dialog>
 
-        <dialog  id="right-side-dialog" class="modal">
-            <div id="right-side">
+        <!-- right-side -->
+        <div id="right-side-div" class="right-side"></div>
+        <dialog id="right-side-dialog" class="modal right-side">
+            <aside class="right-side-aside">
                 <header class="right-side-header">
                     <i class="fa-solid fa-angles-right right-side-close-icon"></i>
                     <h2 class="user-name">Task</h2>
@@ -175,7 +206,48 @@
                         <button class="edit-btn">Edit</button>
                     </div>
                 </div>
-            </div>
+
+
+                <!-- <div class="note-view">
+                    <div class="note-header">
+                        <div>
+                            <h2 class="note-name">Todo List App</h2>
+                            <p class="note-list">List : Apps Ideas</p>
+                        </div>
+                    </div>
+
+                    <div class="note-details">
+                        <div class="note-date-time">21 April | 12:00 AM</div>
+
+                        <div class="description-box">
+                            <span class="description-label">Description</span>
+                            <p>
+                                Completing the project for the web task :
+                                <br><br>
+                                1- create a prototype
+                                <br>
+                                2- discuss with the team about the prototypedvdf
+                                <br><br>
+                                csdvds
+                                svddsv
+                                sdvsv
+                                3- create the code CSS / HTML
+                                <br>
+                                4- handle the front end with JS
+                                <br>
+                                5- Create the back-end
+                            </p>
+                        </div>
+
+                        <div class="note-created-date">Created on : 5 April</div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="delete-btn">Delete</button>
+                        <button class="edit-btn">Edit</button>
+                    </div>
+                </div> -->
+            </aside>
         </dialog>
 
         <dialog id="new-task-dialog" class="new-dialog modal">
@@ -222,17 +294,53 @@
             </div>
         </dialog>
 
-        <dialog id="new-list-dialog" class="new-dialog modal">
-            <div class="new-list">
-                <form id="create-list-form" action="">
-                    <h2>Create List</h2>
+        <dialog id="new-note-dialog" class="new-dialog modal">
+            <div class="new-note">
+                <form id="create-note-form" action="">
+                    <h2>Create Note</h2>
 
-                    <div class="list-name-field">
+                    <label>Name</label>
+                    <input id="note-name" type="text" name="note-name">
+
+                    <label>List</label>
+                    <select id="note-list" name="note-list">
+                        <option>UI idea</option>
+                    </select>
+
+                    <label>Description</label>
+                    <textarea id="note-description" name="note-description"></textarea>
+
+                    <button id="create-note-button" type="submit">Create</button>
+                </form>
+            </div>
+        </dialog>
+
+        <dialog id="new-task-list-dialog" class="new-dialog modal">
+            <div class="new-task-list">
+                <form id="create-task-list-form" action="">
+                    <h2>Create Task List</h2>
+
+                    <div class="task-list-name-field">
                         <label>Name</label>
-                        <input id="list-name" type="text" name="list-name">
+                        <input id="task-list-name" type="text" name="task-list-name">
                     </div>
 
-                    <button id="create-list-button" type="submit">Create</button>
+                    <button id="create-task-list-button" type="submit">Create</button>
+                </form>
+            </div>
+        </dialog>
+
+        <dialog id="new-note-list-dialog" class="new-dialog modal">
+            <div class="new-note-list">
+                <form id="create-note-list-form" action="">
+                    <h2>Create Note List</h2>
+
+                    <div class="note-list-name-field">
+                        <label>Name</label>
+                        <input id="note-list-name" type="text" name="note-list-name">
+                    </div>
+
+                    <button id="create-note-list-button" type="submit">Create</button>
                 </form>
             </div>
         </dialog>

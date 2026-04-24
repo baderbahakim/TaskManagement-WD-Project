@@ -1,14 +1,22 @@
 :root {
     --header-height: 70px;
-    --side-header-height: 20px;
+    --sidebar-header-height: 20px;
     --task-dialog-height: 720px;
     --new-task-dialog-height: 750px;
+    
+    --new-dialog-height: clamp(500px, 85vh, 600px);
+    --new-list-dialog-height: clamp(200px, 40vh, 300px);
 
-    --aside-dialog-width: 80%;
+    --sidebar-dialog-width: clamp(300px, 80vw, 500px);
+    --right-side-dialog-width: clamp(315px, 90vw, 500px);
+    --new-dialog-width: clamp(320px, 90vw, 450px);
+    --new-list-dialog-width: clamp(300px, 80vw, 400px);
     --task-dialog-width: 100%;
     --new-task-dialog-width: 100%;
 
     --background-color-gray-1: rgb(181, 181, 181);
+
+    --transition-value-1: all 0.2s ease-out;
 }
 
 * {
@@ -18,6 +26,25 @@
     border: 0;
     /* outline: 1px dotted pink; */
 }
+
+/* ##### Testing ######## */
+#today-view {
+    /* display: none; */
+}
+
+#note-list-view {
+    display: none;
+}
+
+.task-view {
+    /* display: none; */
+}
+
+.note-view {
+    /* display: none; */
+}
+
+/* ######### ############ */
 
 body {
     margin: 0;
@@ -62,7 +89,7 @@ i {
 
 /* #haeder */
 /* fixed header */
-.header {
+#header {
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 100;
@@ -204,6 +231,90 @@ i {
 } */
 
 
+/* #note-list-view */
+#note-list-view {
+    width: 100%;
+    height: 100%;
+    padding: 1.2rem;
+    box-sizing: border-box;
+}
+
+/* small label (Notes) */
+.view-type {
+    margin: 0;
+    color: #8fa3b5;
+    font-weight: 600;
+}
+
+/* main title */
+.note-list-title {
+    margin: 0.3rem 0 1.5rem;
+    font-size: 2rem;
+}
+
+/* grid container */
+.notes-container {
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: 1fr;
+}
+
+/* note card */
+.note {
+    background: rgba(70, 75, 80, 0.9);
+    border: 1px solid rgba(220, 220, 220, 0.6);
+    border-radius: 6px;
+    padding: 0.9rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* header (title + delete) */
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.note-delete-icon {
+    background: none;
+    border: none;
+    color: #cfcfcf;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+/* description box */
+.note-description {
+    background: #222;
+    border-radius: 10px;
+    padding: 0.8rem;
+    /* box-shadow: inset 0 -25px 25px -15px rgba(0, 0, 0, 0.8); */
+}
+
+.note-description p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #ddd;
+}
+
+/* responsive grid */
+/* @media (min-width: 600px) {
+    .notes-container {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+} */
+
+
 /* Modals */
 .modal {
     position: fixed;
@@ -211,6 +322,7 @@ i {
     max-width: none;
     max-height: none;
     background-color: transparent;
+    transition: var(--transition-value-1);
 }
 
 .modal:focus {
@@ -232,27 +344,54 @@ i {
     overflow: hidden;
 }
 
-/* #sidebar-dialog */
-#sidebar-dialog {
-    position: fixed;
-    inset: 0 auto 0 0;
-    width: min(85vw, 320px);
+/* side-divs */
+div[id*="side"] {
+    position: relative;
+}
+
+div[id*="side"].active {
+    display: block;
+}
+
+div[id*="side"]:not(.active) {
+    display: none;
+}
+
+/* .sidebar dialog and div */
+.sidebar {
+    width: var(--sidebar-dialog-width);
     height: 100vh;
 }
 
-#sidebar-dialog #sidebar {
+#sidebar-div .list-close-icon {
+    display: none;
+}
+
+#sidebar-dialog {
+    inset: 0 auto 0 0;
+}
+
+/* .sidebar.active {
+    left: 0;
+}
+
+.sidebar:not(.active) {
+    left: calc(0px - var(--sidebar-dialog-width));
+} */
+
+.sidebar .sidebar-aside {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
-    padding: var(--side-header-height) 1rem 1rem;
+    padding: var(--sidebar-header-height) 1rem 1rem;
     /* padding: 1rem; */
     background: linear-gradient(to bottom, #071c2f, #04111d);
     color: white;
     /* overflow: auto; */
 }
 
-#sidebar-dialog::backdrop {
+.sidebar::backdrop {
     background: rgba(0, 0, 0, 0.3);
 }
 
@@ -260,7 +399,7 @@ i {
     /* position: fixed;
     top: 0; */
     width: 100%;
-    height: var(--side-header-height);
+    height: var(--sidebar-header-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -276,13 +415,13 @@ i {
     cursor: pointer;
 }
 
-#sidebar-dialog section {
+.sidebar section {
     margin-top: 1.5rem;
     border-bottom: 2px solid rgba(255, 255, 255, 0.7);
     padding-bottom: 1rem;
 }
 
-#sidebar-dialog h3 {
+.sidebar h3 {
     color: #8f98a3;
     margin-bottom: 0.8rem;
     font-size: 1rem;
@@ -300,18 +439,18 @@ i {
     cursor: pointer;
 }
 
-#sidebar-dialog ul {
+.sidebar ul {
     list-style: none;
 }
 
-#sidebar-dialog li {
+.sidebar li {
     padding: 0.7rem 0;
     font-size: 1.5rem;
     font-weight: 600;
     cursor: pointer;
 }
 
-#sidebar-dialog li i {
+.sidebar li i {
     margin-right: 1rem;
 }
 
@@ -329,22 +468,25 @@ i {
 }
 
 
-/* #right-side-dialog */
-#right-side-dialog {
-    position: fixed;
-    inset: 0 0 0 auto;
-    width: min(100%, 430px);
+/* .right-side dialog and div */
+.right-side {
+    width: var(--right-side-dialog-width);
     height: 100vh;
 }
 
-#right-side-dialog #right-side {
-    width: 100%;
-    height: 100%;
-    padding: var(--side-header-height) 1rem 1rem;
-    background: linear-gradient(to bottom, #14314a, #000814);
+#right-side-dialog {
+    inset: 0 0 0 auto;
 }
 
-#right-side-dialog .right-side-header {
+.right-side .right-side-aside {
+    width: 100%;
+    height: 100%;
+    padding: var(--sidebar-header-height) 1rem 1rem;
+    background: linear-gradient(to bottom, #14314a, #000814);
+    overflow: auto;
+}
+
+.right-side .right-side-header {
     /* position: fixed;
     top: 0; */
     display: flex;
@@ -352,11 +494,11 @@ i {
     align-items: center;
     gap: 1rem;
     width: 100%;
-    height: var(--side-header-height);
+    height: var(--sidebar-header-height);
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
 }
 
 .right-side-header h2 {
@@ -364,37 +506,42 @@ i {
     color: white;
 }
 
-#right-side-dialog .task-view {
+/* .task-view and .note-view */
+.right-side div[class*="view"] {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     width: 100%;
-    height: 100%;
+    /* height: calc(100% - var(--side-header-height)); */
     margin-top: 1.5rem;
     color: white;
-    /* overflow: auto; */
 }
 
-#right-side-dialog::backdrop {
+.task-view {
+    display: none;
+}
+
+.right-side::backdrop {
     background: rgba(0, 0, 0, 0.35);
 }
 
-#right-side-dialog .task-header {
+.right-side div[class*="header"] {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-#right-side-dialog .task-header .task-name {
+.right-side div[class*="header"] div[class*="name"] {
     font-size: 1.7rem;
+    color: red;
 }
 
-#right-side-dialog .task-header .task-list {
+.right-side div[class*="header"] div[class*="list"] {
     margin: 0.3rem 0 0;
     color: #8f9aa6;
 }
 
-#right-side-dialog .priority {
+.right-side .priority {
     padding: 0.3rem 1rem;
     background: #fff;
     color: #7a1d1d;
@@ -402,20 +549,20 @@ i {
     font-weight: bold;
 }
 
-#right-side-dialog .task-details {
+.right-side div[class*="details"] {
     border: 1px solid #aaa;
     border-radius: 6px;
     padding: 1rem;
     background: rgba(255, 255, 255, 0.06);
 }
 
-#right-side-dialog .task-date-time {
+.right-side div[class*="date-time"] {
     text-align: right;
     font-weight: bold;
     margin-bottom: 1rem;
 }
 
-#right-side-dialog .description-box {
+.right-side .description-box {
     background: #222;
     border-radius: 7px;
     padding: 1rem;
@@ -424,7 +571,7 @@ i {
     overflow: hidden;
 }
 
-#right-side-dialog .description-label {
+.right-side .description-label {
     position: absolute;
     top: 0;
     left: 0;
@@ -435,18 +582,18 @@ i {
     font-weight: bold;
 }
 
-#right-side-dialog .description-box p {
+.right-side .description-box p {
     margin-top: 3rem;
     line-height: 1.5;
 }
 
-#right-side-dialog .task-created-date {
+.right-side div[class*="created-date"] {
     margin-top: 1rem;
     color: #9ca3af;
     font-weight: bold;
 }
 
-#right-side-dialog button {
+.right-side button {
     border: 1px solid;
     border-radius: 999px;
     padding: 1rem;
@@ -455,40 +602,46 @@ i {
     cursor: pointer;
 }
 
-#right-side-dialog .complete-btn {
+.right-side .complete-btn {
     background: #ddd;
     color: black;
     width: 80%;
     align-self: center;
 }
 
-#right-side-dialog .actions {
+.right-side .actions {
     display: flex;
     gap: 1rem;
 }
 
-#right-side-dialog .actions button {
+.right-side .actions button {
     flex: 1;
 }
 
-#right-side-dialog .delete-btn {
+.right-side .delete-btn {
     background: #fff;
     color: red;
 }
 
-#right-side-dialog .edit-btn {
+.right-side .edit-btn {
     background: #dff6ff;
     color: #00a3d9;
 }
 
 
-/* .new-dialog for both #new-task-dialog and #new-list-dialog */
+/* for all .new-dialog and .new-list-dialog */
 .new-dialog {
     position: fixed;
     inset: 5rem 0 3rem;
     z-index: 200;
-    width: min(90vw, 420px);
-    height: clamp(500px, 85vh, 700px);
+    /* width: min(90vw, 420px); */
+    /* width: 320px; */
+    /* width: 450px; */
+    width: var(--new-dialog-width);
+    height: var(--new-dialog-height);
+    /* height: 500px; */
+    /* height: 600px; */
+
     margin: auto;
 }
 
@@ -567,97 +720,16 @@ i {
     cursor: pointer;
 }
 
-/* #new-list-dialog */
-#new-list-dialog {
-    height: clamp(200px, 40vh, 300px);
+/* #new-task-list-dialog and #new-note-list-dialog */
+dialog[id*="list"] {
+    height: var(--new-list-dialog-height);
+    width: var(--new-list-dialog-width);
 }
 
-#new-list-dialog #list-name {
+dialog[id*="list"] input {
     margin-top: 1rem;
 }
 
-/* #new-list-dialog */
-/* #new-list-dialog {
-    position: fixed;
-    inset: 5rem 0 3rem;
-    z-index: 50;
-    width: min(90vw, 420px);
-    height: min(85vh, 700px);
-    margin: auto;
-}
-
-#new-list-dialog .new-list {
-    padding: 2rem;
-    border: none;
-    border-radius: 20px;
-    width: 100%;
-    height: 100%;
-    background: #222;
-    color: white;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-}
-
-#new-list-dialog #create-list-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    height: 100%;
-}
-
-#new-task-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.4);
-}
-
-#new-list-dialog h2 {
-    text-align: center;
-    margin: 0 0 0.5rem;
-}
-
-#new-list-dialog label {
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-#new-list-dialog input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #666;
-    border-radius: 10px;
-    background: #222;
-    color: white;
-    box-sizing: border-box;
-}
-
-#new-task-dialog textarea {
-    flex: 1;
-    resize: none;
-}
-
-.row {
-    display: flex;
-    gap: 1rem;
-}
-
-.field {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-}
-
-#new-task-dialog button {
-    align-self: center;
-    width: 50%;
-    padding: 0.8rem;
-    border: none;
-    border-radius: 10px;
-    background: #d9e5f3;
-    color: black;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-} */
 
 /* @media (max-width: 500px) {
     .task-dialog {
@@ -668,7 +740,6 @@ i {
 } */
 
 /* ################################################################# */
-
 /* @AT-KEYFRAMES-RULES */
 /* @keyframes aside-left-open {
     0% {
@@ -690,18 +761,42 @@ i {
     }
 } */
 
+
+/* ################################################################# */
 /* @AT-MEDIA-RULES */
-@media (min-width: 700px) {
+@media (min-width: 576px) {
     :root {
-        --aside-dialog-width: 250px;
+        /* --sidebar */
     }
 
     #document-container {
-        left: var(--aside-dialog-width);
-        width: calc(100% - var(--aside-dialog-width));
+        /* left: var(--sidebar-dialog-width);
+        width: calc(100% - var(--sidebar-dialog-width)); */
+        grid-template-columns: auto 1fr;
+    }
+
+    #header {
+        left: var(--sidebar-dialog-width);
+    }
+
+    #main {
+        grid-column: 2 /3;
+    }
+
+    .sidebar {
+        grid-column: 1 /2;
+        grid-row: 1 / 2;
+    }
+
+    .right-side {
+        grid-column: 3 /4;
+        grid-row: 1 / 2;
     }
 
     .days-container {
-        grid-template-columns: repeat(3, 1fr);
+        /* grid-template-columns: repeat(3, 1fr); */
+        grid-template-columns: auto 1fr auto;
     }
 }
+
+/* @media (min-width: 768px) {} */

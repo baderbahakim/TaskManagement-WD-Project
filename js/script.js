@@ -1,95 +1,99 @@
-const sidebarWindow = document.querySelector('#sidebar-dialog');
-const openSidebarWindow = document.querySelector('.list-icon');
-const closeSidebarWindow = document.querySelector('.list-close-icon');
 
-handleDialogElements(sidebarWindow, openSidebarWindow, closeSidebarWindow);
+const sidebarDialog = document.querySelector('#sidebar-dialog');
+const openSidebarDialog = document.querySelectorAll('.list-icon');
+const closeSidebarDialog = document.querySelectorAll('.list-close-icon');
 
-const rightSideWindow = document.querySelector('#right-side-dialog');
-const openRightSideWindow = document.querySelector('.task');
-const closeRightSideWindow = document.querySelector('.right-side-close-icon');
+const rightSideDialog = document.querySelector('#right-side-dialog');
+const openRightSideDialog = document.querySelectorAll('.task');
+const closeRightSideDialog = document.querySelectorAll('.right-side-close-icon');
 
-handleDialogElements(rightSideWindow, openRightSideWindow, closeRightSideWindow);
+const sidebarDiv = document.querySelector('#sidebar-div');
+const rightSideDiv = document.querySelector('#right-side-div');
+
+sidebarDiv.innerHTML = sidebarDialog.innerHTML;
+rightSideDiv.innerHTML = rightSideDialog.innerHTML;
+
+var sidebarStatus = true;
+var rightSideStatus = false;
+
+addDialogListener(sidebarDialog, sidebarDiv, openSidebarDialog, closeSidebarDialog);
+addDialogListener(rightSideDialog, rightSideDiv, openRightSideDialog, closeRightSideDialog);
+///////////////////////////////////////////////
 
 
-function handleDialogElements(dialog, openDialog, closeDialog) {
-    openDialog.addEventListener('click', () => {
-        handleDialog("click", dialog);
-    })
-    
-    closeDialog.addEventListener('click', () => {
-        handleDialog("click", dialog);
-    })
-    
-    dialog.addEventListener('click', (event) => {
-        if (event.target === dialog) {
-            handleDialog("click", dialog);
+
+window.addEventListener("resize", checkWindowResize());
+
+function checkWindowResize() {
+    if (window.innerWidth < 576) {
+        sidebarDiv.classList.remove("active");
+        rightSideDiv.classList.remove("active");
+
+        if (rightSideStatus) {
+            rightSideDialog.showModal();
         }
-    })
-}
+        return;
+    }
+    else if (window.innerWidth >= 576) {
+        sidebarDialog.close();
 
-function handleDialog(event, dialog) {
-    if (window.innerWidth >= 700) {
-        if (event !== "click") {
-            if (asideWindow.open) {
-                asideWindow.close();
-            }
-            asideWindow.show();
+        if (sidebarStatus) {
+            sidebarDiv.classList.add("active");
         }
-        else {
-            if (asideWindow.open) {
-                asideWindow.close();
-                return;
-            }
-            asideWindow.show();
-        }
-    } else {
-        if (event === "load") {
-            asideWindow.close();
-        }
-        // else if (event === "resize") {
-        // }
-        else if (event === "click") {
-            if (dialog.open) {
-                // asideWindow.style.left = "calc(0px - var(--aside-dialog-width))";
-                // setTimeout(() => {
-                dialog.close();
-                // }, 200);
-                return;
-            }
-            dialog.showModal();
-            // asideWindow.style.left = "0";
+    }
+    if (window.innerWidth >= 768) {
+        rightSideDialog.close();
+
+        if (rightSideStatus) {
+            rightSideDiv.classList.add("active");
         }
     }
 }
 
-window.addEventListener("load", handleDialog("load"));
-window.addEventListener("resize", handleDialog("resize"));
 
+function addDialogListener(dialog, div, openDialog, closeDialog) {
+    openDialog.forEach(open => {
+        open.addEventListener('click', () => {
+            handleSideDialog("click", dialog, div);
+        })
+    });
 
-// openAsideWindow.addEventListener('click', () => {
-//     handleDialog("click");
+    closeDialog.forEach(close => {
+        close.addEventListener('click', () => {
+            handleSideDialog("click", dialog, div);
+        })
+    });
 
-//     // if(window.innerWidth >= 700) {
-//     //     asideWindow.show();
-//     // }
-//     // else {
-//     // document.body.classList.add("no-scroll");
-//     // asideWindow.showModal();
-//     // }
-// })
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+            handleSideDialog("click", dialog, div);
+        }
+    })
+}
 
-// closeAsideWindow.addEventListener('click', () => {
-//     document.body.classList.remove("no-scroll");
-//     asideWindow.close();
-// })
+function handleSideDialog(event, dialog, div) {
+    if (window.innerWidth < 576) {
+        if (event === "click") {
+            if (dialog.open) {
+                dialog.close();
+            }
+            else {
+                dialog.showModal();
+            }
+        }
+    }
+    else if (window.innerWidth >= 576) {
+        if (div === rightSideDiv) {
+            // //////
+            div.classList.toggle("active");
+            // /////
+        }
+        else {
+            div.classList.toggle("active");
+            
+        }
+    }
+    else {
 
-// asideWindow.addEventListener('click', (event) => {
-//     if (event.target === asideWindow) {
-//         handleDialog("click");
-//         // document.body.classList.remove("no-scroll");
-//         // asideWindow.close();
-//     }
-// })
-
-
-// console.log("######" + window.innerWidth + "#######");
+    }
+}
