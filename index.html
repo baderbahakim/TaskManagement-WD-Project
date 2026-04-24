@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+    <div id="document-container">
+
+        <header class="header">
+            <i class="fa-solid fa-bars list-icon"></i>
+            <h1>Days</h1>
+        </header>
+<!--  -->
+        <main id="main">
+
+            <div id="today-view" class="main-window">
+                <section class="days-container">
+                    <article class="day">
+                        <h2 class="day-name">Today</h2>
+                        <p class="day-date">16 April</p>
+
+                        <div class="tasks-container">
+                            <div class="task priority-high">
+                                <div class="task-top">
+                                    <div class="task-name-wrap">
+                                        <input type="checkbox" class="task-check">
+                                        <div>
+                                            <h3 class="task-name">Submit The Project</h3>
+                                            <p class="task-list">List : Projects</p>
+                                        </div>
+                                    </div>
+
+                                    <i class="fa-regular fa-trash-can task-delete-icon"></i>
+                                </div>
+
+                                <p class="task-time">21 April | 12:00 AM</p>
+                            </div>
+
+                            <div class="task priority-medium">
+                                <div class="task-top">
+                                    <div class="task-name-wrap">
+                                        <input type="checkbox" class="task-check">
+                                        <div>
+                                            <h3 class="task-name">Submit The Project</h3>
+                                            <p class="task-list">List : Projects</p>
+                                        </div>
+                                    </div>
+
+                                    <i class="fa-regular fa-trash-can task-delete-icon"></i>
+                                </div>
+
+                                <p class="task-time">21 April | 12:00 AM</p>
+                            </div>
+
+                            <div class="task priority-low">
+                                <div class="task-top">
+                                    <div class="task-name-wrap">
+                                        <input type="checkbox" class="task-check">
+                                        <div>
+                                            <h3 class="task-name">Submit The Project</h3>
+                                            <p class="task-list">List : Projects</p>
+                                        </div>
+                                    </div>
+
+                                    <i class="fa-regular fa-trash-can task-delete-icon"></i>
+                                </div>
+
+                                <p class="task-time">21 April | 12:00 AM</p>
+                            </div>
+
+                        </div>
+                    </article>
+                </section>
+            </div>
+        </main>
+
+        <dialog id="sidebar-dialog" class="modal">
+            <aside id="sidebar">
+                <header class="sidebar-header">
+                    <h2 class="user-name">User Bauser</h2>
+                    <i class="fa-solid fa-bars list-close-icon"></i>
+                </header>
+
+                <section>
+                    <h3>Views</h3>
+                    <ul class="views">
+                        <li>Today</li>
+                        <li>This Week</li>
+                        <li>All</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <div class="section-title">
+                        <h3>Lists</h3>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <ul class="lists">
+                        <li><i class="fa-solid fa-bars"></i>Work</li>
+                        <li><i class="fa-solid fa-bars"></i>Collage</li>
+                        <li><i class="fa-solid fa-bars"></i>Workshop</li>
+                        <li><i class="fa-solid fa-bars"></i>Home</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <div class="section-title">
+                        <h3>Notes</h3>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <ul class="notes">
+                        <li><i class="fa-regular fa-note-sticky"></i>UI idea</li>
+                        <li><i class="fa-regular fa-note-sticky"></i>Apps idea</li>
+                    </ul>
+                </section>
+
+                <footer class="sidebar-footer">
+                    <a href="#">About</a>
+                    <a href="#">Contact Us</a>
+                </footer>
+            </aside>
+        </dialog>
+
+        <dialog  id="right-side-dialog" class="modal">
+            <div id="right-side">
+                <header class="right-side-header">
+                    <i class="fa-solid fa-angles-right right-side-close-icon"></i>
+                    <h2 class="user-name">Task</h2>
+                </header>
+                <div class="task-view">
+                    <div class="task-header">
+                        <div>
+                            <h2 class="task-name">Submit The Project</h2>
+                            <p class="task-list">List : Projects</p>
+                        </div>
+                        <span class="priority">High</span>
+                    </div>
+
+                    <div class="task-details">
+                        <div class="task-date-time">21 April | 12:00 AM</div>
+
+                        <div class="description-box">
+                            <span class="description-label">Description</span>
+                            <p>
+                                Completing the project for the web task :
+                                <br><br>
+                                1- create a prototype
+                                <br>
+                                2- discuss with the team about the prototypedvdf
+                                <br><br>
+                                csdvds
+                                svddsv
+                                sdvsv
+                                3- create the code CSS / HTML
+                                <br>
+                                4- handle the front end with JS
+                                <br>
+                                5- Create the back-end
+                            </p>
+                        </div>
+
+                        <div class="task-created-date">Created on : 5 April</div>
+                    </div>
+
+                    <button class="complete-btn">Complete</button>
+                    <div class="actions">
+                        <button class="delete-btn">Delete</button>
+                        <button class="edit-btn">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog id="new-task-dialog" class="new-dialog modal">
+            <div class="new-task">
+                <form id="create-task-form" action="">
+                    <h2>Create Task</h2>
+
+                    <label>Name</label>
+                    <input id="task-name" type="text" name="task-name">
+
+                    <div class="row">
+                        <div class="field">
+                            <label>List</label>
+                            <select id="task-list" name="task-list">
+                                <option>WorkShop</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>Priority</label>
+                            <select id="task-priority" name="task-priority">
+                                <option> High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="field">
+                            <label>Date</label>
+                            <input id="task-date" type="date" name="task-date">
+                        </div>
+
+                        <div class="field">
+                            <label>Time</label>
+                            <input id="task-time" type="time" name="task-time">
+                        </div>
+                    </div>
+
+                    <label>Description</label>
+                    <textarea id="task-description" name="task-description"></textarea>
+
+                    <button id="create-task-button" type="submit">Create</button>
+                </form>
+            </div>
+        </dialog>
+
+        <dialog id="new-list-dialog" class="new-dialog modal">
+            <div class="new-list">
+                <form id="create-list-form" action="">
+                    <h2>Create List</h2>
+
+                    <div class="list-name-field">
+                        <label>Name</label>
+                        <input id="list-name" type="text" name="list-name">
+                    </div>
+
+                    <button id="create-list-button" type="submit">Create</button>
+                </form>
+            </div>
+        </dialog>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,708 @@
+:root {
+    --header-height: 70px;
+    --side-header-height: 20px;
+    --task-dialog-height: 720px;
+    --new-task-dialog-height: 750px;
+
+    --aside-dialog-width: 80%;
+    --task-dialog-width: 100%;
+    --new-task-dialog-width: 100%;
+
+    --background-color-gray-1: rgb(181, 181, 181);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* outline: 1px dotted pink; */
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #03111d, #12344c, #03111d);
+    color: white;
+}
+
+i {
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/*body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #0a2238;
+    font-family: Arial, sans-serif;
+} */
+
+
+/* body {
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+} */
+
+/* #document-container */
+#document-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+}
+
+/* #haeder */
+/* fixed header */
+.header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: var(--header-height);
+    padding: 0 1rem;
+    background: #15324a;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.list-icon {
+    margin-right: 1.5rem;
+    font-size: 1.8em;
+    cursor: pointer;
+}
+
+/* #main */
+#main {
+    padding-top: var(--header-height);
+    min-height: 100vh;
+    height: calc(100vh - var(--header-height));
+}
+
+.main-window {
+    width: 100%;
+    height: 100%;
+    /* overflow-y: auto; */
+}
+
+/* #today-view */
+.days-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    padding: 1.2rem;
+}
+
+.day {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.day-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.day-date {
+    font-size: 1.2rem;
+    color: #a5b0bb;
+    font-weight: 600;
+}
+
+.tasks-container {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+/* .task */
+.tasks-container .task {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.2rem;
+    padding: 0.9rem 1rem 0.9rem 1.4rem;
+    background: rgba(58, 64, 71, 0.95);
+    border: 1px solid rgba(220, 220, 220, 0.65);
+    border-radius: 6px;
+    min-height: 112px;
+}
+
+.tasks-container .priority-high {
+    border: 2px solid red;
+}
+
+.tasks-container .priority-medium {
+    border: 2px solid yellow;
+}
+
+.tasks-container .priority-low {
+    border: 2px solid #0a66ff;
+}
+
+.task-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.task-name-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-top: 0.2rem;
+}
+
+.task-check {
+    width: 20px;
+    height: 20px;
+}
+
+.task-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.task-list {
+    margin-top: 0.35rem;
+    color: #a0a6ad;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.task-delete-icon {
+    color: #c9c9c9;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.task-time {
+    text-align: right;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f0f0f0;
+}
+
+/* larger screens */
+/* @media (min-width: 700px) {
+    .days-container {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        align-items: start;
+    }
+} */
+
+
+/* Modals */
+.modal {
+    position: fixed;
+    z-index: 200;
+    max-width: none;
+    max-height: none;
+    background-color: transparent;
+}
+
+.modal:focus {
+    outline: 0;
+}
+
+.modal[open] {
+    inset: 0;
+}
+
+.modal::backdrop {
+    background-color: black;
+    opacity: 40%;
+    /* backdrop-filter: blur(100px); */
+    transition: all 2s ease-out;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+/* #sidebar-dialog */
+#sidebar-dialog {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(85vw, 320px);
+    height: 100vh;
+}
+
+#sidebar-dialog #sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: var(--side-header-height) 1rem 1rem;
+    /* padding: 1rem; */
+    background: linear-gradient(to bottom, #071c2f, #04111d);
+    color: white;
+    /* overflow: auto; */
+}
+
+#sidebar-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-header {
+    /* position: fixed;
+    top: 0; */
+    width: 100%;
+    height: var(--side-header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h2 {
+    font-size: 1.7rem;
+}
+
+.sidebar-header i {
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#sidebar-dialog section {
+    margin-top: 1.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    padding-bottom: 1rem;
+}
+
+#sidebar-dialog h3 {
+    color: #8f98a3;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title i {
+    color: #8f98a3;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#sidebar-dialog ul {
+    list-style: none;
+}
+
+#sidebar-dialog li {
+    padding: 0.7rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#sidebar-dialog li i {
+    margin-right: 1rem;
+}
+
+.sidebar-footer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.sidebar-footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
+/* #right-side-dialog */
+#right-side-dialog {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(100%, 430px);
+    height: 100vh;
+}
+
+#right-side-dialog #right-side {
+    width: 100%;
+    height: 100%;
+    padding: var(--side-header-height) 1rem 1rem;
+    background: linear-gradient(to bottom, #14314a, #000814);
+}
+
+#right-side-dialog .right-side-header {
+    /* position: fixed;
+    top: 0; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    height: var(--side-header-height);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.right-side-header h2 {
+    font-size: 1.7rem;
+    color: white;
+}
+
+#right-side-dialog .task-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    height: 100%;
+    margin-top: 1.5rem;
+    color: white;
+    /* overflow: auto; */
+}
+
+#right-side-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+#right-side-dialog .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#right-side-dialog .task-header .task-name {
+    font-size: 1.7rem;
+}
+
+#right-side-dialog .task-header .task-list {
+    margin: 0.3rem 0 0;
+    color: #8f9aa6;
+}
+
+#right-side-dialog .priority {
+    padding: 0.3rem 1rem;
+    background: #fff;
+    color: #7a1d1d;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#right-side-dialog .task-details {
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+#right-side-dialog .task-date-time {
+    text-align: right;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+#right-side-dialog .description-box {
+    background: #222;
+    border-radius: 7px;
+    padding: 1rem;
+    position: relative;
+    min-height: 280px;
+    overflow: hidden;
+}
+
+#right-side-dialog .description-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #ddd;
+    color: #111;
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 10px 0;
+    font-weight: bold;
+}
+
+#right-side-dialog .description-box p {
+    margin-top: 3rem;
+    line-height: 1.5;
+}
+
+#right-side-dialog .task-created-date {
+    margin-top: 1rem;
+    color: #9ca3af;
+    font-weight: bold;
+}
+
+#right-side-dialog button {
+    border: 1px solid;
+    border-radius: 999px;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#right-side-dialog .complete-btn {
+    background: #ddd;
+    color: black;
+    width: 80%;
+    align-self: center;
+}
+
+#right-side-dialog .actions {
+    display: flex;
+    gap: 1rem;
+}
+
+#right-side-dialog .actions button {
+    flex: 1;
+}
+
+#right-side-dialog .delete-btn {
+    background: #fff;
+    color: red;
+}
+
+#right-side-dialog .edit-btn {
+    background: #dff6ff;
+    color: #00a3d9;
+}
+
+
+/* .new-dialog for both #new-task-dialog and #new-list-dialog */
+.new-dialog {
+    position: fixed;
+    inset: 5rem 0 3rem;
+    z-index: 200;
+    width: min(90vw, 420px);
+    height: clamp(500px, 85vh, 700px);
+    margin: auto;
+}
+
+.new-dialog > div {
+    padding: 2rem;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background: #222;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.new-dialog form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+.new-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.new-dialog h2 {
+    text-align: center;
+    margin: 0 0 0.5rem;
+}
+
+.new-dialog label {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.new-dialog input,
+.new-dialog select,
+.new-dialog textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #666;
+    border-radius: 10px;
+    background: #222;
+    color: white;
+}
+
+.new-dialog textarea {
+    flex: 1;
+    resize: none;
+}
+
+.row {
+    display: flex;
+    gap: 1rem;
+}
+
+.field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.new-dialog button {
+    align-self: center;
+    width: 50%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 10px;
+    background: #d9e5f3;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* #new-list-dialog */
+#new-list-dialog {
+    height: clamp(200px, 40vh, 300px);
+}
+
+#new-list-dialog #list-name {
+    margin-top: 1rem;
+}
+
+/* #new-list-dialog */
+/* #new-list-dialog {
+    position: fixed;
+    inset: 5rem 0 3rem;
+    z-index: 50;
+    width: min(90vw, 420px);
+    height: min(85vh, 700px);
+    margin: auto;
+}
+
+#new-list-dialog .new-list {
+    padding: 2rem;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background: #222;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+#new-list-dialog #create-list-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+#new-task-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#new-list-dialog h2 {
+    text-align: center;
+    margin: 0 0 0.5rem;
+}
+
+#new-list-dialog label {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#new-list-dialog input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #666;
+    border-radius: 10px;
+    background: #222;
+    color: white;
+    box-sizing: border-box;
+}
+
+#new-task-dialog textarea {
+    flex: 1;
+    resize: none;
+}
+
+.row {
+    display: flex;
+    gap: 1rem;
+}
+
+.field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+#new-task-dialog button {
+    align-self: center;
+    width: 50%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 10px;
+    background: #d9e5f3;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+} */
+
+/* @media (max-width: 500px) {
+    .task-dialog {
+        width: 90vw;
+        height: 85vh;
+        padding: 1.5rem;
+    }
+} */
+
+/* ################################################################# */
+
+
+/* @AT-KEYFRAMES-RULES */
+/* @keyframes aside-left-open {
+    0% {
+        left: -500px;
+    }
+
+    100% {
+        left: -100px;
+    }
+}
+
+@keyframes aside-left-close {
+    0% {
+        left: 0;
+    }
+
+    100% {
+        left: -500px;
+    }
+} */
+
+/* @AT-MEDIA-RULES */
+@media (min-width: 700px) {
+    :root {
+        --aside-dialog-width: 250px;
+    }
+
+    #document-container {
+        left: var(--aside-dialog-width);
+        width: calc(100% - var(--aside-dialog-width));
+    }
+
+    .days-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
