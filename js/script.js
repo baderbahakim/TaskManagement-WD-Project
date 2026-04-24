@@ -74,7 +74,11 @@ function addDialogListener(dialog, div, openDialog, closeDialog) {
 function handleSideDialog(event, dialog, div) {
     if (window.innerWidth < 576) {
         if (event === "click") {
+            if (div === rightSideDialog) {
+            rightSideStatus = !rightSideStatus;
+            }
             if (dialog.open) {
+
                 dialog.close();
             }
             else {
@@ -86,11 +90,12 @@ function handleSideDialog(event, dialog, div) {
         if (div === rightSideDiv) {
             // //////
             div.classList.toggle("active");
+            rightSideStatus = !rightSideStatus;
             // /////
         }
         else {
             div.classList.toggle("active");
-            
+            sidebarStatus = !sidebarStatus;
         }
     }
     else {
