@@ -83,7 +83,7 @@
 }
 
 #note-list-view {
-    /* display: none; */
+    display: none;
 }
 
 .task-view {
