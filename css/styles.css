@@ -64,7 +64,7 @@
     --box-shadow-1: 0 8px 24px rgba(0, 0, 0, 0.35);
 
     /* transitions */
-    --transition-value-1: all 0.3s ease-out;
+    --transition-value-1: all 0.15s ease-out;
 }
 
 * {
@@ -143,7 +143,7 @@ body {
     /* border: 2px solid yellow; */
 }
 
-#document-container:has(#sidebar-div.active) :is(#main, #header) {
+/* #document-container:has(#sidebar-div.active) :is(#main, #header) {
     width: calc(100% - var(--sidebar-width));
     left: var(--sidebar-width);
 }
@@ -154,6 +154,22 @@ body {
 }
 
 #document-container:has(#sidebar-div.active):has(#right-side-div.active) :is(#main, #header) {
+    width: calc(100% - var(--sidebar-width) - var(--right-side-width));
+    left: var(--sidebar-width);
+    right: var(--right-side-width);
+} */
+
+#document-container:has(#sidebar-div.appear) :is(#main, #header) {
+    width: calc(100% - var(--sidebar-width));
+    left: var(--sidebar-width);
+}
+
+#document-container:has(#right-side-div.appear) :is(#main, #header) {
+    width: calc(100% - var(--right-side-width));
+    right: var(--right-side-width);
+}
+
+#document-container:has(#sidebar-div.appear):has(#right-side-div.appear) :is(#main, #header) {
     width: calc(100% - var(--sidebar-width) - var(--right-side-width));
     left: var(--sidebar-width);
     right: var(--right-side-width);
@@ -403,16 +419,15 @@ div[id*="side"].active {
 
 /* .sidebar dialog and div */
 .sidebar {
+    top: 0;
+    bottom: 0;
+    left: calc(0px - var(--sidebar-width));
     width: var(--sidebar-width);
     height: var(--sidebar-height);
 }
 
 .sidebar.appear {
-    inset: 0 auto 0 0;
-}
-
-.sidebar:not(.appear) {
-    left: calc(0px - var(--sidebar-width));
+    left: 0;
 }
 
 #sidebar-div .list-close-icon {
