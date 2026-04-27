@@ -221,48 +221,49 @@ function closeRightSide() {
         rightSideDiv.classList.remove("active");
     }, 200);
 }
-
-// ##### Handle Dialogs #######/////////////
-
-function setupSimpleDialog(openSelector, dialogSelector, confirmSelector) {
-    const dialog = document.querySelector(dialogSelector);
-    const openButtons = document.querySelectorAll(openSelector);
+// ############################################################################
+// ##### Handle Simple Dialogs #######/////////////
+function setupOpenDialogs() {
+    const openButtons = document.querySelectorAll("[data-dialog-target]");
 
     openButtons.forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (event) => {
             event.stopPropagation();
+
+            const dialog = document.querySelector(button.dataset.dialogTarget);
+            if (!dialog) return;
+
+            // TODO: add specific logic before opening if needed
+
             dialog.showModal();
         });
     });
+}
 
-    dialog.querySelectorAll(".cancel-dialog-button, .cancel-dialog-btn").forEach(button => {
+setupOpenDialogs();
+// Dialog Buttons: Cancel and Confirm
+function setupDialogActions() {
+    // const cancelButtons = document.querySelectorAll(".cancel-dialog-button");
+    // const cancelButtons = document.querySelectorAll(".cancel-dialog-button");
+    const dialogActionButtons = document.querySelectorAll('button[class*="-dialog-button"]');
+
+    // CONFIRM
+    dialogActionButtons.forEach(button => {
         button.addEventListener("click", (event) => {
             event.preventDefault();
-            dialog.close();
-        });
-    });
 
-    dialog.querySelectorAll(confirmSelector).forEach(button => {
-        button.addEventListener("click", (event) => {
-            event.preventDefault();
+            const dialog = button.closest("dialog");
+            if (!dialog) return;
 
-            // TODO: handle create / delete / edit / logout logic here
+            if (button.classList.contains("confirm-dialog-button")) {
+                // TODO: handle confirm logic here
+                // create task / delete / edit / logout ...
+            }
 
+            // before close 
             dialog.close();
         });
     });
 }
 
-setupSimpleDialog(".create-task-list-icon", "#new-task-list-dialog", ".create-task-list-button");
-
-setupSimpleDialog(".create-note-list-icon", "#new-note-list-dialog", ".create-note-list-btn");
-
-setupSimpleDialog(".delete-task-btn, .task-delete-icon", "#delete-task-dialog", ".delete-task-btn");
-
-setupSimpleDialog(".delete-note-btn, .note-delete-icon", "#delete-note-dialog", ".delete-note-btn");
-
-setupSimpleDialog(".edit-task-btn", "#new-task-dialog", ".create-task-button");
-
-setupSimpleDialog(".edit-note-btn", "#new-note-dialog", ".create-note-button");
-
-setupSimpleDialog(".logout-word", "#logout-dialog", ".log-out-btn");
+setupDialogActions();

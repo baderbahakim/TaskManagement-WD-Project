@@ -97,7 +97,7 @@ i {
     font-size: 1.5rem;
 }
 
-.task-id, .note-id, .task-list-id, .note-list-id {
+.hide {
     display: none;
 }
 
@@ -112,6 +112,10 @@ dialog:not([open])::backdrop {
     background: rgba(0, 0, 0, 0);
     backdrop-filter: blur(0px);
     /* opacity: 0%; */
+}
+
+p.hide {
+    display: none;
 }
 /* ######### #################################################### */
 
@@ -695,16 +699,13 @@ div[id*="side"].active {
 }
 
 /* for all .new-dialog and .new-list-dialog */
-.new-dialog {
+dialog[class*="-dialog"] {
     position: fixed;
-    inset: 5rem 0 3rem;
     z-index: 300;
-    width: var(--new-dialog-width);
-    height: var(--new-dialog-height);
     margin: auto;
 }
 
-.new-dialog > div {
+dialog[class*="-dialog"] > div {
     padding: 2rem;
     border: none;
     border-radius: 20px;
@@ -715,7 +716,14 @@ div[id*="side"].active {
     box-shadow: var(--box-shadow-1);
 }
 
-.new-dialog form {
+.create-dialog {
+    inset: 5rem 0 3rem;
+    width: var(--new-dialog-width);
+    height: var(--new-dialog-height);
+
+}
+
+dialog[class*="-dialog"] form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -724,19 +732,19 @@ div[id*="side"].active {
     height: 100%;
 }
 
-.new-dialog h2 {
+dialog[class*="-dialog"] h2 {
     text-align: center;
     margin: 0 0 0.5rem;
 }
 
-.new-dialog label {
+dialog[class*="-dialog"] label {
     font-size: 1rem;
     font-weight: bold;
 }
 
-.new-dialog input,
-.new-dialog select,
-.new-dialog textarea {
+dialog[class*="-dialog"] input,
+dialog[class*="-dialog"] select,
+dialog[class*="-dialog"] textarea {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid var(--border-color-gray-3);
@@ -745,7 +753,7 @@ div[id*="side"].active {
     color: white;
 }
 
-.new-dialog textarea {
+dialog[class*="-dialog"] textarea {
     flex: 1;
     resize: none;
 }
@@ -768,7 +776,7 @@ div[id*="side"].active {
     gap: 1rem;
 }
 
-.new-dialog button {
+dialog[class*="-dialog"] button {
     align-self: center;
     width: 50%;
     padding: 0.8rem;

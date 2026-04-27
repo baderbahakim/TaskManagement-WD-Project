@@ -27,7 +27,7 @@
 
                         <div class="tasks-container">
                             <div class="task priority-high">
-                                <p class="task-id">1</p>
+                                <p class="task-id hide">1</p>
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -36,15 +36,16 @@
                                             <p class="task-list">List : Projects</p>
                                         </div>
                                     </div>
-
-                                    <i class="fa-regular fa-trash-can task-delete-icon"></i>
+                                    <!--  -->
+                                    <i class="fa-regular fa-trash-can task-delete-icon"
+                                        data-dialog-target="#delete-task-dialog"></i>
                                 </div>
 
                                 <p class="task-time">21 April | 12:00 AM</p>
                             </div>
 
                             <div class="task priority-medium">
-                                <p class="task-id">2</p>
+                                <p class="task-id hide">2</p>
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -54,14 +55,15 @@
                                         </div>
                                     </div>
 
-                                    <i class="fa-regular fa-trash-can task-delete-icon"></i>
+                                    <i class="fa-regular fa-trash-can task-delete-icon"
+                                        data-dialog-target="#delete-task-dialog"></i>
                                 </div>
 
                                 <p class="task-time">21 April | 12:00 AM</p>
                             </div>
 
                             <div class="task priority-low">
-                                <p class="task-id">1</p>
+                                <p class="task-id hide">1</p>
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -71,7 +73,8 @@
                                         </div>
                                     </div>
 
-                                    <i class="fa-regular fa-trash-can task-delete-icon"></i>
+                                    <i class="fa-regular fa-trash-can task-delete-icon"
+                                        data-dialog-target="#delete-task-dialog"></i>
                                 </div>
 
                                 <p class="task-time">21 April | 12:00 AM</p>
@@ -91,10 +94,12 @@
                 <div class="notes-container">
 
                     <div class="note">
-                        <p class="note-id"></p>
+                        <p class="note-id hide"></p>
                         <div class="note-header">
                             <h3 class="note-name">Todo List App</h3>
-                            <i class="fa-regular fa-trash-can note-delete-icon"></i>
+                            <!--  -->
+                            <i class="fa-regular fa-trash-can note-delete-icon"
+                                data-dialog-target="#delete-note-dialog"></i>
                         </div>
 
                         <div class="note-description">
@@ -133,31 +138,46 @@
                 <section>
                     <div class="section-title">
                         <h3>Lists</h3>
-                        <i class="fa-solid fa-plus create-task-list-icon"></i>
+                        <i class="fa-solid fa-plus create-task-list-icon"
+                            data-dialog-target="#create-task-list-dialog"></i>
                     </div>
                     <ul class="lists">
-                        <li><p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Work</li>
-                        <li><p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Collage</li>
-                        <li><p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Workshop</li>
-                        <li><p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Home</li>
+                        <li>
+                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Work
+                        </li>
+                        <li>
+                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Collage
+                        </li>
+                        <li>
+                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Workshop
+                        </li>
+                        <li>
+                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Home
+                        </li>
                     </ul>
                 </section>
 
                 <section>
                     <div class="section-title">
                         <h3>Notes</h3>
-                        <i class="fa-solid fa-plus create-note-list-icon"></i>
+                        <i class="fa-solid fa-plus create-note-list-icon"
+                            data-dialog-target="#create-note-list-dialog"></i>
                     </div>
                     <ul class="notes">
-                        <li><p class="note-list-id"></p><i class="fa-regular fa-note-sticky"></i>UI idea</li>
-                        <li><p class="note-list-id"></p><i class="fa-regular fa-note-sticky"></i>Apps idea</li>
+                        <li>
+                            <p class="note-list-id"></p><i class="fa-regular fa-note-sticky"></i>UI idea
+                        </li>
+                        <li>
+                            <p class="note-list-id"></p><i class="fa-regular fa-note-sticky"></i>Apps idea
+                        </li>
                     </ul>
                 </section>
 
                 <footer class="sidebar-footer">
-                    <p class="logout-word">Logout</p>
-                        <a href="#">About</a>
-                        <a href="#">Contact Us</a>
+                    <!--  -->
+                    <p class="logout-word" data-dialog-target="#logout-dialog">Logout</p>
+                    <a href="#">About</a>
+                    <a href="#">Contact Us</a>
                 </footer>
             </aside>
         </dialog>
@@ -171,7 +191,7 @@
                     <h2 class="user-name">Task</h2>
                 </header>
 
-                <div class="task-view close">
+                <div class="task-view ">
                     <div class="task-header">
                         <div>
                             <h2 class="task-name">Submit The Project</h2>
@@ -208,13 +228,13 @@
 
                     <button class="complete-btn">Complete</button>
                     <div class="actions">
-                        <button class="delete-task-btn">Delete</button>
-                        <button class="edit-task-btn">Edit</button>
+                        <!--  -->
+                        <button class="delete-task-btn" data-dialog-target="#delete-task-dialog">Delete</button>
+                        <button class="edit-task-btn" data-dialog-target="#create-task-dialog">Edit</button>
                     </div>
                 </div>
 
-
-                <div class="note-view close">
+                <div class="note-view">
                     <div class="note-header">
                         <div>
                             <h2 class="note-name">Todo List App</h2>
@@ -249,14 +269,16 @@
                     </div>
 
                     <div class="actions">
-                        <button class="delete-note-btn">Delete</button>
-                        <button class="edit-note-btn">Edit</button>
+                        <!--  -->
+                        <button class="delete-note-btn" data-dialog-target="#delete-note-dialog">Delete</button>
+                        <button class="edit-note-btn" data-dialog-target="#create-note-dialog">Edit</button>
                     </div>
                 </div>
             </aside>
         </dialog>
 
-        <dialog id="new-task-dialog" class="new-dialog modal">
+        <!-- create-dialog -->
+        <dialog id="create-task-dialog" class="create-dialog modal">
             <div class="new-task">
                 <form id="create-task-form" action="">
                     <h2>Create Task</h2>
@@ -294,16 +316,20 @@
 
                     <label>Description</label>
                     <textarea id="task-description" name="task-description"></textarea>
-                
+
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button">Cancel</button>
-                        <button class="create-task-button" type="submit">Create</button>
+                        <button class="confirm-dialog-button" type="submit">Create
+                            <p class="type hide">task</p>
+                            <p class="id hide"></p>
+                            <p class="action hide">insert</p>
+                        </button>
                     </div>
                 </form>
             </div>
         </dialog>
 
-        <dialog id="new-note-dialog" class="new-dialog modal">
+        <dialog id="create-note-dialog" class="create-dialog modal">
             <div class="new-note">
                 <form id="create-note-form" action="">
                     <h2>Create Note</h2>
@@ -321,13 +347,17 @@
 
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button">Cancel</button>
-                        <button class="create-note-button" type="submit">Create</button>
+                        <button class="confirm-dialog-button" type="submit">Create
+                            <p class="type hide">note</p>
+                            <p class="id hide"></p>
+                            <p class="action hide">insert</p>
+                        </button>
                     </div>
                 </form>
             </div>
         </dialog>
 
-        <dialog id="new-task-list-dialog" class="new-dialog modal">
+        <dialog id="create-task-list-dialog" class="create-list-dialog modal">
             <div class="new-task-list">
                 <form id="create-task-list-form" action="">
                     <h2>Create Task List</h2>
@@ -339,13 +369,17 @@
 
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button">Cancel</button>
-                        <button class="create-task-list-button" type="submit">Create</button>
+                        <button class="confirm-dialog-button" type="submit">Create
+                            <p class="type hide">taskList</p>
+                            <p class="id hide"></p>
+                            <p class="action hide">insert</p>
+                        </button>
                     </div>
                 </form>
             </div>
         </dialog>
 
-        <dialog id="new-note-list-dialog" class="new-dialog modal">
+        <dialog id="create-note-list-dialog" class="create-list-dialog modal">
             <div class="new-note-list">
                 <form id="create-note-list-form" action="">
                     <h2>Create Note List</h2>
@@ -357,42 +391,85 @@
 
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button">Cancel</button>
-                        <button class="create-note-list-btn" type="submit">Create</button>
+                        <button class="confirm-dialog-button" type="submit">Create
+                            <p class="type hide">noteList</p>
+                            <p class="id hide"></p>
+                            <p class="action hide">insert</p>
+                        </button>
                     </div>
                 </form>
             </div>
         </dialog>
 
-        <dialog id="delete-task-dialog" class="simple-dialog new-dialog modal">
+        <!-- simple dialogs -->
+        <dialog id="delete-task-dialog" class="simple-dialog modal">
             <div>
-                    <h2 class="simple-dialog-message">Delete task</h2>
+                <h2 class="simple-dialog-message">Delete task</h2>
 
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-btn">Cancel</button>
-                        <button class="delete-task-btn">Delete</button>
-                    </div>
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button">Cancel</button>
+                    <button class="confirm-dialog-button delete">Delete
+                        <p class="type hide">task</p>
+                        <p class="id hide"></p>
+                        <p class="action hide">delete</p>
+                    </button>
+                </div>
             </div>
         </dialog>
 
-        <dialog id="delete-note-dialog" class="simple-dialog new-dialog modal">
+        <dialog id="delete-note-dialog" class="simple-dialog modal">
             <div>
-                    <h2 class="simple-dialog-message">Delete note</h2>
+                <h2 class="simple-dialog-message">Delete note</h2>
 
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-btn">Cancel</button>
-                        <button class="delete-note-btn">Delete</button>
-                    </div>
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button">Cancel</button>
+                    <button class="confirm-dialog-button">Delete
+                        <p class="type hide">note</p>
+                        <p class="id hide"></p>
+                        <p class="action hide">delete</p>
+                    </button>
+                </div>
             </div>
         </dialog>
 
-        <dialog id="logout-dialog" class="simple-dialog new-dialog modal">
+        <dialog id="delete-task-list-dialog" class="simple-dialog modal">
             <div>
-                    <h2 class="simple-dialog-message">Log out?</h2>
+                <h2 class="simple-dialog-message">Delete task</h2>
 
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-btn">Cancel</button>
-                        <button class="log-out-btn">Log out</button>
-                    </div>
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button">Cancel</button>
+                    <button class="confirm-dialog-button delete">Delete
+                        <p class="type hide">taskList</p>
+                        <p class="id hide"></p>
+                        <p class="action hide">delete</p>
+                    </button>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog id="delete-note-list-dialog" class="simple-dialog modal">
+            <div>
+                <h2 class="simple-dialog-message">Delete task</h2>
+
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button">Cancel</button>
+                    <button class="confirm-dialog-button delete">Delete
+                        <p class="type hide">noteList</p>
+                        <p class="id hide"></p>
+                        <p class="action hide">delete</p>
+                    </button>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog id="logout-dialog" class="simple-dialog modal">
+            <div>
+                <h2 class="simple-dialog-message">Log out?</h2>
+
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button">Cancel</button>
+                    <button class="confirm-dialog-button">Log out</button>
+                </div>
             </div>
         </dialog>
 
