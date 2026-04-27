@@ -100,7 +100,7 @@ function handleSidebar() {
 
         setTimeout(() => {
             sidebarDiv.classList.remove("active");
-        }, 100);
+        }, 200);
 
         sidebarStatus = false;
     }
@@ -188,7 +188,7 @@ function setupRightSideCloseButtons() {
 function openRightSide() {
     rightSideStatus = true;
 
-    if (window.innerWidth < 576) {
+    if (window.innerWidth < 768) {
         if (!rightSideDialog.open) {
             rightSideDialog.showModal();
         }
@@ -205,12 +205,12 @@ function closeRightSide() {
     currentRightSideType = null;
     currentRightSideId = null;
 
-    if (window.innerWidth < 576) {
+    if (window.innerWidth < 768) {
         rightSideDialog.classList.remove("appear");
 
         setTimeout(() => {
             rightSideDialog.close();
-        }, 100);
+        }, 200);
 
         return;
     }
@@ -219,7 +219,7 @@ function closeRightSide() {
 
     setTimeout(() => {
         rightSideDiv.classList.remove("active");
-    }, 100);
+    }, 200);
 }
 
 // ##### Handle Dialogs #######/////////////
