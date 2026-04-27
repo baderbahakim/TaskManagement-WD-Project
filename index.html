@@ -26,8 +26,7 @@
                         <p class="day-date">16 April</p>
 
                         <div class="tasks-container">
-                            <div class="task priority-high">
-                                <p class="task-id hide">1</p>
+                            <div class="task priority-high" data-type="task" data-id="1">
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -44,8 +43,7 @@
                                 <p class="task-time">21 April | 12:00 AM</p>
                             </div>
 
-                            <div class="task priority-medium">
-                                <p class="task-id hide">2</p>
+                            <div class="task priority-medium" data-type="task" data-id="2">
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -62,8 +60,7 @@
                                 <p class="task-time">21 April | 12:00 AM</p>
                             </div>
 
-                            <div class="task priority-low">
-                                <p class="task-id hide">1</p>
+                            <div class="task priority-low" data-type="task" data-id="3">
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -85,6 +82,35 @@
                 </section>
             </div>
 
+            <div id="task-list-view" class="main-window">
+
+                <p class="view-type">tasks</p>
+                <h2 class="task-list-title">Work</h2>
+
+                <div class="tasks-container">
+
+                    <div class="task priority-high" data-type="task" data-id="1">
+                        <div class="task-top">
+                            <div class="task-name-wrap">
+                                <input type="checkbox" class="task-check">
+                                <div>
+                                    <h3 class="task-name">Submit The Project</h3>
+                                    <p class="task-list">List : Projects</p>
+                                </div>
+                            </div>
+
+                            <i class="fa-regular fa-trash-can task-delete-icon"
+                                data-dialog-target="#delete-task-dialog"></i>
+                        </div>
+
+                        <p class="task-time">21 April | 12:00 AM</p>
+                    </div>
+
+                    <!-- more notes here -->
+
+                </div>
+            </div>
+
 
             <div id="note-list-view" class="main-window">
 
@@ -93,8 +119,7 @@
 
                 <div class="notes-container">
 
-                    <div class="note">
-                        <p class="note-id hide"></p>
+                    <div class="note" data-type="note" data-id="1">
                         <div class="note-header">
                             <h3 class="note-name">Todo List App</h3>
                             <!--  -->
@@ -129,9 +154,15 @@
                 <section>
                     <h3>Views</h3>
                     <ul class="views">
-                        <li>Today</li>
-                        <li>This Week</li>
-                        <li>All</li>
+                        <li data-type="taskView" data-view="today">
+                            <i class="fa-solid fa-bars"></i>Today
+                        </li>
+                        <li data-type="taskView" data-view="today">
+                            <i class="fa-solid fa-bars"></i>This Week
+                        </li>
+                        <li data-type="taskView" data-view="today">
+                            <i class="fa-solid fa-bars"></i>All
+                        </li>
                     </ul>
                 </section>
 
@@ -141,18 +172,18 @@
                         <i class="fa-solid fa-plus create-task-list-icon"
                             data-dialog-target="#create-task-list-dialog"></i>
                     </div>
-                    <ul class="lists">
-                        <li>
-                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Work
+                    <ul class="task-lists" data-dialog-target="#create-task-list-dialog">
+                        <li data-type="taskList" data-id="1">
+                            <i class="fa-solid fa-bars"></i>Work
                         </li>
-                        <li>
-                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Collage
+                        <li data-type="taskList" data-id="2">
+                            </p><i class="fa-solid fa-bars"></i>Collage
                         </li>
-                        <li>
-                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Workshop
+                        <li data-type="taskList" data-id="3">
+                            </p><i class="fa-solid fa-bars"></i>Workshop
                         </li>
-                        <li>
-                            <p class="task-list-id"></p><i class="fa-solid fa-bars"></i>Home
+                        <li data-type="taskList" data-id="4">
+                            </p><i class="fa-solid fa-bars"></i>Home
                         </li>
                     </ul>
                 </section>
@@ -160,15 +191,15 @@
                 <section>
                     <div class="section-title">
                         <h3>Notes</h3>
-                        <i class="fa-solid fa-plus create-note-list-icon"
+                        <i class="fa-solid fa-plus create-task-list-icon"
                             data-dialog-target="#create-note-list-dialog"></i>
                     </div>
-                    <ul class="notes">
-                        <li>
-                            <p class="note-list-id"></p><i class="fa-regular fa-note-sticky"></i>UI idea
+                    <ul class="note-lists">
+                        <li data-type="noteList" data-id="1">
+                            <i class="fa-regular fa-note-sticky"></i>UI idea
                         </li>
-                        <li>
-                            <p class="note-list-id"></p><i class="fa-regular fa-note-sticky"></i>Apps idea
+                        <li data-type="noteList" data-id="2">
+                            <i class="fa-regular fa-note-sticky"></i>Apps idea
                         </li>
                     </ul>
                 </section>
@@ -183,15 +214,15 @@
         </dialog>
 
         <!-- right-side -->
-        <div id="right-side-div" class="right-side modal"></div>
-        <dialog id="right-side-dialog" class="right-side modal">
+        <div id="right-side-div" class="right-side modal" data-type="" data-id=""></div>
+        <dialog id="right-side-dialog" class="right-side modal" data-type="" data-id="">
             <aside class="right-side-aside">
                 <header class="right-side-header">
                     <i class="fa-solid fa-angles-right right-side-close-icon"></i>
                     <h2 class="user-name">Task</h2>
                 </header>
 
-                <div class="task-view ">
+                <div class="task-view right-side-view">
                     <div class="task-header">
                         <div>
                             <h2 class="task-name">Submit The Project</h2>
@@ -234,7 +265,7 @@
                     </div>
                 </div>
 
-                <div class="note-view">
+                <div class="note-view right-side-view">
                     <div class="note-header">
                         <div>
                             <h2 class="note-name">Todo List App</h2>

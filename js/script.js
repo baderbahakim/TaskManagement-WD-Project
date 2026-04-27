@@ -1,75 +1,132 @@
-const sidebarDialog = document.querySelector("#sidebar-dialog");
+// ### Handle RightSide ### //
 const rightSideDialog = document.querySelector("#right-side-dialog");
-
-const sidebarDiv = document.querySelector("#sidebar-div");
 const rightSideDiv = document.querySelector("#right-side-div");
 
-sidebarDiv.innerHTML = sidebarDialog.innerHTML;
 rightSideDiv.innerHTML = rightSideDialog.innerHTML;
 
-const openSidebarDialog = document.querySelectorAll(".list-icon");
-const closeSidebarDialog = document.querySelectorAll(".list-close-icon");
+var rightSideStatus = false;
+var currentRightSideType = rightSideDialog.dataset.type;
+var currentRightSideId = rightSideDialog.dataset.id;
+
+const openRightSideButtons = document.querySelectorAll(".task, .note");
 const closeRightSideButtons = document.querySelectorAll(".right-side-close-icon");
 
-var sidebarStatus = true;
-var rightSideStatus = false;
+setupRightSide();
 
-window.addEventListener("resize", checkWindowResize);
-window.addEventListener("load", checkWindowResize);
+function setupRightSide() {
+    openRightSideButtons.forEach(item => {
+        item.addEventListener("click", event => {
+            if (event.target.closest(".task-delete-icon, .note-delete-icon, .delete-task-btn, .delete-note-btn")) {
+                return;
+            }
 
-addSidebarListener();
+            const type = item.classList.contains("task") ? "task" : "note";
+            const id = item.dataset.id.trim();
 
-// ### Handle Window Resize ### //
-function checkWindowResize() {
-    if (window.innerWidth < 576) {
-        sidebarDiv.classList.remove("active", "appear");
-        rightSideDiv.classList.remove("active", "appear");
+            if (rightSideStatus && currentRightSideType === type && currentRightSideId === id) {
+                toggleRightSide(false);
+                return;
+            }
 
-        sidebarDialog.classList.remove("appear");
-        rightSideDialog.classList.remove("appear");
+            var rightSideView = null;
+            if (type === "task") {
+                rightSideView = document.querySelectorAll(".task-view");
+            }
+            else {
+                rightSideView = document.querySelectorAll(".note-view");
+            }
+            // TODO: different task/note clicked while right-side is already open
+            // update right-side content here, but do not close it
 
-        sidebarDialog.close();
-        rightSideDialog.close();
+            currentRightSideType = type;
+            currentRightSideId = id;
+            
+            setRightSideView(type);
+            toggleRightSide(true);
+        });
+    });
 
-        if (rightSideStatus) {
-            rightSideDialog.showModal();
+    closeRightSideButtons.forEach(btn => {
+        btn.addEventListener("click", event => {
+            event.stopPropagation();
+            toggleRightSide(false);
+        });
+    });
+
+    rightSideDialog.addEventListener("click", event => {
+        if (event.target === rightSideDialog) {
+            toggleRightSide(false);
+        }
+    });
+}
+
+function setRightSideView(type) {
+    const rightSides = [rightSideDialog, rightSideDiv];
+
+    rightSides.forEach(side => {
+        side.querySelectorAll(".task-view, .note-view").forEach(view => {
+            view.classList.remove("active");
+        });
+
+        if (type === "task") {
+            side.querySelector(".task-view")?.classList.add("active");
+        }
+
+        if (type === "note") {
+            side.querySelector(".note-view")?.classList.add("active");
+        }
+    });
+}
+
+function toggleRightSide(open) {
+    rightSideStatus = open;
+
+    if (!open) {
+        currentRightSideType = null;
+        currentRightSideId = null;
+        setRightSideView(null);
+    }
+
+    if (window.innerWidth < 768) {
+        if (open) {
+            if (!rightSideDialog.open) {
+                rightSideDialog.showModal();
+            }
             rightSideDialog.classList.add("appear");
+            rightView
+        } else {
+            rightSideDialog.classList.remove("appear");
+            setTimeout(() => rightSideDialog.close(), 200);
         }
 
         return;
     }
 
-    sidebarDialog.close();
-    rightSideDialog.close();
-
-    sidebarDialog.classList.remove("appear");
-    rightSideDialog.classList.remove("appear");
-
-    if (sidebarStatus) {
-        sidebarDiv.classList.add("active", "appear");
+    if (open) {
+        rightSideDiv.classList.add("active");
+        setTimeout(() => rightSideDiv.classList.add("appear"), 1);
     } else {
-        sidebarDiv.classList.remove("active", "appear");
-    }
-
-    if (rightSideStatus) {
-        rightSideDiv.classList.add("active", "appear");
-    } else {
-        rightSideDiv.classList.remove("active", "appear");
+        rightSideDiv.classList.remove("appear");
+        setTimeout(() => rightSideDiv.classList.remove("active"), 200);
     }
 }
 
+// ### Handle Sidebar ### //
+var sidebarStatus = true;
+
+const sidebarDialog = document.querySelector("#sidebar-dialog");
+const sidebarDiv = document.querySelector("#sidebar-div");
+
+sidebarDiv.innerHTML = sidebarDialog.innerHTML;
+
+const openSidebarDialog = document.querySelectorAll(".list-icon");
+const closeSidebarDialog = document.querySelectorAll(".list-close-icon");
+
+addSidebarListener();
 
 function addSidebarListener() {
-    openSidebarDialog.forEach(btn => {
-        btn.addEventListener("click", () => {
-            handleSidebar();
-        });
-    });
-
-    closeSidebarDialog.forEach(btn => {
-        btn.addEventListener("click", () => {
-            handleSidebar();
-        });
+    [...openSidebarDialog, ...closeSidebarDialog].forEach(btn => {
+        btn.addEventListener("click", handleSidebar);
     });
 
     sidebarDialog.addEventListener("click", event => {
@@ -79,161 +136,150 @@ function addSidebarListener() {
     });
 }
 
-// ### Handle Sidebar ### //
 function handleSidebar() {
     if (window.innerWidth < 576) {
         if (sidebarDialog.open) {
             sidebarDialog.classList.remove("appear");
-
-            setTimeout(() => {
-                sidebarDialog.close();
-            }, 200);
+            setTimeout(() => sidebarDialog.close(), 200);
         } else {
             sidebarDialog.showModal();
             sidebarDialog.classList.add("appear");
         }
-
         return;
     }
-    if (sidebarDiv.classList.contains("active")) {
+
+    const isOpen = sidebarDiv.classList.contains("active");
+
+    if (isOpen) {
         sidebarDiv.classList.remove("appear");
-
-        setTimeout(() => {
-            sidebarDiv.classList.remove("active");
-        }, 200);
-
-        sidebarStatus = false;
-    }
-    else {
+        setTimeout(() => sidebarDiv.classList.remove("active"), 200);
+    } else {
         sidebarDiv.classList.add("active");
-
-        setTimeout(() => {
-            sidebarDiv.classList.add("appear");
-        }, 10);
-
-        sidebarStatus = true;
+        setTimeout(() => sidebarDiv.classList.add("appear"), 1);
     }
 
-    // if (sidebarDiv.classList.contains("active")) {
-    //     sidebarDiv.classList.remove("appear");
-
-    //     setTimeout(() => {
-    //         sidebarDiv.classList.remove("active");
-    //     }, 300);
-
-    //     // sidebarStatus = false;
-    // }
-    // else {
-    //     sidebarDiv.classList.toggle("active");
-    //     sidebarDiv.classList.toggle("appear");
-    // }
-    // sidebarStatus = !sidebarStatus;
+    sidebarStatus = !isOpen;
 }
 
-// ### Handle RightSide ### //
-var currentRightSideType = null;
-var currentRightSideId = null;
+// ### Handle Window Resize ### //
+window.addEventListener("resize", checkWindowResize);
+window.addEventListener("load", checkWindowResize);
 
-setupRightSideItemClick(".task", ".task-id", "task");
-setupRightSideItemClick(".note", ".note-id", "note");
-setupRightSideCloseButtons();
+function checkWindowResize() {
+    // sidebar stay dialog below 576px
+    if (window.innerWidth < 576) {
+        sidebarDiv.classList.remove("active", "appear");
+    } else {
+        sidebarDialog.close();
+        sidebarDialog.classList.remove("appear");
 
-rightSideDialog.addEventListener("click", event => {
-    if (event.target === rightSideDialog) {
-        closeRightSide();
-    }
-});
-
-function setupRightSideItemClick(itemSelector, idSelector, type) {
-    document.querySelectorAll(itemSelector).forEach(item => {
-        item.addEventListener("click", event => {
-
-            if (event.target.closest(".task-delete-icon, .note-delete-icon, .delete-task-btn, .delete-note-btn")) {
-                return;
-            }
-
-            const clickedId = item.querySelector(idSelector).textContent.trim();
-
-            if (rightSideStatus) {
-                if (currentRightSideType === type && currentRightSideId === clickedId) {
-                    closeRightSide();
-                    return;
-                }
-
-                // TODO: different task/note clicked while right-side is already open
-                // update the right-side content here, but do not close it
-
-                currentRightSideType = type;
-                currentRightSideId = clickedId;
-                return;
-            }
-
-            currentRightSideType = type;
-            currentRightSideId = clickedId;
-
-            openRightSide();
-        });
-    });
-}
-
-function setupRightSideCloseButtons() {
-    closeRightSideButtons.forEach(btn => {
-        btn.addEventListener("click", event => {
-            event.stopPropagation();
-            closeRightSide();
-        });
-    });
-}
-
-function openRightSide() {
-    rightSideStatus = true;
-
-    if (window.innerWidth < 768) {
-        if (!rightSideDialog.open) {
-            rightSideDialog.showModal();
+        if (sidebarStatus) {
+            sidebarDiv.classList.add("active", "appear");
+        } else {
+            sidebarDiv.classList.remove("active", "appear");
         }
-
-        rightSideDialog.classList.add("appear");
-        return;
     }
 
-    rightSideDiv.classList.add("active", "appear");
-}
-
-function closeRightSide() {
-    rightSideStatus = false;
-    currentRightSideType = null;
-    currentRightSideId = null;
-
+    // right-side stay dialog below 768px
     if (window.innerWidth < 768) {
+        rightSideDiv.classList.remove("active", "appear");
+
+        if (rightSideStatus) {
+            if (!rightSideDialog.open) {
+                rightSideDialog.showModal();
+            }
+            rightSideDialog.classList.add("appear");
+        } else {
+            rightSideDialog.classList.remove("appear");
+            rightSideDialog.close();
+        }
+    } else {
+        rightSideDialog.close();
         rightSideDialog.classList.remove("appear");
 
-        setTimeout(() => {
-            rightSideDialog.close();
-        }, 200);
-
-        return;
+        if (rightSideStatus) {
+            rightSideDiv.classList.add("active", "appear");
+        } else {
+            rightSideDiv.classList.remove("active", "appear");
+        }
     }
-
-    rightSideDiv.classList.remove("appear");
-
-    setTimeout(() => {
-        rightSideDiv.classList.remove("active");
-    }, 200);
 }
+
+// ##### main view
+var mainType = null;
+var mainID = null;
+var mainView = document.querySelector("#today-view");
+mainView.classList.add("active");
+
+function setupMainView() {
+    const sidebarItems = document.querySelectorAll(".sidebar li");
+
+    sidebarItems.forEach(item => {
+        item.addEventListener("click", event => {
+            event.stopPropagation();
+
+            if (mainView) {
+                mainView.classList.remove("active");
+            }
+
+            const type = item.dataset.type;
+            const id = item.dataset.id || null;
+
+            mainType = type;
+            mainID = id;
+
+            if (type === "taskView") {
+                mainView = document.querySelector("#today-view");
+
+                // TODO: change view content based on Today / This Week / All
+            }
+            else if (type === "taskList") {
+                mainView = document.querySelector("#task-list-view");
+
+                // TODO: load tasks using mainID
+            }
+            else if (type === "noteList") {
+                mainView = document.querySelector("#note-list-view");
+
+                // TODO: load notes using mainID
+            }
+
+            if (mainView) {
+                mainView.classList.add("active");
+                // 
+                let sideBarDialog = item.closest("dialog");
+                sideBarDialog.classList.remove("appear");
+                setTimeout(() => {
+                    sideBarDialog.close();
+                }, 200);
+                // 
+
+            }
+        });
+    });
+}
+
+setupMainView();
+
 // ############################################################################
-// ##### Handle Simple Dialogs #######/////////////
+// ##### Dialog Open #######/////////////
+var currentModalType = null;
+var currentModalID = null;
+
 function setupOpenDialogs() {
     const openButtons = document.querySelectorAll("[data-dialog-target]");
 
     openButtons.forEach(button => {
-        button.addEventListener("click", (event) => {
+        button.addEventListener("click", event => {
             event.stopPropagation();
 
             const dialog = document.querySelector(button.dataset.dialogTarget);
             if (!dialog) return;
 
-            // TODO: add specific logic before opening if needed
+            const source = event.target.closest(".task, .note, .task-list, .note-list, .right-side");
+
+            currentModalType = source ? source.dataset.type : null;
+            currentModalID = source ? source.dataset.id : null;
 
             dialog.showModal();
         });
@@ -241,10 +287,9 @@ function setupOpenDialogs() {
 }
 
 setupOpenDialogs();
+
 // Dialog Buttons: Cancel and Confirm
 function setupDialogActions() {
-    // const cancelButtons = document.querySelectorAll(".cancel-dialog-button");
-    // const cancelButtons = document.querySelectorAll(".cancel-dialog-button");
     const dialogActionButtons = document.querySelectorAll('button[class*="-dialog-button"]');
 
     // CONFIRM
@@ -261,6 +306,8 @@ function setupDialogActions() {
             }
 
             // before close 
+            currentModalType = null;
+            currentModalID = null;
             dialog.close();
         });
     });
