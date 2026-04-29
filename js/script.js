@@ -40,9 +40,13 @@ function setupRightSide() {
 
             currentRightSideType = type;
             currentRightSideId = id;
-            
+
             setRightSideView(type);
-            toggleRightSide(true);
+            toggleRightSide(true, type, event, rightSideView);
+
+            rightSideView.forEach(rightSide => {
+                fillRightSide(type, item, rightSide);
+            });
         });
     });
 
@@ -83,11 +87,30 @@ function setRightSideView(type) {
         rightSideTitle.forEach(title => {
             title.textContent = rsTitle;
         });
-        
     });
 }
 
-// function fillRightSide (type)
+function fillRightSide(type, item, rightSideView) {
+    rightSideView.dataset.id = item.dataset.id;
+    let name = item.querySelector('[class*="-name"]').textContent || null;
+    let listOf = item.querySelector('[class^="list-of-"]').textContent || null;
+    let startDueDate = item.querySelector('[class*="-start-due-date"]').textContent || null;
+    let description = item.querySelector('[class*="-description"]').textContent || null;
+    let createdDate = item.querySelector('[class*="-created-date"]').textContent || null;
+
+    rightSideView.querySelector('[class*="-name"]').textContent = name;
+    rightSideView.querySelector('[class^="list-of-"]').textContent = listOf;
+    rightSideView.querySelector('[class*="-start-due-date"]').textContent = startDueDate;
+    rightSideView.querySelector('[class*="-description"]').textContent = description;
+    rightSideView.querySelector('[class*="-created-date"]').textContent = createdDate;
+
+    if (type === "task") {
+        // rightSideView.querySelector(".task-name").textContent = item.querySelector(".task-name").textContent;
+    }
+    // else {
+
+    // }
+}
 
 function toggleRightSide(open) {
     rightSideStatus = open;
@@ -104,7 +127,6 @@ function toggleRightSide(open) {
                 rightSideDialog.showModal();
             }
             rightSideDialog.classList.add("appear");
-            rightView
         } else {
             rightSideDialog.classList.remove("appear");
             setTimeout(() => rightSideDialog.close(), 200);
@@ -205,11 +227,10 @@ function setupMainView() {
 
             var newView;
 
-            // var mainTitle = document.querySelector("#main-title");
-            // var itemTitle = event.querySelector(".item-title").textContent;
-            // var itemTitle = event.textContent;
-            // var itemTitle = event.closest("h3").textContent();
-            // mainTitle.textContent = itemTitle;
+            var mainTitle = document.querySelector("#main-title");
+            var itemTitle = item.querySelector(".item-title").textContent || null;
+            // mainTitle.textContent = itemTitle.textContent;
+            mainTitle.textContent = itemTitle;
 
             var mainWindowType = document.querySelector(".main-window-type");
             if (type === "taskView") {
