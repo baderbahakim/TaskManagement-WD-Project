@@ -30,10 +30,10 @@ function setupRightSide() {
 
             var rightSideView = null;
             if (type === "task") {
-                rightSideView = document.querySelectorAll(".task-view");
+                rightSideView = document.querySelectorAll(".right-side .task");
             }
             else {
-                rightSideView = document.querySelectorAll(".note-view");
+                rightSideView = document.querySelectorAll(".right-side .note");
             }
             // TODO: different task/note clicked while right-side is already open
             // update right-side content here, but do not close it
@@ -64,19 +64,30 @@ function setRightSideView(type) {
     const rightSides = [rightSideDialog, rightSideDiv];
 
     rightSides.forEach(side => {
-        side.querySelectorAll(".task-view, .note-view").forEach(view => {
+        side.querySelectorAll(".right-side .task, .right-side .note").forEach(view => {
             view.classList.remove("active");
         });
 
+        var rightSideTitle = document.querySelectorAll(".right-side-title");
+        var rsTitle;
         if (type === "task") {
-            side.querySelector(".task-view")?.classList.add("active");
+            side.querySelector(".right-side .task").classList.add("active");
+            rsTitle = "Task";
         }
 
         if (type === "note") {
-            side.querySelector(".note-view")?.classList.add("active");
+            side.querySelector(".right-side .note").classList.add("active");
+            rsTitle = "Note";
         }
+
+        rightSideTitle.forEach(title => {
+            title.textContent = rsTitle;
+        });
+        
     });
 }
+
+// function fillRightSide (type)
 
 function toggleRightSide(open) {
     rightSideStatus = open;
@@ -161,6 +172,85 @@ function handleSidebar() {
     sidebarStatus = !isOpen;
 }
 
+// ##### main view
+var mainType = null;
+var mainID = null;
+var mainView = null;
+var mainWindow = document.querySelector("#task-list");
+
+mainWindow.classList.add("active");
+
+function setupMainView() {
+    const sidebarItems = document.querySelectorAll(".sidebar li");
+
+    sidebarItems.forEach(item => {
+        item.addEventListener("click", event => {
+            // event.stopPropagation();
+
+            if (mainWindow) {
+                mainWindow.classList.remove("active");
+            }
+
+            const type = item.dataset.type;
+            const id = item.dataset.id || null;
+            const view = item.dataset.view || null;
+
+            if (mainType !== type || mainID !== id || mainView !== view) {
+                toggleRightSide(false);
+            }
+
+            mainType = type;
+            mainID = id;
+            mainView = view;
+
+            var newView;
+
+            // var mainTitle = document.querySelector("#main-title");
+            // var itemTitle = event.querySelector(".item-title").textContent;
+            // var itemTitle = event.textContent;
+            // var itemTitle = event.closest("h3").textContent();
+            // mainTitle.textContent = itemTitle;
+
+            var mainWindowType = document.querySelector(".main-window-type");
+            if (type === "taskView") {
+                mainWindowType.textContent = "/views";
+                mainWindow = document.querySelector("#today-view");
+                // TODO: change view content based on Today / This Week / All
+            }
+            else if (type === "taskList") {
+                mainWindowType.textContent = "/tasks";
+                mainWindow = document.querySelector("#task-list");
+
+                // TODO: load tasks using mainID
+            }
+            else if (type === "noteList") {
+                mainWindowType.textContent = "/notes";
+                mainWindow = document.querySelector("#note-list");
+
+                // TODO: load notes using mainID
+            }
+
+            if (mainWindow) {
+                mainWindow.classList.add("active");
+                // 
+                let sideBarDialog = item.closest("dialog");
+                sideBarDialog.classList.remove("appear");
+                setTimeout(() => {
+                    sideBarDialog.close();
+                }, 200);
+                // 
+            }
+
+            // if (newView !== mainView) {
+            //     toggleRightSide(false);
+            // }
+            // mainView = newView;
+        });
+    });
+}
+
+setupMainView();
+
 // ### Handle Window Resize ### //
 window.addEventListener("resize", checkWindowResize);
 window.addEventListener("load", checkWindowResize);
@@ -204,62 +294,6 @@ function checkWindowResize() {
         }
     }
 }
-
-// ##### main view
-var mainType = null;
-var mainID = null;
-var mainView = document.querySelector("#today-view");
-mainView.classList.add("active");
-
-function setupMainView() {
-    const sidebarItems = document.querySelectorAll(".sidebar li");
-
-    sidebarItems.forEach(item => {
-        item.addEventListener("click", event => {
-            event.stopPropagation();
-
-            if (mainView) {
-                mainView.classList.remove("active");
-            }
-
-            const type = item.dataset.type;
-            const id = item.dataset.id || null;
-
-            mainType = type;
-            mainID = id;
-
-            if (type === "taskView") {
-                mainView = document.querySelector("#today-view");
-
-                // TODO: change view content based on Today / This Week / All
-            }
-            else if (type === "taskList") {
-                mainView = document.querySelector("#task-list-view");
-
-                // TODO: load tasks using mainID
-            }
-            else if (type === "noteList") {
-                mainView = document.querySelector("#note-list-view");
-
-                // TODO: load notes using mainID
-            }
-
-            if (mainView) {
-                mainView.classList.add("active");
-                // 
-                let sideBarDialog = item.closest("dialog");
-                sideBarDialog.classList.remove("appear");
-                setTimeout(() => {
-                    sideBarDialog.close();
-                }, 200);
-                // 
-
-            }
-        });
-    });
-}
-
-setupMainView();
 
 // ############################################################################
 // ##### Dialog Open #######/////////////

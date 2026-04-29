@@ -33,10 +33,14 @@
     --background-color-gray-4: #222;
 
     /* Linear Gradient */
-    --linear-gradient-1: linear-gradient(to top, #080f19, #112a3e); /* body */
-    --linear-gradient-2: linear-gradient(to bottom, #071c2f, #04111d); /* sidebar */
-    --linear-gradient-3: linear-gradient(to bottom, #14314a, #000814); /**/
-    --linear-gradient-4: linear-gradient(to bottom, #0b1a2e, #14314a); /* right side */
+    --linear-gradient-1: linear-gradient(to top, #080f19, #112a3e);
+    /* body */
+    --linear-gradient-2: linear-gradient(to bottom, #071c2f, #04111d);
+    /* sidebar */
+    --linear-gradient-3: linear-gradient(to bottom, #14314a, #000814);
+    /**/
+    --linear-gradient-4: linear-gradient(to bottom, #0b1a2e, #14314a);
+    /* right side */
 
     /* colors */
     --font-color-white-1: #f0f0f0;
@@ -45,7 +49,7 @@
     --font-color-gray-3: #c9c9c9;
     --font-color-gray-4: #ddd;
 
-    
+
     /* border color */
     --border-color-gray-1: #aaa;
     --border-color-gray-2: rgba(220, 220, 220, 0.65);
@@ -56,9 +60,14 @@
     --priority-color-high-1: red;
     --priority-color-medium-1: yellow;
     --priority-color-low-1: #0a66ff;
-    --priority-color-high-2: rgb(170, 11, 11);
+    --priority-color-high-2: red;
     --priority-color-medium-2: rgb(201, 158, 2);
     --priority-color-low-2: rgb(23, 56, 205);
+
+    /* status color and border */
+    --status-color-to-do-2: rgb(186, 133, 32);
+    --status-color-in-progress-2: purple;
+    --status-color-done-2: green;
 
     /* box shadow */
     --box-shadow-1: 0 8px 24px rgba(0, 0, 0, 0.35);
@@ -78,17 +87,13 @@
 
 
 /* ##### Testing ########################################################## */
-#today-view {
-    /* display: none; */
-}
 
-#note-list-view {
-    /* display: none; */
-}
 /* ######### ############################################ */
 
 /* ##### General ############################################################## */
-i, li, button {
+i,
+li,
+button {
     cursor: pointer;
 }
 
@@ -102,9 +107,9 @@ i {
 }
 
 dialog::backdrop {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
-    opacity: 90%;
+    opacity: 95%;
     transition: all 0.2s ease;
 }
 
@@ -133,7 +138,8 @@ body {
     /* box-shadow: inset 0 0 10px 10px yellow; */
 }
 
-#main, #header {
+#main,
+#header {
     left: 0;
     right: 0;
     width: 100%;
@@ -170,22 +176,65 @@ body {
 }
 
 #header .list-icon {
-    margin-right: 1.5rem;
+    margin-right: 1rem;
     font-size: 1.8em;
 }
+
+#header #main-title {
+    margin-right: 0.3rem;
+}
+
+#header .main-window-type {
+    color: var(--font-color-gray-1);
+    font-weight: 600;
+}
+
+#header .main-window-type.views::before {
+    content: "/views";
+}
+
+#header .main-window-type.tasks::before {
+    content: "/tasks";
+}
+
+#header .main-window-type.notes::before {
+    content: "/notes";
+}
+
+/* #main and .right-side */
+:is(.task, .note) p[class^="list-of-"]::before {
+    content: "List: ";
+}
+
+:is(.task, .note) [class*="-created-date"]::before {
+    content: "Created on: ";
+}
+
+:is(#main, .right-side) :is([class*="-list-header"], [class*="-actions"]) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+:is(#main, .right-side) :is([class*="-list-header"], [class*="-actions"]) i {
+    font-size: 3rem;
+}
+
 
 /* #main */
 #main {
     position: relative;
     padding-top: var(--header-height);
-    height: 100%;
-    /* border: 3px solid red; */                /* testing */
+    /* height: 100%; */
+    /* border: 3px solid red; */
+    /* testing */
 }
 
 .main-window {
     width: 100%;
     height: 100%;
-    /* overflow-y: auto; */                     /* decide if vertical bar from body or main */
+    /* padding: 3rem; */
 }
 
 .main-window:not(.active) {
@@ -216,14 +265,20 @@ body {
     font-weight: 600;
 }
 
-.tasks-container {
-    display: grid;
-    gap: 1.5rem;
-    margin-top: 0.5rem;
+/* task-list and note-list */
+#main :is(#task-list, #note-list) {
+    padding: 0.5rem;
 }
 
-/* .task */
-.tasks-container .task {
+/* tasks-container and notes-container */
+#main :is(.tasks-container, .notes-container) {
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+/* .task and .note */
+#main :is(.tasks-container, .notes-container)>div {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -236,142 +291,79 @@ body {
     min-height: 112px;
 }
 
-.tasks-container .priority-high {
-    border: 1px solid var(--priority-color-high-1);
-}
-
-.tasks-container .priority-medium {
-    border: 1px solid var(--priority-color-medium-1);
-}
-
-.tasks-container .priority-low {
-    border: 1px solid var(--priority-color-low-1);
-}
-
-.task-top {
+#main :is(.task-header, .note-header) {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
 }
 
-.task-name-wrap {
+#main :is(.task, .note) div[class*="name-wrap"] {
     display: flex;
     align-items: flex-start;
     gap: 0.9rem;
     margin-top: 0.2rem;
 }
 
-.task-check {
-    width: 20px;
-    height: 20px;
-}
+#main :is(.task, .note) div[class*="name-wrap"]>div {}
 
-.task-name {
-    font-size: 1.5rem;
+#main :is(.task, .note) :is(.task-name, .note-name) {
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
-.task-list {
+#main :is(.task, .note) [class^="list-of-"] {
     margin-top: 0.35rem;
     color: var(--font-color-gray-2);
     font-size: 0.95rem;
     font-weight: 600;
 }
 
-.task-delete-icon {
-    color: var(--font-color-gray-3);
-    font-size: 1.2rem;
+/* .task */
+#main .task.high {
+    border: 1px solid var(--priority-color-high-1);
 }
 
-.task-time {
+#main .task.medium {
+    border: 1px solid var(--priority-color-medium-1);
+}
+
+#main .task.low {
+    border: 1px solid var(--priority-color-low-1);
+}
+
+#main .task .icons-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+#main .task-check {
+    width: 20px;
+    height: 20px;
+}
+
+#main .task-start-due-date {
     text-align: right;
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--font-color-white-1);
 }
 
-/* larger screens */
-/* @media (min-width: 700px) {
-    .days-container {
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        align-items: start;
-    }
-} */                                                                            /* At media */
-
-
-/* #note-list-view */
-#note-list-view {
-    width: 100%;
-    height: 100%;
-    padding: 1.2rem;
-    box-sizing: border-box;
-}
-
-.view-type {
-    margin: 0;
-    color: var(--font-color-gray-1);
-    font-weight: 600;
-}
-
-.note-list-title {
-    margin: 0.3rem 0 1.5rem;
-    font-size: 2rem;
-}
-
-.notes-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-}
-
-.note {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    background: var(--background-color-gray-3);
-    border: 1px solid var(--border-color-gray-1);
-    border-radius: 6px;
-    padding: 0.9rem;
-}
-
-.note-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.note-name {
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.note-delete-icon {
-    color: var(--font-color-gray-3);
-    font-size: 1.1rem;
-}
-
+/* #note-list */
+/* .note */
 .note-description {
     background: var(--background-color-gray-4);
     border-radius: 10px;
     padding: 0.8rem;
-    /* box-shadow: inset 0 -25px 25px -15px rgba(0, 0, 0, 0.8); */                   /* decide if shadow */
 }
 
 .note-description p {
-    margin: 0;
     font-size: 0.9rem;
     line-height: 1.4;
     color: var(--font-color-gray-4);
 }
-
-/* responsive grid */
-/* @media (min-width: 600px) {
-    .notes-container {
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    }
-} */                                                                            /* At media */
-
 
 /* Modals */
 .modal {
@@ -473,12 +465,15 @@ div[id*="side"]:not(.active) {
 }
 
 .sidebar li {
+    /* display: flex; */
+    /* column-gap: 1rem; */
     padding: 0.7rem 0;
     font-size: 1.5rem;
     font-weight: 600;
 }
 
 .sidebar li i {
+    display: inline-block;
     margin-right: 1rem;
 }
 
@@ -536,7 +531,7 @@ div[id*="side"]:not(.active) {
     color: white;
 }
 
-/* .task-view and .note-view */
+/* .task and .note */
 .right-side-view {
     display: none;
     flex-direction: column;
@@ -551,25 +546,15 @@ div[id*="side"]:not(.active) {
     display: flex;
 }
 
-/* ########### testing ############# */
-.right-side .task-view.close {
-    /* display: none; */
-}
-
-.right-side .note-view.close {
-    /* display: none; */
-}
-/* ###########  ############# */
 
 .right-side-view div[class*="header"] {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
 }
 
-.right-side-view div[class*="header"] div[class*="name"] {
+.right-side-view div[class*="header"] [class*="name"] {
     font-size: 1.7rem;
-    color: red;
 }
 
 .right-side-view div[class*="header"] div[class*="list"] {
@@ -577,30 +562,79 @@ div[id*="side"]:not(.active) {
     color: var(--font-color-gray-1);
 }
 
-.right-side-view [class*="priority"] {
-    padding: 0.3rem 1rem;
+
+/* .priority-status */
+.right-side .priority-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+:is(#main, .right-side) .task span {
+     padding: 0.3rem 1rem;
     background: whitesmoke;
     border-radius: 4px;
     font-weight: bold;
+    text-align: center;
 }
 
-/*  */
-.right-side-view .priority-high {
+/* priority */
+.right-side .task.high .priority {
     color: var(--priority-color-high-2);
-    border: 1px solid var(--priority-color-high-2);
+    border:2px solid var(--priority-color-high-2);
 }
 
-.right-side-view .priority-medium {
+.right-side .task.medium .priority {
     color: var(--priority-color-medium-2);
-    border: 1px solid var(--priority-color-medium-2);
+    border: 2px solid var(--priority-color-medium-2);
 }
 
-.right-side-view .priority-low {
+.right-side .task.low .priority {
     color: var(--priority-color-low-2);
-    border: 1px solid var(--priority-color-low-2);
+    border: 2px solid var(--priority-color-low-2);
 }
-/*  */
 
+.right-side .task.high .priority::before {
+    content: "High";
+}
+
+.right-side .task.medium .priority::before {
+    content: "Medium";
+}
+
+.right-side .task.low .priority::before {
+    content: "Low";
+}
+
+/* status */
+:is(#main, .right-side) .task.to-do .status {
+    color: var(--status-color-to-do-2);
+    border: 2px solid var(--status-color-to-do-2);
+}
+
+:is(#main, .right-side) .task.in-progress .status {
+    color: var(--status-color-in-progress-2);
+    border: 2px solid var(--status-color-in-progress-2);
+}
+
+:is(#main, .right-side) .task.done .status {
+    color: var(--status-color-done-2);
+    border: 2px solid var(--status-color-done-2);
+}
+
+:is(#main, .right-side) .task.to-do .status::before {
+    content: "To-Do";
+}
+
+:is(#main, .right-side) .task.in-progress .status::before {
+    content: "In-Progress";
+}
+
+:is(#main, .right-side) .task.done .status::before {
+    content: "Done";
+}
+
+/*  */
 .right-side-view div[class*="details"] {
     border: 1px solid var(--border-color-gray-1);
     border-radius: 6px;
@@ -608,7 +642,7 @@ div[id*="side"]:not(.active) {
     background: var(--background-color-gray-3);
 }
 
-.right-side-view div[class*="date-time"] {
+.right-side-view.task .task-start-due-date {
     text-align: right;
     font-weight: bold;
     margin-bottom: 1rem;
@@ -634,50 +668,19 @@ div[id*="side"]:not(.active) {
     font-weight: bold;
 }
 
-.right-side-view .description-box p {
+.right-side-view .description-box [class*="-description"] {
     margin-top: 3rem;
     line-height: 1.5;
 }
 
-.right-side-view div[class*="created-date"] {
+.right-side-view p[class*="-created-date"] {
     margin-top: 1rem;
     color: var(--font-color-gray-2);
     font-weight: bold;
 }
 
-.right-side-view button {
-    border: 1px solid;
-    border-radius: 999px;
-    padding: 1rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
 
-.right-side-view .complete-btn {
-    background: var(--background-color-white-1);
-    color: black;
-    width: 80%;
-    align-self: center;
-}
 
-.right-side-view .actions {
-    display: flex;
-    gap: 1rem;
-}
-
-.right-side-view .actions button {
-    flex: 1;
-}
-
-.right-side-view button[class*="delete"] {
-    background: #f8d2d2; /*:root*/
-    color: red; /*:root*/
-}
-
-.right-side-view button[class*="edit"] {
-    background: #dff6ff; /*:root*/
-    color: #00a3d9; /*:root*/
-}
 
 /* for all .new-dialog and .new-list-dialog */
 dialog[class*="-dialog"] {
@@ -686,7 +689,7 @@ dialog[class*="-dialog"] {
     margin: auto;
 }
 
-dialog[class*="-dialog"] > div {
+dialog[class*="-dialog"]>div {
     padding: 2rem;
     border: none;
     border-radius: 20px;
@@ -785,7 +788,7 @@ dialog[id*="list"] input {
     width: 300px;
 }
 
-.simple-dialog > div {
+.simple-dialog>div {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

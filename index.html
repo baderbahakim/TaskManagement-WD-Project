@@ -15,10 +15,12 @@
 
         <header id="header">
             <i class="fa-solid fa-bars list-icon"></i>
-            <h1>Days</h1>
+            <h1 id="main-title">Days</h1>
+            <p class="main-window-type">/tasks</p>
         </header>
 
         <main id="main">
+
             <div id="today-view" class="main-window">
                 <section class="days-container">
                     <article class="day">
@@ -26,7 +28,7 @@
                         <p class="day-date">16 April</p>
 
                         <div class="tasks-container">
-                            <div class="task priority-high" data-type="task" data-id="1">
+                            <div class="task high" data-type="task" data-id="1">
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -43,7 +45,7 @@
                                 <p class="task-time">21 April | 12:00 AM</p>
                             </div>
 
-                            <div class="task priority-medium" data-type="task" data-id="2">
+                            <div class="task medium" data-type="task" data-id="2">
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -60,7 +62,7 @@
                                 <p class="task-time">21 April | 12:00 AM</p>
                             </div>
 
-                            <div class="task priority-low" data-type="task" data-id="3">
+                            <div class="task low" data-type="task" data-id="3">
                                 <div class="task-top">
                                     <div class="task-name-wrap">
                                         <input type="checkbox" class="task-check">
@@ -82,64 +84,84 @@
                 </section>
             </div>
 
-            <div id="task-list-view" class="main-window">
-
-                <p class="view-type">tasks</p>
-                <h2 class="task-list-title">Work</h2>
+            <div id="task-list" class="main-window" data-type="taskList" data-id="1">
+                <div class="task-list-header">
+                    <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-task-dialog"></i>
+                    <div>
+                        <i class="fa-solid fa-pencil" data-dialog-target="#create-task-list-dialog"></i>
+                        <i class="fa-regular fa-trash-can task-delete-icon"
+                            data-dialog-target="#delete-task-list-dialog"></i>
+                    </div>
+                </div>
 
                 <div class="tasks-container">
 
-                    <div class="task priority-high" data-type="task" data-id="1">
-                        <div class="task-top">
+                    <div class="task high to-do" data-type="task" data-id="1">
+                        <div class="task-header">
                             <div class="task-name-wrap">
-                                <input type="checkbox" class="task-check">
+                                <i class="fa-solid fa-check check-task-icon"></i>
                                 <div>
                                     <h3 class="task-name">Submit The Project</h3>
-                                    <p class="task-list">List : Projects</p>
+                                    <p class="list-of-task">Projects</p>
                                 </div>
                             </div>
 
-                            <i class="fa-regular fa-trash-can task-delete-icon"
-                                data-dialog-target="#delete-task-dialog"></i>
+                            <div class="icons-status">
+                                <div>
+                                    <i class="fa-solid fa-pencil" data-dialog-target="#create-task-dialog"></i>
+                                    <i class="fa-regular fa-trash-can task-delete-icon"
+                                        data-dialog-target="#delete-task-dialog"></i>
+                                </div>
+
+                                <span class="status"></span>
+                            </div>
                         </div>
 
-                        <p class="task-time">21 April | 12:00 AM</p>
+                        <p class="task-start-due-date">21 April | 29 April</p>
+                        <!-- hidden -->
+                        <p class="task-description hide">task desciption in main, hidden</p>
+                        <p class="task-created-date hide">task created date from main, hidden</p>
+                        <!--  -->
                     </div>
-
-                    <!-- more notes here -->
-
                 </div>
             </div>
 
 
-            <div id="note-list-view" class="main-window">
-
-                <p class="view-type">Notes</p>
-                <h2 class="note-list-title">Apps Ideas</h2>
+            <div id="note-list" class="main-window" data-type="noteList" data-id="1">
+                <div class="note-list-header">
+                    <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-note-dialog"></i>
+                    <div>
+                        <i class="fa-solid fa-pencil" data-dialog-target="#create-note-list-dialog"></i>
+                        <i class="fa-regular fa-trash-can task-delete-icon"
+                            data-dialog-target="#delete-note-list-dialog"></i>
+                    </div>
+                </div>
 
                 <div class="notes-container">
 
                     <div class="note" data-type="note" data-id="1">
                         <div class="note-header">
-                            <h3 class="note-name">Todo List App</h3>
+                            <div class="note-name-wrap">
+                                <div>
+                                    <h3 class="note-name">Todo List App</h3>
+                                    <p class="list-of-note">UI Design</p>
+                                </div>
+                            </div>
                             <!--  -->
                             <i class="fa-regular fa-trash-can note-delete-icon"
                                 data-dialog-target="#delete-note-dialog"></i>
                         </div>
 
-                        <div class="note-description">
-                            <p>
+                        <div class="description-box">
+                            <p class="note-description">
                                 A simple application that will shows the task the app will be a website rather than a
                                 native application...
                             </p>
                         </div>
+                        <p class="note-created-date hide">7 june</p>
                     </div>
-
-                    <!-- more notes here -->
-
                 </div>
             </div>
-
         </main>
 
         <!-- sidebar -->
@@ -155,12 +177,12 @@
                     <h3>Views</h3>
                     <ul class="views">
                         <li data-type="taskView" data-view="today">
-                            <i class="fa-solid fa-bars"></i>Today
+                            <i class="fa-solid fa-bars"></i><p class="item-title">Today</p>
                         </li>
-                        <li data-type="taskView" data-view="today">
+                        <li data-type="taskView" data-view="week">
                             <i class="fa-solid fa-bars"></i>This Week
                         </li>
-                        <li data-type="taskView" data-view="today">
+                        <li data-type="taskView" data-view="all">
                             <i class="fa-solid fa-bars"></i>All
                         </li>
                     </ul>
@@ -172,7 +194,7 @@
                         <i class="fa-solid fa-plus create-task-list-icon"
                             data-dialog-target="#create-task-list-dialog"></i>
                     </div>
-                    <ul class="task-lists" data-dialog-target="#create-task-list-dialog">
+                    <ul class="task-lists">
                         <li data-type="taskList" data-id="1">
                             <i class="fa-solid fa-bars"></i>Work
                         </li>
@@ -216,27 +238,41 @@
         <!-- right-side -->
         <div id="right-side-div" class="right-side modal" data-type="" data-id=""></div>
         <dialog id="right-side-dialog" class="right-side modal" data-type="" data-id="">
+
             <aside class="right-side-aside">
                 <header class="right-side-header">
                     <i class="fa-solid fa-angles-right right-side-close-icon"></i>
-                    <h2 class="user-name">Task</h2>
+                    <h2 class="right-side-title"></h2>
                 </header>
 
-                <div class="task-view right-side-view">
+                <div class="task right-side-view high to-do" data-type="task" data-id="1">
+
                     <div class="task-header">
                         <div>
                             <h2 class="task-name">Submit The Project</h2>
-                            <p class="task-list">List : Projects</p>
+                            <p class="list-of-task">Projects</p>
                         </div>
-                        <span class="priority-high">High</span>
+                        <div class="priority-status">
+                            <span class="priority"></span>
+                            <span class="status"></span>
+                        </div>
+                    </div>
+
+                    <div class="task-actions">
+                        <i class="fa-solid fa-check check-task-icon"></i>
+                        <div>
+                            <i class="fa-solid fa-pencil" data-dialog-target="#create-task-dialog"></i>
+                            <i class="fa-regular fa-trash-can task-delete-icon"
+                                data-dialog-target="#delete-task-dialog"></i>
+                        </div>
                     </div>
 
                     <div class="task-details">
-                        <div class="task-date-time">21 April | 12:00 AM</div>
+                        <div class="task-start-due-date">21 April | 29 April</div>
 
                         <div class="description-box">
                             <span class="description-label">Description</span>
-                            <p>
+                            <p class="task-description">
                                 Completing the project for the web task :
                                 <br><br>
                                 1- create a prototype
@@ -254,32 +290,30 @@
                             </p>
                         </div>
 
-                        <div class="task-created-date">Created on : 5 April</div>
-                    </div>
-
-                    <button class="complete-btn">Complete</button>
-                    <div class="actions">
-                        <!--  -->
-                        <button class="delete-task-btn" data-dialog-target="#delete-task-dialog">Delete</button>
-                        <button class="edit-task-btn" data-dialog-target="#create-task-dialog">Edit</button>
+                        <p class="task-created-date">5 April</p>
                     </div>
                 </div>
 
-                <div class="note-view right-side-view">
+                <div class="note right-side-view" data-type="note" data-id="1">
                     <div class="note-header">
                         <div>
                             <h2 class="note-name">Todo List App</h2>
-                            <p class="note-list">List : Apps Ideas</p>
+                            <p class="list-of-note">Apps Ideas</p>
+                        </div>
+                        <div class="note-actions">
+                            <i class="fa-solid fa-pencil" data-dialog-target="#create-task-dialog"></i>
+                            <i class="fa-regular fa-trash-can task-delete-icon"
+                                data-dialog-target="#delete-task-dialog"></i>
                         </div>
                     </div>
 
+
                     <div class="note-details">
-                        <div class="note-date-time">21 April | 12:00 AM</div>
 
                         <div class="description-box">
                             <span class="description-label">Description</span>
-                            <p>
-                                Completing the project for the web task :
+                            <p class="note-description">
+                                Completing the project for the web note :
                                 <br><br>
                                 1- create a prototype
                                 <br>
@@ -296,13 +330,7 @@
                             </p>
                         </div>
 
-                        <div class="note-created-date">Created on : 5 April</div>
-                    </div>
-
-                    <div class="actions">
-                        <!--  -->
-                        <button class="delete-note-btn" data-dialog-target="#delete-note-dialog">Delete</button>
-                        <button class="edit-note-btn" data-dialog-target="#create-note-dialog">Edit</button>
+                        <p class="note-created-date">7 june</p>
                     </div>
                 </div>
             </aside>
@@ -349,11 +377,8 @@
                     <textarea id="task-description" name="task-description"></textarea>
 
                     <div class="dialog-button-container">
-                        <button class="cancel-dialog-button">Cancel</button>
-                        <button class="confirm-dialog-button" type="submit">Create
-                            <p class="type hide">task</p>
-                            <p class="id hide"></p>
-                            <p class="action hide">insert</p>
+                        <button class="cancel-dialog-button cancel">Cancel</button>
+                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
                         </button>
                     </div>
                 </form>
@@ -377,11 +402,8 @@
                     <textarea id="note-description" name="note-description"></textarea>
 
                     <div class="dialog-button-container">
-                        <button class="cancel-dialog-button">Cancel</button>
-                        <button class="confirm-dialog-button" type="submit">Create
-                            <p class="type hide">note</p>
-                            <p class="id hide"></p>
-                            <p class="action hide">insert</p>
+                        <button class="cancel-dialog-button cancel">Cancel</button>
+                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
                         </button>
                     </div>
                 </form>
@@ -399,11 +421,8 @@
                     </div>
 
                     <div class="dialog-button-container">
-                        <button class="cancel-dialog-button">Cancel</button>
-                        <button class="confirm-dialog-button" type="submit">Create
-                            <p class="type hide">taskList</p>
-                            <p class="id hide"></p>
-                            <p class="action hide">insert</p>
+                        <button class="cancel-dialog-button cancel">Cancel</button>
+                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
                         </button>
                     </div>
                 </form>
@@ -421,11 +440,8 @@
                     </div>
 
                     <div class="dialog-button-container">
-                        <button class="cancel-dialog-button">Cancel</button>
-                        <button class="confirm-dialog-button" type="submit">Create
-                            <p class="type hide">noteList</p>
-                            <p class="id hide"></p>
-                            <p class="action hide">insert</p>
+                        <button class="cancel-dialog-button cancel">Cancel</button>
+                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
                         </button>
                     </div>
                 </form>
@@ -438,11 +454,8 @@
                 <h2 class="simple-dialog-message">Delete task</h2>
 
                 <div class="dialog-button-container">
-                    <button class="cancel-dialog-button">Cancel</button>
-                    <button class="confirm-dialog-button delete">Delete
-                        <p class="type hide">task</p>
-                        <p class="id hide"></p>
-                        <p class="action hide">delete</p>
+                    <button class="cancel-dialog-button cancel">Cancel</button>
+                    <button class="confirm-dialog-button delete" data-action="delete">Delete
                     </button>
                 </div>
             </div>
@@ -453,11 +466,8 @@
                 <h2 class="simple-dialog-message">Delete note</h2>
 
                 <div class="dialog-button-container">
-                    <button class="cancel-dialog-button">Cancel</button>
-                    <button class="confirm-dialog-button">Delete
-                        <p class="type hide">note</p>
-                        <p class="id hide"></p>
-                        <p class="action hide">delete</p>
+                    <button class="cancel-dialog-button cancel">Cancel</button>
+                    <button class="confirm-dialog-button delete" data-action="delete">Delete
                     </button>
                 </div>
             </div>
@@ -465,14 +475,11 @@
 
         <dialog id="delete-task-list-dialog" class="simple-dialog modal">
             <div>
-                <h2 class="simple-dialog-message">Delete task</h2>
+                <h2 class="simple-dialog-message">Delete task list</h2>
 
                 <div class="dialog-button-container">
-                    <button class="cancel-dialog-button">Cancel</button>
-                    <button class="confirm-dialog-button delete">Delete
-                        <p class="type hide">taskList</p>
-                        <p class="id hide"></p>
-                        <p class="action hide">delete</p>
+                    <button class="cancel-dialog-button cancel">Cancel</button>
+                    <button class="confirm-dialog-button delete" data-action="delete">Delete
                     </button>
                 </div>
             </div>
@@ -480,14 +487,11 @@
 
         <dialog id="delete-note-list-dialog" class="simple-dialog modal">
             <div>
-                <h2 class="simple-dialog-message">Delete task</h2>
+                <h2 class="simple-dialog-message">Delete note list</h2>
 
                 <div class="dialog-button-container">
-                    <button class="cancel-dialog-button">Cancel</button>
-                    <button class="confirm-dialog-button delete">Delete
-                        <p class="type hide">noteList</p>
-                        <p class="id hide"></p>
-                        <p class="action hide">delete</p>
+                    <button class="cancel-dialog-button cancel">Cancel</button>
+                    <button class="confirm-dialog-button delete" data-action="delete">Delete
                     </button>
                 </div>
             </div>
@@ -498,8 +502,8 @@
                 <h2 class="simple-dialog-message">Log out?</h2>
 
                 <div class="dialog-button-container">
-                    <button class="cancel-dialog-button">Cancel</button>
-                    <button class="confirm-dialog-button">Log out</button>
+                    <button class="cancel-dialog-button cancel">Cancel</button>
+                    <button class="confirm-dialog-button logout" data-action="logout">Log out</button>
                 </div>
             </div>
         </dialog>
