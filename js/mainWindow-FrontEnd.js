@@ -8,7 +8,7 @@ var rightSideStatus = false;
 var currentRightSideType = rightSideDialog.dataset.type;
 var currentRightSideId = rightSideDialog.dataset.id;
 
-const openRightSideButtons = document.querySelectorAll(".task, .note");
+const openRightSideButtons = document.querySelectorAll("#main :is(.task, .note)");
 const closeRightSideButtons = document.querySelectorAll(".right-side-close-icon");
 
 setupRightSide();
@@ -16,7 +16,7 @@ setupRightSide();
 function setupRightSide() {
     openRightSideButtons.forEach(item => {
         item.addEventListener("click", event => {
-            if (event.target.closest(".task-delete-icon, .note-delete-icon, .delete-task-btn, .delete-note-btn")) {
+            if (event.target.closest(".task-delete-icon, .note-delete-icon, .delete-task-btn, .delete-note-btn, .task-check-icon")) {
                 return;
             }
 
@@ -44,9 +44,9 @@ function setupRightSide() {
             setRightSideView(type);
             toggleRightSide(true, type, event, rightSideView);
 
-            rightSideView.forEach(rightSide => {
-                fillRightSide(type, item, rightSide);
-            });
+            // rightSideView.forEach(rightSide => {
+            //     fillRightSide(type, item, rightSide);
+            // });
         });
     });
 
@@ -90,27 +90,27 @@ function setRightSideView(type) {
     });
 }
 
-function fillRightSide(type, item, rightSideView) {
-    rightSideView.dataset.id = item.dataset.id;
-    let name = item.querySelector('[class*="-name"]').textContent || null;
-    let listOf = item.querySelector('[class^="list-of-"]').textContent || null;
-    let startDueDate = item.querySelector('[class*="-start-due-date"]').textContent || null;
-    let description = item.querySelector('[class*="-description"]').textContent || null;
-    let createdDate = item.querySelector('[class*="-created-date"]').textContent || null;
+// function fillRightSide(type, item, rightSideView) {
+//     rightSideView.dataset.id = item.dataset.id;
+//     let name = item.querySelector('[class*="-name"]').textContent || null;
+//     let listOf = item.querySelector('[class^="list-of-"]').textContent || null;
+//     let startDueDate = item.querySelector('[class*="-start-due-date"]').textContent || null;
+//     let description = item.querySelector('[class*="-description"]').textContent || null;
+//     let createdDate = item.querySelector('[class*="-created-date"]').textContent || null;
 
-    rightSideView.querySelector('[class*="-name"]').textContent = name;
-    rightSideView.querySelector('[class^="list-of-"]').textContent = listOf;
-    rightSideView.querySelector('[class*="-start-due-date"]').textContent = startDueDate;
-    rightSideView.querySelector('[class*="-description"]').textContent = description;
-    rightSideView.querySelector('[class*="-created-date"]').textContent = createdDate;
+//     rightSideView.querySelector('[class*="-name"]').textContent = name;
+//     rightSideView.querySelector('[class^="list-of-"]').textContent = listOf;
+//     rightSideView.querySelector('[class*="-start-due-date"]').textContent = startDueDate;
+//     rightSideView.querySelector('[class*="-description"]').textContent = description;
+//     rightSideView.querySelector('[class*="-created-date"]').textContent = createdDate;
 
-    if (type === "task") {
-        // rightSideView.querySelector(".task-name").textContent = item.querySelector(".task-name").textContent;
-    }
-    // else {
+//     if (type === "task") {
+//         // rightSideView.querySelector(".task-name").textContent = item.querySelector(".task-name").textContent;
+//     }
+//     // else {
 
-    // }
-}
+//     // }
+// }
 
 function toggleRightSide(open) {
     rightSideStatus = open;
@@ -251,6 +251,9 @@ function setupMainView() {
                 // TODO: load notes using mainID
             }
 
+            mainWindow.dataset.id = id;
+            console.log(mainWindow.dataset.id);
+
             if (mainWindow) {
                 mainWindow.classList.add("active");
                 // 
@@ -331,10 +334,14 @@ function setupOpenDialogs() {
             const dialog = document.querySelector(button.dataset.dialogTarget);
             if (!dialog) return;
 
-            const source = event.target.closest(".task, .note, .task-list, .note-list, .right-side");
+            const source = event.target.closest(".task, .note, #task-list, #note-list");
 
             currentModalType = source ? source.dataset.type : null;
             currentModalID = source ? source.dataset.id : null;
+
+            dialog.dataset.id = source ? source.dataset.id : null;
+            console.log(dialog.dataset.id);
+            
 
             dialog.showModal();
         });
