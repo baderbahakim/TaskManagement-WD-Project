@@ -8,12 +8,13 @@ var rightSideStatus = false;
 var currentRightSideType = rightSideDialog.dataset.type;
 var currentRightSideId = rightSideDialog.dataset.id;
 
-const openRightSideButtons = document.querySelectorAll("#main :is(.task, .note)");
+// const openRightSideButtons = document.querySelectorAll("#main :is(.task, .note)");
 const closeRightSideButtons = document.querySelectorAll(".right-side-close-icon");
 
 setupRightSide();
 
 function setupRightSide() {
+    const openRightSideButtons = document.querySelectorAll("#main :is(.task, .note)");
     openRightSideButtons.forEach(item => {
         item.addEventListener("click", event => {
             if (event.target.closest(".task-delete-icon, .note-delete-icon, .delete-task-btn, .delete-note-btn, .task-check-icon")) {
@@ -35,18 +36,12 @@ function setupRightSide() {
             else {
                 rightSideView = document.querySelectorAll(".right-side .note");
             }
-            // TODO: different task/note clicked while right-side is already open
-            // update right-side content here, but do not close it
 
             currentRightSideType = type;
             currentRightSideId = id;
 
             setRightSideView(type);
-            toggleRightSide(true, type, event, rightSideView);
-
-            // rightSideView.forEach(rightSide => {
-            //     fillRightSide(type, item, rightSide);
-            // });
+            toggleRightSide(true);
         });
     });
 
@@ -89,28 +84,6 @@ function setRightSideView(type) {
         });
     });
 }
-
-// function fillRightSide(type, item, rightSideView) {
-//     rightSideView.dataset.id = item.dataset.id;
-//     let name = item.querySelector('[class*="-name"]').textContent || null;
-//     let listOf = item.querySelector('[class^="list-of-"]').textContent || null;
-//     let startDueDate = item.querySelector('[class*="-start-due-date"]').textContent || null;
-//     let description = item.querySelector('[class*="-description"]').textContent || null;
-//     let createdDate = item.querySelector('[class*="-created-date"]').textContent || null;
-
-//     rightSideView.querySelector('[class*="-name"]').textContent = name;
-//     rightSideView.querySelector('[class^="list-of-"]').textContent = listOf;
-//     rightSideView.querySelector('[class*="-start-due-date"]').textContent = startDueDate;
-//     rightSideView.querySelector('[class*="-description"]').textContent = description;
-//     rightSideView.querySelector('[class*="-created-date"]').textContent = createdDate;
-
-//     if (type === "task") {
-//         // rightSideView.querySelector(".task-name").textContent = item.querySelector(".task-name").textContent;
-//     }
-//     // else {
-
-//     // }
-// }
 
 function toggleRightSide(open) {
     rightSideStatus = open;
@@ -217,7 +190,7 @@ function setupMainView() {
             const id = item.dataset.id || null;
             const view = item.dataset.view || null;
 
-            if (mainType !== type || mainID !== id || mainView !== view) {
+            if (!(mainType === type && mainID === id && mainView === view)) {
                 toggleRightSide(false);
             }
 
@@ -264,16 +237,11 @@ function setupMainView() {
                 }, 200);
                 // 
             }
-
-            // if (newView !== mainView) {
-            //     toggleRightSide(false);
-            // }
-            // mainView = newView;
         });
     });
 }
 
-setupMainView();
+// setupMainView();
 
 // ### Handle Window Resize ### //
 window.addEventListener("resize", checkWindowResize);
@@ -341,7 +309,7 @@ function setupOpenDialogs() {
 
             dialog.dataset.id = source ? source.dataset.id : null;
             console.log(dialog.dataset.id);
-            
+
 
             dialog.showModal();
         });
@@ -376,3 +344,12 @@ function setupDialogActions() {
 }
 
 setupDialogActions();
+
+
+// ##############################################
+// ##############################################
+// ##############################################
+// ##############################################
+// ##############################################
+// ##############################################
+

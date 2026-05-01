@@ -83,6 +83,7 @@
     border: 0;
     /* outline: 1px dotted pink; */
     transition: var(--transition-value-1);
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -292,7 +293,7 @@ body {
 }
 
 #main .notes-container {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
 }
 
 #main [class*="-list-header"] {
