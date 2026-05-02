@@ -36,7 +36,7 @@ var notes = [
 // render sidebar lists
 renderTaskLists(taskLists);
 renderNoteLists(noteLists);
-setupMainView();
+// setupMainView();
 
 function renderTaskLists(taskLists) {
     const containers = document.querySelectorAll(".sidebar .task-lists");
@@ -66,6 +66,7 @@ function renderTaskLists(taskLists) {
             container.appendChild(li);
         });
     });
+    setupMainView();
 }
 
 function renderNoteLists(noteLists) {
@@ -96,6 +97,7 @@ function renderNoteLists(noteLists) {
             container.appendChild(li);
         });
     });
+    setupMainView();
 }
 
 
@@ -232,10 +234,11 @@ function fillNotesFromList(notes, noteListName) {
 
 // fill task in right-side window
 function taskClick(taskClicked, taskListName) {
-    const taskID = taskClicked.dataset.id;
-    const task = tasks.find(t => t.id == taskID);
-    // const taskListID = task.listId;
-    // const taskListName = taskLists.find(l => l.id == taskListID).name;
+    const taskID = taskClicked.dataset.id;// هذا الاي دي حق التاسك
+    // #### جيب بيانات التاسك من الاي دي
+    const task = tasks.find(t => t.id == taskID); //
+
+    // ######
 
     showTaskDetails(task, taskListName);
 }
@@ -284,15 +287,17 @@ function showTaskDetails(task, taskListName) {
             </div>
             `;
     });
+    setupOpenDialogs();
 }
 
 
 // fill note in right-side window
 function noteClick(noteClicked, noteListName) {
-    const noteID = noteClicked.dataset.id;
+    const noteID = noteClicked.dataset.id; // هذا ال اي دي
+    // من هنا حتجيب بيانات النوت
     const note = notes.find(t => t.id == noteID);
-    // const taskListID = task.listId;
-    // const taskListName = taskLists.find(l => l.id == taskListID).name;
+
+    //#########
 
     showNoteDetails(note, noteListName);
 }
@@ -333,6 +338,7 @@ function showNoteDetails(note, noteListName) {
             </div>
             `;
     });
+    setupOpenDialogs();
 }
 
 
@@ -340,16 +346,237 @@ function showNoteDetails(note, noteListName) {
 
 
 
-// ######################
-// delete
+// ##################################### Handle Dialog Confirm Buttons  ###################################
+// general errorMsg handling
+// هذي الاثنين سيبها
+function showError(errorMsg, message) {
+    errorMsg.textContent = message;
+    errorMsg.classList.add("error");
+}
+
+function clearError(errorMsg) {
+    errorMsg.textContent = "";
+    errorMsg.classList.remove("error");
+    console.log("error cleared");
+
+}
+//#########
+// create
+
+
+
+
+
+
+// function createEditTaskList(event, create) {
+//     event.preventDefault();
+
+//     const form = document.querySelector("#create-task-list-form");
+//     const taskListNameInput = form.querySelector("#task-list-name");
+//     const createBtn = event.target;
+//     const errorMsg = form.querySelector(".error-message");
+
+//     const taskListName = taskListNameInput.value.trim();
+
+//     if (!taskListName) {
+//         showError(errorMsg, "Enter task list name");
+//         return;
+//     }
+
+//     clearError(errorMsg);
+
+//     if (create) {
+//         const newTaskList = {
+//             id: Date.now(),
+//             name: taskListName
+//         };
+
+//         taskLists.push(newTaskList);
+//     } else {
+//         const taskListID = form.closest("dialog").dataset.id;
+//         const taskList = taskLists.find(l => l.id == taskListID);
+
+//         if (!taskList) return;
+
+//         taskList.name = taskListName;
+//     }
+
+//     createBtn.closest("dialog").close();
+//     renderTaskLists(taskLists);
+// }
+
+// function showEditTaskList(event) {
+//     const form = document.querySelector("#edit-task-list-form");
+//     const taskListID = form.closest("dialog").dataset.id;
+//     const taskList = taskLists.find(l => l.id == taskListID);
+
+//     if (!taskList) return;
+
+//     // form.innerHTML = "";
+
+//     form.innerHTML = `
+//         <h2>Edit Task List</h2>
+
+//         <div class="task-list-name-field">
+//             <label>Name</label>
+//             <input id="task-list-name" type="text" name="task-list-name" value="vrdfgbdfrbf">
+//         </div>
+
+//         <div class="dialog-button-container">
+//             <button class="cancel-dialog-button cancel">Cancel</button>
+//             <button class="confirm-dialog-button edit" type="submit" onclick="createEditTaskList(event, false)">Edit</button>
+//         </div>
+
+//         <p class="error-message"></p>
+//     `;
+// }
+
+
+
+
+
+
+
+
+
+// create task list
+function createEditTaskList(event, create) {
+    const form = document.querySelector("#create-task-list-form");
+
+    if(!create) {
+        var taskList = editTaskList(form);
+    }
+
+    const taskListNameInput = form.querySelector("#task-list-name");
+    const createBtn = event.target;
+    const errorMsg = form.querySelector(".error-message");
+
+    event.preventDefault();
+
+    const taskListName = taskListNameInput.value.trim();
+
+    // Validation
+    if (!taskListName) {
+        showError(errorMsg, "Enter task list name");
+        return;
+    }
+
+    // if OK
+    clearError(errorMsg);
+    console.log("Valid name:", taskListName);
+
+    if (create) {
+        //####### هنا ضيف التاسك ليست الجديدة
+        const newTaskList = {
+            id: Date.now(), // simple unique id
+            name: taskListName // هذا الاسم اللي حتضيفه
+        };
+        
+        taskLists.push(newTaskList);
+        // #########
+    }
+    // else {
+    //     //####### 
+    //     taskList.name = taskListName;
+
+    // }
+
+    createBtn.closest("dialog").close();
+    renderTaskLists(taskLists);
+}
+
+// // Edit task list
+// function editTaskList(form) {
+//     const taskListID = form.closest("dialog").dataset.id;
+
+//     // ######## bring task list data by task list id
+//     const taskList = taskLists.find(l => l.id == taskListID);
+
+//     // ##############
+    
+//     form.innerHTML = "";
+
+//     form.innerHTML = `
+//         <h2>Edit Task List</h2>
+
+//         <div class="task-list-name-field">
+//             <label>Name</label>
+//             <input id="task-list-name" type="text" name="task-list-name" value="${taskList.name}">
+//         </div>
+
+//         <div class="dialog-button-container">
+//             <button class="cancel-dialog-button cancel">Cancel</button>
+//             <!-- زر تعديل التاسك ليست -->
+//             <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick='(createEditTaskList(event, false))'>Edit
+//             </button>
+//         </div>
+//         <p class="error-message"></p>
+//     `;
+//      return taskList;
+// }
+
+// create note list
+function createEditNoteList(event) {
+    const form = document.querySelector("#create-note-list-form");
+
+    const noteListNameInput = form.querySelector("#note-list-name");
+    const createBtn = event.target;
+    const errorMsg = form.querySelector(".error-message");
+
+    event.preventDefault();
+
+    const noteListName = noteListNameInput.value.trim();
+
+    // Validation
+    if (!noteListName) {
+        showError(errorMsg, "Enter note list name");
+        return;
+    }
+
+    // if OK
+    clearError(errorMsg);
+    console.log("Valid name:", noteListName);
+
+    //####### هنا ضيف النوت ليست الجديد، عندك الاسم noteListName سوي نوت ليست جديدة بهذا الاسم
+    const newNoteList = {
+        id: Date.now(), // simple unique id
+        name: noteListName /// الاسم اللي حتضيفه
+    };
+
+    noteLists.push(newNoteList);
+    ///#################
+
+    createBtn.closest("dialog").close();
+    renderNoteLists(noteLists);
+}
+
+
+// Delete Simple Dialogs
 function deleteTask(event) {
     var taskId = event.target.closest("dialog").dataset.id;
     console.log(taskId);
-    
+
 }
 
 function deleteNote(event) {
     var noteId = event.target.closest("dialog").dataset.id;
     console.log(noteId);
-    
+
+}
+
+function deleteTaskList(event) {
+    var taskListId = event.target.closest("dialog").dataset.id;
+    console.log(taskListId);
+
+}
+
+function deleteNoteList(event) {
+    var noteListId = event.target.closest("dialog").dataset.id;
+    console.log(noteListId);
+
+}
+
+// Logout Simple Dialog
+function logout() {
+    //logout the user 
 }

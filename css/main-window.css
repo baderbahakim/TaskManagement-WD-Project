@@ -120,6 +120,16 @@ dialog:not([open])::backdrop {
     /* opacity: 0%; */
 }
 
+.error-message {
+    color: red;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.error-message:not(.error) {
+    display: none;
+}
+
 /* ######### #################################################### */
 
 html {

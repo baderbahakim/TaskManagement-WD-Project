@@ -310,6 +310,14 @@ function setupOpenDialogs() {
             dialog.dataset.id = source ? source.dataset.id : null;
             console.log(dialog.dataset.id);
 
+            if (!(dialog.classList.contains("simple-dialog"))) {
+                const form = dialog.querySelector("form");
+                const errorMsg = form.querySelector(".error-message");
+
+                form.reset();
+                errorMsg.textContent = "";
+                errorMsg.classList.remove("error");
+            }
 
             dialog.showModal();
         });
@@ -331,13 +339,23 @@ function setupDialogActions() {
             if (!dialog) return;
 
             if (button.classList.contains("confirm-dialog-button")) {
-                // TODO: handle confirm logic here
-                // create task / delete / edit / logout ...
+                return;
             }
+
+            // if (!(dialog.classList.contains("simple-dialog"))) {
+            //     const form = dialog.querySelector("form");
+            //     const errorMsg = form.querySelector(".error-message");
+
+            //     form.reset();
+            //     errorMsg.textContent = "";
+            //     errorMsg.classList.remove("error");
+            // }
 
             // before close 
             currentModalType = null;
             currentModalID = null;
+            // const errorMsg = dialog.querySelector(".error-message");
+            // clearError(errorMsg);
             dialog.close();
         });
     });

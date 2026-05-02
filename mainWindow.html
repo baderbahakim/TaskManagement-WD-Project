@@ -95,7 +95,7 @@
                 <div class="task-list-header">
                     <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-task-dialog"></i>
                     <div>
-                        <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-list-dialog"></i>
+                        <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-list-dialog" onclick="showEditTaskList(event)"></i>
                         <i class="fa-regular fa-trash-can task-delete-icon"
                             data-dialog-target="#delete-task-list-dialog"></i>
                     </div>
@@ -420,9 +420,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر صنع التاسك -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
+                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick="(createTask(event))">Create
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -487,9 +488,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر تعديل التاسك -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit">Edit
+                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick="(editTask(event))">Edit
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -514,9 +516,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر صنع النوت -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
+                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick="(createNote(event))">Create
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -541,9 +544,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر تعديل النوت -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit">Edit
+                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick="(editNote(event))">Edit
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -562,9 +566,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر صنع التاسك ليست -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
+                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick='(createEditTaskList(event, true))'>Create
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -583,9 +588,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر تعديل التاسك ليست -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit">Edit
+                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick='(createEditTaskList(event, false))'>Edit
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -604,9 +610,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر صنع النوت ليست -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit">Create
+                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick='(createEditNoteList(event, true))'>Create
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -625,9 +632,10 @@
                     <div class="dialog-button-container">
                         <button class="cancel-dialog-button cancel">Cancel</button>
                         <!-- زر تعديل النوت ليست -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit">Edit
+                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick="(editNoteList(event))">Edit
                         </button>
                     </div>
+                    <p class="error-message"></p>
                 </form>
             </div>
         </dialog>
@@ -670,7 +678,7 @@
                 <div class="dialog-button-container">
                     <button class="cancel-dialog-button cancel">Cancel</button>
                     <!-- زر حذف التاسك ليست -->
-                    <button class="confirm-dialog-button delete" data-action="delete">Delete
+                    <button class="confirm-dialog-button delete" data-action="delete" onclick="(deleteTaskList(event))">Delete
                     </button>
                 </div>
             </div>
@@ -684,7 +692,7 @@
                 <div class="dialog-button-container">
                     <button class="cancel-dialog-button cancel">Cancel</button>
                     <!-- زر حذف النوت ليست -->
-                    <button class="confirm-dialog-button delete" data-action="delete">Delete
+                    <button class="confirm-dialog-button delete" data-action="delete" onclick="(deleteNoteList(event))">Delete
                     </button>
                 </div>
             </div>
@@ -698,7 +706,7 @@
                 <div class="dialog-button-container">
                     <button class="cancel-dialog-button cancel">Cancel</button>
                     <!-- زر الخروج (logout) -->
-                    <button class="confirm-dialog-button logout" data-action="logout">Log out</button>
+                    <button class="confirm-dialog-button logout" data-action="logout" onclick="(loguot())">Log out</button>
                 </div>
             </div>
         </dialog>
