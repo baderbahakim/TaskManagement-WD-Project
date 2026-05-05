@@ -718,49 +718,20 @@ div[id*="side"]:not(.active) {
 
 /* for all .new-dialog and .new-list-dialog */
 
-/* style for all dialog-confirm buttons inside dialogs */
-.confirm-dialog-button.create {
-    background-color: rgb(42, 199, 42);
-}
 
-.confirm-dialog-button.delete {
-    background-color: rgb(217, 56, 56);
-}
-
-.confirm-dialog-button.edit {
-    background-color: rgb(58, 58, 221);
-}
-
-.confirm-dialog-button.logout {
-    background-color: orange;
-}
 
 /* for all .new-dialog and .new-list-dialog */
-dialog[class*="-dialog"] {
-    position: fixed;
+#action-dialog {
     z-index: 1000;
     margin: auto;
-}
-
-dialog[class*="-dialog"]>div {
     padding: 2rem;
-    border: none;
     border-radius: 20px;
-    width: 100%;
-    height: 100%;
     background: var(--background-color-gray-4);
     color: white;
     box-shadow: var(--box-shadow-1);
 }
 
-.create-dialog {
-    inset: 5rem 0 3rem;
-    width: var(--new-dialog-width);
-    height: var(--new-dialog-height);
-
-}
-
-dialog[class*="-dialog"] form {
+#action-dialog form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -769,19 +740,24 @@ dialog[class*="-dialog"] form {
     height: 100%;
 }
 
-dialog[class*="-dialog"] h2 {
+#action-dialog.create-dialog {
+    inset: 5rem 0 3rem;
+    width: var(--new-dialog-width);
+    height: var(--new-dialog-height);
+}
+
+
+#action-dialog h2 {
     text-align: center;
     margin: 0 0 0.5rem;
 }
 
-dialog[class*="-dialog"] label {
+#action-dialog label {
     font-size: 1rem;
     font-weight: bold;
 }
 
-dialog[class*="-dialog"] input,
-dialog[class*="-dialog"] select,
-dialog[class*="-dialog"] textarea {
+#action-dialog :is(input, select, textarea) {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid var(--border-color-gray-3);
@@ -790,30 +766,30 @@ dialog[class*="-dialog"] textarea {
     color: white;
 }
 
-dialog[class*="-dialog"] textarea {
+#action-dialog textarea {
     flex: 1;
     resize: none;
 }
 
-.row {
+#action-dialog .row {
     display: flex;
     gap: 1rem;
 }
 
-.field {
+#action-dialog .field {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
 }
 
-.dialog-button-container {
+#action-dialog .dialog-button-container {
     display: flex;
     justify-content: center;
     gap: 1rem;
 }
 
-dialog[class*="-dialog"] button {
+#action-dialog button {
     align-self: center;
     width: 50%;
     padding: 0.8rem;
@@ -825,30 +801,47 @@ dialog[class*="-dialog"] button {
     font-weight: bold;
 }
 
+/* style for all dialog-confirm buttons inside dialogs */
+#action-dialog .confirm-dialog-button.create {
+    background-color: rgb(42, 199, 42);
+}
+
+#action-dialog .confirm-dialog-button.delete {
+    background-color: rgb(217, 56, 56);
+}
+
+#action-dialog .confirm-dialog-button.edit {
+    background-color: rgb(58, 58, 221);
+}
+
+#action-dialog .confirm-dialog-button.logout {
+    background-color: orange;
+}
+
 /* #new-task-list-dialog and #new-note-list-dialog */
-dialog[id*="list"] {
+#action-dialog.create-list-dialog {
     /* height: var(--new-list-dialog-height); */
     width: var(--new-list-dialog-width);
 }
 
-dialog[id*="list"] > div {
+#action-dialog.create-list-dialog > div {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 3rem;
 }
 
-dialog[id*="list"] input {
+#action-dialog.create-list-dialog input {
     margin-top: 1rem;
 }
 
 /* #simple-dialog */
-.simple-dialog {
+#action-dialog.simple-dialog {
     /* height: 200px; */
     width: 300px;
 }
 
-.simple-dialog>div {
+#action-dialog.simple-dialog form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

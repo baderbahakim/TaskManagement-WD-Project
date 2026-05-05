@@ -93,9 +93,11 @@
             <!-- التاسك ليست -->
             <div id="task-list" class="main-window" data-type="taskList" data-id="10">
                 <div class="task-list-header">
-                    <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-task-dialog"></i>
+                    <i class="fa-solid fa-plus" onclick="openCreateTaskDialog(event)"></i>
+                    <!-- <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-task-dialog"></i> -->
                     <div>
-                        <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-list-dialog" onclick="showEditTaskList(event)"></i>
+                        <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-list-dialog"
+                            onclick="showEditTaskList(event)"></i>
                         <i class="fa-regular fa-trash-can task-delete-icon"
                             data-dialog-target="#delete-task-list-dialog"></i>
                     </div>
@@ -115,9 +117,9 @@
 
                             <div class="icons-status">
                                 <div>
-                                    <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-dialog"></i>
-                                    <i class="fa-regular fa-trash-can task-delete-icon"
-                                        data-dialog-target="#delete-task-dialog"></i>
+                                    <i class="fa-solid fa-pencil" onclick="openEditTaskDialog(event)"></i>
+                                    <i class="fa-regular fa-trash-can"
+                                        onclick="openDeleteTaskDialog(event)"></i>
                                 </div>
 
                                 <span class="status"></span>
@@ -159,14 +161,15 @@
                         <!--  -->
                     </div>
 
-                    
+
                 </div>
             </div>
 
 
             <div id="note-list" class="main-window" data-type="noteList" data-id="20">
                 <div class="note-list-header">
-                    <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-note-dialog"></i>
+                    <i class="fa-solid fa-plus" onclick="openCreateNoteDialog(event)"></i>
+                    <!-- <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-note-dialog"></i> -->
                     <div>
                         <i class="fa-solid fa-pencil" data-dialog-target="#edit-note-list-dialog"></i>
                         <i class="fa-regular fa-trash-can task-delete-icon"
@@ -175,34 +178,8 @@
                 </div>
 
                 <div class="notes-container">
-
-                    <div class="note" data-type="note" data-id="1">
-                        <div class="note-header">
-                            <div class="note-name-wrap">
-                                <div>
-                                    <h3 class="note-name">Todo List App</h3>
-                                    <p class="list-of-note">UI Design</p>
-                                </div>
-                            </div>
-                            <!--  -->
-                            <div>
-                                <i class="fa-solid fa-pencil note-edit-icon" data-dialog-target="#edit-note-dialog"></i>
-                                <i class="fa-regular fa-trash-can note-delete-icon"
-                                    data-dialog-target="#delete-note-dialog"></i>
-                            </div>
-                        </div>
-
-                        <div class="description-box">
-                            <p class="note-description">
-                                A simple application that will shows the task the app will be a website rather than a
-                                native application...
-                            </p>
-                        </div>
-                        <p class="note-created-date hide">7 june</p>
-                    </div>
-
-                    
                 </div>
+                
             </div>
         </main>
 
@@ -236,8 +213,9 @@
                 <section>
                     <div class="section-title">
                         <h3>Lists</h3>
-                        <i class="fa-solid fa-plus create-task-list-icon"
-                            data-dialog-target="#create-task-list-dialog"></i>
+                        <i class="fa-solid fa-plus" onclick="openCreateTaskListDialog(event)"></i>
+                        <!-- <i class="fa-solid fa-plus create-task-list-icon"
+                            data-dialog-target="#create-task-list-dialog"></i> -->
                     </div>
                     <ul class="task-lists">
                         <li data-type="taskList" data-id="1">
@@ -258,8 +236,9 @@
                 <section>
                     <div class="section-title">
                         <h3>Notes</h3>
-                        <i class="fa-solid fa-plus create-task-list-icon"
-                            data-dialog-target="#create-note-list-dialog"></i>
+                        <i class="fa-solid fa-plus" onclick="openCreateNoteListDialog(event)"></i>
+                        <!-- <i class="fa-solid fa-plus create-task-list-icon"
+                            data-dialog-target="#create-note-list-dialog"></i> -->
                     </div>
                     <ul class="note-lists">
                         <li data-type="noteList" data-id="1">
@@ -275,7 +254,8 @@
 
                 <footer class="sidebar-footer">
                     <!--  -->
-                    <p class="logout-word" data-dialog-target="#logout-dialog">Logout</p>
+                    <p class="logout-word" onclick="openLogoutDialog(event)">Logout</p>
+                    <!-- <p class="logout-word" data-dialog-target="#logout-dialog">Logout</p> -->
                     <a href="#">About</a>
                     <a href="#">Contact Us</a>
                 </footer>
@@ -359,356 +339,8 @@
 
         <!-- النوافذ اللي حتطلع في نص الشاشة عشان تصنع وتحذف وتعدل وفيها زر اللي حتشتغل عليه موجودة تحت -->
         <!-- create-dialog -->
-         
-        <!-- نافذة صنع التاسك -->
-        <dialog id="create-task-dialog" class="create-dialog modal" data-id="">
-            <div class="new-task">
-                <form id="create-task-form" action="">
-                    <h2>Create Task</h2>
 
-                    <div class="row">
-                        <div class="field">
-                            <label>Name</label>
-                            <input id="task-name" type="text" name="task-name">
-                        </div>
-
-                        <div class="field">
-                            <label>List</label>
-                            <select id="task-list" name="task-list">
-                                <option value="workshop">WorkShop</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="field">
-                            <label>Status</label>
-                            <select id="task-status" name="task-status">
-                                <option value="">Choose status</option>
-                                <option value="to-do">To-do</option>
-                                <option value="in-progress">In-progress</option>
-                                <option value="done">Done</option>
-                            </select>
-                        </div>
-
-                        <div class="field">
-                            <label>Priority</label>
-                            <select id="task-priority" name="task-priority">
-                                <option value="">Choose priority</option>
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="field">
-                            <label>Start Date</label>
-                            <input id="task-start-date" type="date" name="task-start-date">
-                        </div>
-
-                        <div class="field">
-                            <label>Due Date</label>
-                            <input id="task-due-date" type="date" name="task-due-date">
-                        </div>
-                    </div>
-
-                    <label>Description</label>
-                    <textarea id="task-description" name="task-description"></textarea>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر صنع التاسك -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick="(createTask(event))">Create
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- نافذة تعديل التاسك -->
-        <dialog id="edit-task-dialog" class="create-dialog modal" data-id="">
-            <div class="edit-task">
-                <form id="edit-task-form" action="">
-                    <h2>Edit Task</h2>
-
-                    <div class="row">
-                        <div class="field">
-                            <label>Name</label>
-                            <input id="task-name" type="text" name="task-name">
-                        </div>
-
-                        <div class="field">
-                            <label>List</label>
-                            <select id="task-list" name="task-list">
-                                <option value="workshop">WorkShop</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="field">
-                            <label>Status</label>
-                            <select id="task-status" name="task-status">
-                                <option value="">Choose status</option>
-                                <option value="to-do">To-do</option>
-                                <option value="in-progress">In-progress</option>
-                                <option value="done">Done</option>
-                            </select>
-                        </div>
-
-                        <div class="field">
-                            <label>Priority</label>
-                            <select id="task-priority" name="task-priority">
-                                <option value="">Choose priority</option>
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="field">
-                            <label>Start Date</label>
-                            <input id="task-start-date" type="date" name="task-start-date">
-                        </div>
-
-                        <div class="field">
-                            <label>Due Date</label>
-                            <input id="task-due-date" type="date" name="task-due-date">
-                        </div>
-                    </div>
-
-                    <label>Description</label>
-                    <textarea id="task-description" name="task-description"></textarea>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر تعديل التاسك -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick="(editTask(event))">Edit
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- نافذة صنع النوت -->
-        <dialog id="create-note-dialog" class="create-dialog modal" data-id="">
-            <div class="new-note">
-                <form id="create-note-form" action="">
-                    <h2>Create Note</h2>
-
-                    <label>Name</label>
-                    <input id="note-name" type="text" name="note-name">
-
-                    <label>List</label>
-                    <select id="note-list" name="note-list">
-                        <option>UI idea</option>
-                    </select>
-
-                    <label>Description</label>
-                    <textarea id="note-description" name="note-description"></textarea>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر صنع النوت -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick="(createNote(event))">Create
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- نافذة تعديل النوت -->
-        <dialog id="edit-note-dialog" class="create-dialog modal" data-id="">
-            <div class="edit-note">
-                <form id="edit-note-form" action="">
-                    <h2>Edit Note</h2>
-
-                    <label>Name</label>
-                    <input id="note-name" type="text" name="note-name">
-
-                    <label>List</label>
-                    <select id="note-list" name="note-list">
-                        <option value="ideas">Ideas</option>
-                    </select>
-
-                    <label>Description</label>
-                    <textarea id="note-description" name="note-description"></textarea>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر تعديل النوت -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick="(editNote(event))">Edit
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- نافذة صنع التاسك ليست -->
-        <dialog id="create-task-list-dialog" class="create-list-dialog modal" data-id="">
-            <div class="new-task-list">
-                <form id="create-task-list-form" action="">
-                    <h2>Create Task List</h2>
-
-                    <div class="task-list-name-field">
-                        <label>Name</label>
-                        <input id="task-list-name" type="text" name="task-list-name">
-                    </div>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر صنع التاسك ليست -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick='(createEditTaskList(event, true))'>Create
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- نافذة تعديل التاسك ليست -->
-        <dialog id="edit-task-list-dialog" class="create-list-dialog modal" data-id="">
-            <div class="edit-task-list">
-                <form id="edit-task-list-form" action="">
-                    <h2>Edit Task List</h2>
-
-                    <div class="task-list-name-field">
-                        <label>Name</label>
-                        <input id="task-list-name" type="text" name="task-list-name">
-                    </div>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر تعديل التاسك ليست -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick='(createEditTaskList(event, false))'>Edit
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- نافذة صنع النوت ليست -->
-        <dialog id="create-note-list-dialog" class="create-list-dialog modal" data-id="">
-            <div class="new-note-list">
-                <form id="create-note-list-form" action="">
-                    <h2>Create Note List</h2>
-
-                    <div class="note-list-name-field">
-                        <label>Name</label>
-                        <input id="note-list-name" type="text" name="note-list-name">
-                    </div>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر صنع النوت ليست -->
-                        <button class="confirm-dialog-button create" data-action="create" type="submit" onclick='(createEditNoteList(event, true))'>Create
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- نافذة تعديل النوت ليست -->
-        <dialog id="edit-note-list-dialog" class="create-list-dialog modal" data-id="">
-            <div class="edit-note-list">
-                <form id="edit-note-list-form" action="">
-                    <h2>Edit Note List</h2>
-
-                    <div class="note-list-name-field">
-                        <label>Name</label>
-                        <input id="note-list-name" type="text" name="note-list-name">
-                    </div>
-
-                    <div class="dialog-button-container">
-                        <button class="cancel-dialog-button cancel">Cancel</button>
-                        <!-- زر تعديل النوت ليست -->
-                        <button class="confirm-dialog-button edit" data-action="update" type="submit" onclick="(editNoteList(event))">Edit
-                        </button>
-                    </div>
-                    <p class="error-message"></p>
-                </form>
-            </div>
-        </dialog>
-
-        <!-- simple dialogs -->
-
-        <!-- نافذة حذذف التاسك -->
-        <dialog id="delete-task-dialog" class="simple-dialog modal" data-id="">
-            <div>
-                <h2 class="simple-dialog-message">Delete task</h2>
-
-                <div class="dialog-button-container">
-                    <button class="cancel-dialog-button cancel">Cancel</button>
-                    <!-- زر حذف التاسك -->
-                    <button class="confirm-dialog-button delete" data-action="delete" onclick="(deleteTask(event))">Delete
-                    </button>
-                </div>
-            </div>
-        </dialog>
-
-        <!-- نافذة حذف النوت -->
-        <dialog id="delete-note-dialog" class="simple-dialog modal" data-id="">
-            <div>
-                <h2 class="simple-dialog-message">Delete note</h2>
-
-                <div class="dialog-button-container">
-                    <button class="cancel-dialog-button cancel">Cancel</button>
-                    <!-- زر حذف النوت -->
-                    <button class="confirm-dialog-button delete" data-action="delete" onclick="(deleteNote(event))">Delete
-                    </button>
-                </div>
-            </div>
-        </dialog>
-
-        <!-- نافذة حذف التاسك ليست -->
-        <dialog id="delete-task-list-dialog" class="simple-dialog modal" data-id="">
-            <div>
-                <h2 class="simple-dialog-message">Delete task list</h2>
-
-                <div class="dialog-button-container">
-                    <button class="cancel-dialog-button cancel">Cancel</button>
-                    <!-- زر حذف التاسك ليست -->
-                    <button class="confirm-dialog-button delete" data-action="delete" onclick="(deleteTaskList(event))">Delete
-                    </button>
-                </div>
-            </div>
-        </dialog>
-
-        <!-- نافذة حذف النوت ليست -->
-        <dialog id="delete-note-list-dialog" class="simple-dialog modal" data-id="">
-            <div>
-                <h2 class="simple-dialog-message">Delete note list</h2>
-
-                <div class="dialog-button-container">
-                    <button class="cancel-dialog-button cancel">Cancel</button>
-                    <!-- زر حذف النوت ليست -->
-                    <button class="confirm-dialog-button delete" data-action="delete" onclick="(deleteNoteList(event))">Delete
-                    </button>
-                </div>
-            </div>
-        </dialog>
-
-        <!-- نافذة الخروج (logout) -->
-        <dialog id="logout-dialog" class="simple-dialog modal">
-            <div>
-                <h2 class="simple-dialog-message">Log out?</h2>
-
-                <div class="dialog-button-container">
-                    <button class="cancel-dialog-button cancel">Cancel</button>
-                    <!-- زر الخروج (logout) -->
-                    <button class="confirm-dialog-button logout" data-action="logout" onclick="(loguot())">Log out</button>
-                </div>
-            </div>
+        <dialog id="action-dialog" class="modal" data-id="" data-action="">
         </dialog>
 
     </div>

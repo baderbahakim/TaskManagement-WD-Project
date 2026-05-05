@@ -1,3 +1,19 @@
+const actionDialog = document.querySelector("#action-dialog");
+
+const priorities = [
+    { value: "", name: "Choose priority" },
+    { value: "high", name: "High" },
+    { value: "medium", name: "Medium" },
+    { value: "low", name: "Low" }
+];
+
+const statuses = [
+    { value: "", name: "Choose status" },
+    { value: "to-do", name: "To-Do" },
+    { value: "in-progress", name: "In-Progress" },
+    { value: "done", name: "Done" }
+];
+
 // fake data ##########
 var taskLists = [
     { id: 1, name: "Study JS" },
@@ -32,6 +48,548 @@ var notes = [
     { id: 5, listId: 96, name: "أفكاااار", description: "أفكاااارأفكاااارأفكاااارأفكاااارأفكاااار", createdDate: "2025 25 September" },
     { id: 6, listId: 96, name: "أفكار مجنونة", description: "أفكار مجنونةفكار مجنونةفكار مجنونةفكار مجنونة", createdDate: "2025 20 September" }
 ];
+
+
+// Dialog fill select options
+function createOptions(array, valueKey, nameKey, firstOptionText = null) {
+    let options = "";
+
+    if (firstOptionText) {
+        options += `<option value="">${firstOptionText}</option>`;
+    }
+
+    array.forEach(item => {
+        options += `<option value="${item[valueKey]}">${item[nameKey]}</option>`;
+    });
+
+    return options;
+}
+
+// Error Message Handling
+function showError(errorMsg, message) {
+    errorMsg.textContent = message;
+    errorMsg.style.display = "block";
+}
+
+function clearError(errorMsg) {
+    errorMsg.textContent = "";
+    errorMsg.style.display = "none";
+}
+
+// Close dialog
+function closeActionDialog(event) {
+    event.preventDefault();
+    actionDialog.close();
+    actionDialog.innerHTML = "";
+    actionDialog.dataset.id = "";
+    actionDialog.dataset.action = "";
+}
+
+// ##### Open Dialogs ######
+// Create Task Dialog
+function openCreateTaskDialog(event) {
+    event.stopPropagation();
+
+    actionDialog.className = "create-dialog modal";
+    actionDialog.dataset.action = "create-task";
+    actionDialog.dataset.id = "";
+
+    actionDialog.innerHTML = `
+            <form id="create-task-form" action="">
+                <h2>Create Task</h2>
+
+                <div class="row">
+                    <div class="field">
+                        <label>Name</label>
+                        <input id="task-name" type="text" name="task-name">
+                    </div>
+
+                    <div class="field">
+                        <label>List</label>
+                        <select id="task-list" name="task-list">
+                            ${createOptions(taskLists, "id", "name", "Choose task list")}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label>Status</label>
+                        <select id="task-status" name="task-status">
+                            ${createOptions(statuses, "value", "name")}
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Priority</label>
+                        <select id="task-priority" name="task-priority">
+                            ${createOptions(priorities, "value", "name")}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label>Start Date</label>
+                        <input id="task-start-date" type="date" name="task-start-date">
+                    </div>
+
+                    <div class="field">
+                        <label>Due Date</label>
+                        <input id="task-due-date" type="date" name="task-due-date">
+                    </div>
+                </div>
+
+                <label>Description</label>
+                <textarea id="task-description" name="task-description"></textarea>
+
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button cancel" type="button" onclick="closeActionDialog(event)">Cancel</button>
+                    <button class="confirm-dialog-button create" type="submit" onclick="createTask(event)">Create</button>
+                </div>
+
+                <p class="error-message"></p>
+            </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Create Note Dialog
+function openCreateNoteDialog(event) {
+    event.stopPropagation();
+
+    actionDialog.className = "create-dialog modal";
+    actionDialog.dataset.action = "create-note";
+    actionDialog.dataset.id = "";
+
+    actionDialog.innerHTML = `
+            <form id="create-note-form" action="">
+                <h2>Create Note</h2>
+
+                <label>Name</label>
+                <input id="note-name" type="text" name="note-name">
+
+                <label>List</label>
+                <select id="note-list" name="note-list">
+                    ${createOptions(noteLists, "id", "name", "Choose note list")}
+                </select>
+
+                <label>Description</label>
+                <textarea id="note-description" name="note-description"></textarea>
+
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button cancel" type="button" onclick="closeActionDialog(event)">Cancel</button>
+                    <button class="confirm-dialog-button create" type="submit" onclick="createNote(event)">Create</button>
+                </div>
+
+                <p class="error-message"></p>
+            </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Create TaskList Dialog
+function openCreateTaskListDialog(event) {
+    event.stopPropagation();
+
+    actionDialog.className = "create-list-dialog modal";
+    actionDialog.dataset.action = "create-task-list";
+    actionDialog.dataset.id = "";
+
+    actionDialog.innerHTML = `
+            <form id="create-task-list-form" action="">
+                <h2>Create Task List</h2>
+
+                <div class="task-list-name-field">
+                    <label>Name</label>
+                    <input id="task-list-name" type="text" name="task-list-name">
+                </div>
+
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button cancel" type="button" onclick="closeActionDialog(event)">Cancel</button>
+
+                    <button class="confirm-dialog-button create" type="submit"
+                        onclick="createEditTaskList(event, true)">
+                        Create
+                    </button>
+                </div>
+
+                <p class="error-message"></p>
+            </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Create NoteList Dialog
+function openCreateNoteListDialog(event) {
+    event.stopPropagation();
+
+    actionDialog.className = "create-list-dialog modal";
+    actionDialog.dataset.action = "create-note-list";
+    actionDialog.dataset.id = "";
+
+    actionDialog.innerHTML = `
+            <form id="create-note-list-form" action="">
+                <h2>Create Note List</h2>
+
+                <div class="note-list-name-field">
+                    <label>Name</label>
+                    <input id="note-list-name" type="text" name="note-list-name">
+                </div>
+
+                <div class="dialog-button-container">
+                    <button class="cancel-dialog-button cancel" type="button"
+                        onclick="closeActionDialog(event)">
+                        Cancel
+                    </button>
+
+                    <button class="confirm-dialog-button create" type="submit"
+                        onclick="createEditNoteList(event, true)">
+                        Create
+                    </button>
+                </div>
+
+                <p class="error-message"></p>
+            </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Delete Task Dialog
+function openDeleteTaskDialog(event) {
+    event.stopPropagation();
+
+    const task = event.target.closest(".task");
+    if (!task) return;
+
+    const taskId = task.dataset.id;
+
+    actionDialog.className = "simple-dialog modal";
+    actionDialog.dataset.action = "delete-task";
+    actionDialog.dataset.id = taskId;
+
+    actionDialog.innerHTML = `
+        <form id="delete-task-form">
+            <h2 class="simple-dialog-message">Delete task?</h2>
+
+            <div class="dialog-button-container">
+                <button type="button"
+                    class="cancel-dialog-button cancel"
+                    onclick="closeActionDialog(event)">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="confirm-dialog-button delete"
+                    onclick="confirmDeleteTask(event)">
+                    Delete
+                </button>
+            </div>
+        </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Delete Note Dialog
+function openDeleteNoteDialog(event) {
+    event.stopPropagation();
+
+    const note = event.target.closest(".note");
+    if (!note) return;
+
+    const noteId = note.dataset.id;
+
+    actionDialog.className = "simple-dialog modal";
+    actionDialog.dataset.action = "delete-note";
+    actionDialog.dataset.id = noteId;
+
+    actionDialog.innerHTML = `
+        <form id="delete-note-form">
+            <h2 class="simple-dialog-message">Delete note?</h2>
+
+            <div class="dialog-button-container">
+                <button type="button" class="cancel-dialog-button cancel"
+                    onclick="closeActionDialog(event)">
+                    Cancel
+                </button>
+
+                <button type="submit" class="confirm-dialog-button delete"
+                    onclick="confirmDeleteNote(event)">
+                    Delete
+                </button>
+            </div>
+        </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Delete TaskList Dialog
+function openDeleteTaskListDialog(event) {
+    event.stopPropagation();
+
+    const item = event.target.closest(".task-list");
+    if (!item) return;
+
+    const id = item.dataset.id;
+
+    actionDialog.className = "simple-dialog modal";
+    actionDialog.dataset.action = "delete-task-list";
+    actionDialog.dataset.id = id;
+
+    actionDialog.innerHTML = `
+        <form id="delete-task-list-form">
+            <h2 class="simple-dialog-message">Delete task list?</h2>
+
+            <div class="dialog-button-container">
+                <button type="button" class="cancel-dialog-button cancel"
+                    onclick="closeActionDialog(event)">
+                    Cancel
+                </button>
+
+                <button type="submit" class="confirm-dialog-button delete"
+                    onclick="confirmDeleteTaskList(event)">
+                    Delete
+                </button>
+            </div>
+        </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Delete NoteList Dialog
+function openDeleteNoteListDialog(event) {
+    event.stopPropagation();
+
+    const item = event.target.closest(".note-list");
+    if (!item) return;
+
+    const id = item.dataset.id;
+
+    actionDialog.className = "simple-dialog modal";
+    actionDialog.dataset.action = "delete-note-list";
+    actionDialog.dataset.id = id;
+
+    actionDialog.innerHTML = `
+        <form id="delete-note-list-form">
+            <h2 class="simple-dialog-message">Delete note list?</h2>
+
+            <div class="dialog-button-container">
+                <button type="button" class="cancel-dialog-button cancel"
+                    onclick="closeActionDialog(event)">
+                    Cancel
+                </button>
+
+                <button type="submit" class="confirm-dialog-button delete"
+                    onclick="confirmDeleteNoteList(event)">
+                    Delete
+                </button>
+            </div>
+        </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// Logout Dialog
+function openLogoutDialog(event) {
+    event.stopPropagation();
+
+    actionDialog.className = "simple-dialog modal";
+    actionDialog.dataset.action = "logout";
+
+    actionDialog.innerHTML = `
+        <form id="logout-form">
+            <h2 class="simple-dialog-message">Log out?</h2>
+
+            <div class="dialog-button-container">
+                <button type="button" class="cancel-dialog-button cancel"
+                    onclick="closeActionDialog(event)">
+                    Cancel
+                </button>
+
+                <button type="submit" class="confirm-dialog-button logout"
+                    onclick="confirmLogout(event)">
+                    Log out
+                </button>
+            </div>
+        </form>
+    `;
+
+    actionDialog.showModal();
+}
+
+// ###### Create ######
+// Create Task
+function createTask(event) {
+    event.preventDefault();
+
+    const form = actionDialog.querySelector("form");
+
+    const name = form.querySelector("#task-name").value.trim();
+    const listId = form.querySelector("#task-list").value;
+    const status = form.querySelector("#task-status").value;
+    const priority = form.querySelector("#task-priority").value;
+    const startDate = form.querySelector("#task-start-date").value;
+    const dueDate = form.querySelector("#task-due-date").value;
+    const description = form.querySelector("#task-description").value.trim();
+    const errorMsg = form.querySelector(".error-message");
+
+    if (!name) {
+        showError(errorMsg, "Enter task name");
+        return;
+    }
+
+    if (!listId) {
+        showError(errorMsg, "Choose task list");
+        return;
+    }
+
+    if (!status) {
+        showError(errorMsg, "Choose status");
+        return;
+    }
+
+    if (!priority) {
+        showError(errorMsg, "Choose priority");
+        return;
+    }
+
+    if (!startDate) {
+        showError(errorMsg, "Choose start date");
+        return;
+    }
+
+    if (!dueDate) {
+        showError(errorMsg, "Choose due date");
+        return;
+    }
+
+    if (new Date(dueDate) < new Date(startDate)) {
+        showError(errorMsg, "Due date cannot be before start date");
+        return;
+    }
+
+    clearError(errorMsg);
+
+    const newTask = {
+        id: Date.now(),
+        listId: Number(listId),
+        name: name,
+        priority: priority,
+        status: status,
+        startDate: startDate,
+        dueDate: dueDate,
+        description: description,
+        createdDate: new Date().toLocaleDateString()
+    };
+
+    tasks.push(newTask);
+
+    const selectedList = taskLists.find(list => list.id == listId);
+    const taskListName = selectedList ? selectedList.name : "";
+
+    const filteredTasks = tasks.filter(task => task.listId == listId);
+
+    fillTasksFromList(filteredTasks, taskListName);
+
+    closeActionDialog(event);
+}
+
+// Create Note
+function createNote(event) {
+    event.preventDefault();
+
+    const form = actionDialog.querySelector("form");
+
+    const name = form.querySelector("#note-name").value.trim();
+    const listId = form.querySelector("#note-list").value;
+    const description = form.querySelector("#note-description").value.trim();
+    const errorMsg = form.querySelector(".error-message");
+
+    if (!name) {
+        showError(errorMsg, "Enter note name");
+        return;
+    }
+
+    if (!listId) {
+        showError(errorMsg, "Choose note list");
+        return;
+    }
+
+    clearError(errorMsg);
+
+    const newNote = {
+        id: Date.now(),
+        listId: Number(listId),
+        name: name,
+        description: description,
+        createdDate: new Date().toLocaleDateString()
+    };
+
+    notes.push(newNote);
+
+    const selectedList = noteLists.find(list => list.id == listId);
+    const noteListName = selectedList ? selectedList.name : "";
+
+    const filteredNotes = notes.filter(n => n.listId == listId);
+
+    fillNotesFromList(filteredNotes, noteListName);
+
+    closeActionDialog(event);
+}
+
+// Create Edit Task List
+function createEditTaskList(event, create) {
+    event.preventDefault();
+
+    const form = actionDialog.querySelector("form");
+
+    const name = form.querySelector("#task-list-name").value.trim();
+    const errorMsg = form.querySelector(".error-message");
+
+    if (!name) {
+        showError(errorMsg, "Enter task list name");
+        return;
+    }
+
+    clearError(errorMsg);
+
+    // Create Path
+    if (create) {
+
+        const newTaskList = {
+            id: Date.now(),
+            name: name
+        };
+
+        taskLists.push(newTaskList);
+    }
+    // Edit Path
+    else {
+        const taskListID = actionDialog.dataset.id;
+
+        const taskList = taskLists.find(l => l.id == taskListID);
+        if (!taskList) return;
+
+        taskList.name = name;
+    }
+
+    renderTaskLists(taskLists);
+
+    closeActionDialog(event);
+}
+
+
+
+
+// ##########################
 
 // render sidebar lists
 renderTaskLists(taskLists);
@@ -139,9 +697,9 @@ function fillTasksFromList(tasks, taskListName) {
         
         <div class="icons-status">
         <div>
-        <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-dialog"></i>
-        <i class="fa-regular fa-trash-can task-delete-icon"
-        data-dialog-target="#delete-task-dialog"></i>
+        <i class="fa-solid fa-pencil" onclick="openEditTaskDialog(event)"></i>
+        <i class="fa-regular fa-trash-can"
+            onclick="openDeleteTaskDialog(event)"></i>
         </div>
         
         <span class="status"></span>
@@ -203,9 +761,8 @@ function fillNotesFromList(notes, noteListName) {
                 </div>
 
                 <div>
-                    <i class="fa-solid fa-pencil" data-dialog-target="#edit-note-dialog"></i>
-                    <i class="fa-regular fa-trash-can note-delete-icon"
-                        data-dialog-target="#delete-note-dialog"></i>
+                    <i class="fa-solid fa-pencil" onclick="openEditNoteDialog(event)"></i>
+                    <i class="fa-regular fa-trash-can" onclick="openDeleteNoteDialog(event)"></i>
                 </div>
             </div>
 
@@ -349,17 +906,6 @@ function showNoteDetails(note, noteListName) {
 // ##################################### Handle Dialog Confirm Buttons  ###################################
 // general errorMsg handling
 // هذي الاثنين سيبها
-function showError(errorMsg, message) {
-    errorMsg.textContent = message;
-    errorMsg.classList.add("error");
-}
-
-function clearError(errorMsg) {
-    errorMsg.textContent = "";
-    errorMsg.classList.remove("error");
-    console.log("error cleared");
-
-}
 //#########
 // create
 
@@ -440,50 +986,7 @@ function clearError(errorMsg) {
 
 
 // create task list
-function createEditTaskList(event, create) {
-    const form = document.querySelector("#create-task-list-form");
 
-    if(!create) {
-        var taskList = editTaskList(form);
-    }
-
-    const taskListNameInput = form.querySelector("#task-list-name");
-    const createBtn = event.target;
-    const errorMsg = form.querySelector(".error-message");
-
-    event.preventDefault();
-
-    const taskListName = taskListNameInput.value.trim();
-
-    // Validation
-    if (!taskListName) {
-        showError(errorMsg, "Enter task list name");
-        return;
-    }
-
-    // if OK
-    clearError(errorMsg);
-    console.log("Valid name:", taskListName);
-
-    if (create) {
-        //####### هنا ضيف التاسك ليست الجديدة
-        const newTaskList = {
-            id: Date.now(), // simple unique id
-            name: taskListName // هذا الاسم اللي حتضيفه
-        };
-        
-        taskLists.push(newTaskList);
-        // #########
-    }
-    // else {
-    //     //####### 
-    //     taskList.name = taskListName;
-
-    // }
-
-    createBtn.closest("dialog").close();
-    renderTaskLists(taskLists);
-}
 
 // // Edit task list
 // function editTaskList(form) {
@@ -493,7 +996,7 @@ function createEditTaskList(event, create) {
 //     const taskList = taskLists.find(l => l.id == taskListID);
 
 //     // ##############
-    
+
 //     form.innerHTML = "";
 
 //     form.innerHTML = `
