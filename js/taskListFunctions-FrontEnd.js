@@ -24,9 +24,13 @@ function renderTaskLists(taskLists) {
                 const taskListItem = event.target.closest(".task-list");
                 if (!taskListItem) return;
 
+                // Change sidebar item selected call
                 selectSidebarItem(taskListItem);
 
+                // Change main status and handle rightside call
                 handleMainItemClick(taskListItem);
+
+                // tasklist click call
                 taskListClick(taskListItem);
             });
 
@@ -82,22 +86,25 @@ function createEditTaskList(event, create) {
 
     // Create Path
     if (create) {
-
+        // $$ صنع التاسك ليست
         const newTaskList = {
             id: Date.now(),
             name: name
         };
 
         taskLists.push(newTaskList);
+        // $$
     }
     // Edit Path
     else {
-        const taskListID = actionDialog.dataset.id;
+        const taskListID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
+        // $$ تعديل التاسك ليست
         const taskList = taskLists.find(l => l.id == taskListID);
         if (!taskList) return;
 
         taskList.name = name;
+        // $$
     }
 
     renderTaskLists(taskLists);
@@ -109,11 +116,13 @@ function createEditTaskList(event, create) {
 function deleteTaskList(event) {
     event.preventDefault();
 
-    const taskListId = actionDialog.dataset.id;
+    const taskListId = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
+    // $$ حذف التاسك ليست
     taskLists = taskLists.filter(l => l.id != taskListId);
 
     tasks = tasks.filter(t => t.listId != taskListId);
+    // $$
 
     renderTaskLists(taskLists);
 

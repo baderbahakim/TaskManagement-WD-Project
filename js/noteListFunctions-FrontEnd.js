@@ -24,9 +24,13 @@ function renderNoteLists(noteLists) {
                 const noteListItem = event.target.closest(".note-list");
                 if (!noteListItem) return;
 
+                // Change sidebar item selected call
                 selectSidebarItem(noteListItem);
 
+                // Change main status and handle rightside call
                 handleMainItemClick(noteListItem);
+
+                // ىخفثlist click call
                 noteListClick(noteListItem);
             });
 
@@ -83,23 +87,26 @@ function createEditNoteList(event, create) {
 
     // Create Path
     if (create) {
-
+        // $$ صنع النوت ليست
         const newNoteList = {
             id: Date.now(),
             name: name
         };
 
         noteLists.push(newNoteList);
+        // $$
     }
 
     // Edit Path
     else {
-        const noteListID = actionDialog.dataset.id;
+        const noteListID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
+        // $$ تعديل النوت ليست
         const noteList = noteLists.find(l => l.id == noteListID);
         if (!noteList) return;
 
         noteList.name = name;
+        // $$
     }
 
     renderNoteLists(noteLists);
@@ -111,12 +118,13 @@ function createEditNoteList(event, create) {
 function deleteNoteList(event) {
     event.preventDefault();
 
-    const noteListId = actionDialog.dataset.id;
+    const noteListId = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
+    // $$ حذف النوت ليست
     noteLists = noteLists.filter(l => l.id != noteListId);
 
-    // delete related notes
     notes = notes.filter(n => n.listId != noteListId);
+    // $$
 
     renderNoteLists(noteLists);
 

@@ -55,7 +55,7 @@ function fillTasksFromList(tasks, taskListName) {
 function taskClick(taskElement) {
     const taskID = taskElement.dataset.id;
 
-    // same task clicked while right-side already open
+    // Close rightside if viewed task same as clicked task
     if (
         rightSideStatus &&
         currentRightSideType === "task" &&
@@ -64,6 +64,7 @@ function taskClick(taskElement) {
         currentRightSideType = null;
         currentRightSideId = null;
 
+        // Close rightside
         toggleRightSide(false);
         return;
     }
@@ -77,8 +78,9 @@ function taskClick(taskElement) {
     currentRightSideType = "task";
     currentRightSideId = taskID;
 
+    // Show task details in rightside
     fillRightSideTask(task, taskListName);
-
+    // Open rightside
     toggleRightSide(true);
 }
 
@@ -194,6 +196,7 @@ function createEditTask(event, create) {
 
     // Create Path
     if (create) {
+        // $$ صنع التاسك
         const newTask = {
             id: Date.now(),
             listId: Number(listId),
@@ -207,11 +210,13 @@ function createEditTask(event, create) {
         };
 
         tasks.push(newTask);
+        // $$
     }
     // Edit Path
     else {
-        const taskID = actionDialog.dataset.id;
+        const taskID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
+        // $$ تعديل التاسك
         const task = tasks.find(t => t.id == taskID);
         if (!task) return;
 
@@ -222,6 +227,7 @@ function createEditTask(event, create) {
         task.startDate = startDate;
         task.dueDate = dueDate;
         task.description = description;
+        // $$
     }
 
     const selectedList = taskLists.find(list => list.id == listId);
@@ -231,6 +237,7 @@ function createEditTask(event, create) {
 
     fillTasksFromList(filteredTasks, taskListName);
 
+    // If rightside is open and task edited is the same in rightside, update rightside
     if (currentRightSideType === "task" && currentRightSideId == actionDialog.dataset.id) {
         const updatedTask = tasks.find(t => t.id == actionDialog.dataset.id);
         if (updatedTask) {
@@ -245,14 +252,16 @@ function createEditTask(event, create) {
 function deleteTask(event) {
     event.preventDefault();
 
-    const taskId = actionDialog.dataset.id;
+    const taskId = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
 
-    const listId = task.listId;
+    const listId = task.listId; // %% اي دي الليست
 
+    // $$ حذف التاسك
     tasks = tasks.filter(t => t.id != taskId);
+    // $$
 
     const selectedList = taskLists.find(list => list.id == listId);
     const taskListName = selectedList ? selectedList.name : "";
@@ -261,6 +270,7 @@ function deleteTask(event) {
 
     fillTasksFromList(filteredTasks, taskListName);
 
+    // If rightside is open and task deleted is the same in rightside, close rightside
     if (currentRightSideType === "task" && currentRightSideId == taskId) {
         toggleRightSide(false);
     }

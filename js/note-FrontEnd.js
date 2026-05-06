@@ -1,4 +1,5 @@
 // Note Local Data
+// $$ خليها فاضية $$
 var notes = [
     { id: 1, listId: 17, name: "Learn variables", description: "note note nogdfvf ", createdDate: "2026 25 September" },
     { id: 2, listId: 17, name: "ايش سوا هتلر", description: "هتلر هتلر هنلر ", createdDate: "2026 20 September" },
@@ -9,6 +10,7 @@ var notes = [
     { id: 5, listId: 96, name: "أفكاااار", description: "أفكاااارأفكاااارأفكاااارأفكاااارأفكاااار", createdDate: "2025 25 September" },
     { id: 6, listId: 96, name: "أفكار مجنونة", description: "أفكار مجنونةفكار مجنونةفكار مجنونةفكار مجنونة", createdDate: "2025 20 September" }
 ];
+// $$
 
 // ## Create Note Dialog ##
 function openCreateNoteDialog(event) {

@@ -1,9 +1,11 @@
 // TaskList Local Data
+// $$ خليها فاضية $$
 var taskLists = [
     { id: 1, name: "Study JS" },
     { id: 35, name: "جونااااان" },
     { id: 20, name: "Gym" }
 ];
+// $$
 
 // ## Create TaskList Dialog ##
 function openCreateTaskListDialog(event) {

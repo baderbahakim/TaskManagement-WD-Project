@@ -1,9 +1,11 @@
 // NoteList Local Data
+// $$ خليها فاضية $$
 var noteLists = [
     { id: 17, name: "هتلر" },
     { id: 69, name: "جنون العظمة" },
     { id: 96, name: "Ideaaaas" }
 ];
+// $$
 
 // ## Create NoteList Dialog ##
 function openCreateNoteListDialog(event) {

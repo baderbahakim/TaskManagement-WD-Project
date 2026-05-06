@@ -49,7 +49,7 @@ function fillNotesFromList(notes, noteListName) {
 function noteClick(noteElement) {
     const noteID = noteElement.dataset.id;
 
-    // same note clicked while right-side already open
+    // Close rightside if viewed note same as clicked note
     if (
         rightSideStatus &&
         currentRightSideType === "note" &&
@@ -58,6 +58,7 @@ function noteClick(noteElement) {
         currentRightSideType = null;
         currentRightSideId = null;
 
+        // Close rightside
         toggleRightSide(false);
         return;
     }
@@ -71,8 +72,9 @@ function noteClick(noteElement) {
     currentRightSideType = "note";
     currentRightSideId = noteID;
 
+    // Show note details in rightside
     fillRightSideNote(note, noteListName);
-
+    // Open rightside
     toggleRightSide(true);
 }
 
@@ -153,6 +155,7 @@ function createEditNote(event, create) {
 
     // Create Path
     if (create) {
+        // $$ صنع النوت
         const newNote = {
             id: Date.now(),
             listId: Number(listId),
@@ -162,18 +165,21 @@ function createEditNote(event, create) {
         };
 
         notes.push(newNote);
+        // $$
     }
 
     // Edit Path
     else {
-        const noteID = actionDialog.dataset.id;
+        const noteID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
+        // $$ تعديل النوت
         const note = notes.find(n => n.id == noteID);
         if (!note) return;
 
         note.listId = Number(listId);
         note.name = name;
         note.description = description;
+        // $$
     }
 
     const selectedList = noteLists.find(list => list.id == listId);
@@ -183,6 +189,7 @@ function createEditNote(event, create) {
 
     fillNotesFromList(filteredNotes, noteListName);
 
+    // If rightside is open and note edited is the same in rightside, update rightside
     if (currentRightSideType === "note" && currentRightSideId == actionDialog.dataset.id) {
         const updatedNote = notes.find(n => n.id == actionDialog.dataset.id);
         if (updatedNote) {
@@ -197,14 +204,16 @@ function createEditNote(event, create) {
 function deleteNote(event) {
     event.preventDefault();
 
-    const noteId = actionDialog.dataset.id;
+    const noteId = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
     const note = notes.find(n => n.id == noteId);
     if (!note) return;
 
-    const listId = note.listId;
+    const listId = note.listId; // %% اي دي الليست
 
+    // $$ حذف النوت
     notes = notes.filter(n => n.id != noteId);
+    // $$
 
     const selectedList = noteLists.find(list => list.id == listId);
     const noteListName = selectedList ? selectedList.name : "";
@@ -213,6 +222,7 @@ function deleteNote(event) {
 
     fillNotesFromList(filteredNotes, noteListName);
 
+    // If rightside is open and note deleted is the same in rightside, close rightside
     if (currentRightSideType === "note" && currentRightSideId == noteId) {
         toggleRightSide(false);
     }
