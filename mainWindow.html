@@ -5,13 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
     <link rel="stylesheet" href="css/main-window.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
     </style>
+
     <script src="js/mainWindow-FrontEnd.js" defer></script>
-    <script src="js/mainWindow-BackEnd.js" defer></script>
+
+    <script src="js/globalMethods-FrontEnd.js" defer></script>
+
+    <script src="js/views-FrontEnd.js" defer></script>
+    <script src="js/viewsFunctions-FrontEnd.js" defer></script>
+
+    <script src="js/taskList-FrontEnd.js" defer></script>
+    <script src="js/taskListFunctions-FrontEnd.js" defer></script>
+
+    <script src="js/noteList-FrontEnd.js" defer></script>
+    <script src="js/noteListFunctions-FrontEnd.js" defer></script>
+
+    <script src="js/task-FrontEnd.js" defer></script>
+    <script src="js/taskFunctions-FrontEnd.js" defer></script>
+
+    <script src="js/note-FrontEnd.js" defer></script>
+    <script src="js/noteFunctions-FrontEnd.js" defer></script>
+
+    <script src="js/logout-FrontEnd.js" defer></script>
 </head>
 
 <body>
@@ -19,172 +40,16 @@
 
         <header id="header">
             <i class="fa-solid fa-bars list-icon"></i>
-            <h1 id="main-title">Days</h1>
-            <p class="main-window-type">/tasks</p>
+            <h1 id="header-title"></h1>
+            <p id="header-type"></p>
         </header>
 
         <main id="main">
-
-            <div id="today-view" class="main-window">
-                <section class="days-container">
-                    <article class="day">
-                        <h2 class="day-name">Today</h2>
-                        <p class="day-date">16 April</p>
-
-                        <div class="tasks-container">
-                            <div class="task high" data-type="task" data-id="1">
-                                <div class="task-top">
-                                    <div class="task-name-wrap">
-                                        <input type="checkbox" class="task-check">
-                                        <div>
-                                            <h3 class="task-name">Submit The Project</h3>
-                                            <p class="task-list">List : Projects</p>
-                                        </div>
-                                    </div>
-                                    <!--  -->
-                                    <i class="fa-regular fa-trash-can task-delete-icon"
-                                        data-dialog-target="#delete-task-dialog"></i>
-                                </div>
-
-                                <p class="task-time">21 April | 12:00 AM</p>
-                            </div>
-
-                            <div class="task medium" data-type="task" data-id="2">
-                                <div class="task-top">
-                                    <div class="task-name-wrap">
-                                        <input type="checkbox" class="task-check">
-                                        <div>
-                                            <h3 class="task-name">Submit The Project</h3>
-                                            <p class="task-list">List : Projects</p>
-                                        </div>
-                                    </div>
-
-                                    <i class="fa-regular fa-trash-can task-delete-icon"
-                                        data-dialog-target="#delete-task-dialog"></i>
-                                </div>
-
-                                <p class="task-time">21 April | 12:00 AM</p>
-                            </div>
-
-                            <div class="task low" data-type="task" data-id="3">
-                                <div class="task-top">
-                                    <div class="task-name-wrap">
-                                        <input type="checkbox" class="task-check">
-                                        <div>
-                                            <h3 class="task-name">Submit The Project</h3>
-                                            <p class="task-list">List : Projects</p>
-                                        </div>
-                                    </div>
-
-                                    <i class="fa-regular fa-trash-can task-delete-icon"
-                                        data-dialog-target="#delete-task-dialog"></i>
-                                </div>
-
-                                <p class="task-time">21 April | 12:00 AM</p>
-                            </div>
-
-                        </div>
-                    </article>
-                </section>
-            </div>
-
-
-
-            <!-- التاسك ليست -->
-            <div id="task-list" class="main-window" data-type="taskList" data-id="10">
-                <div class="task-list-header">
-                    <i class="fa-solid fa-plus" onclick="openCreateTaskDialog(event)"></i>
-                    <!-- <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-task-dialog"></i> -->
-                    <div>
-                        <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-list-dialog"
-                            onclick="showEditTaskList(event)"></i>
-                        <i class="fa-regular fa-trash-can task-delete-icon"
-                            data-dialog-target="#delete-task-list-dialog"></i>
-                    </div>
-                </div>
-
-                <div class="tasks-container">
-
-                    <div class="task high to-do" data-type="task" data-id="1">
-                        <div class="task-header">
-                            <div class="task-name-wrap">
-                                <i class="fa-solid fa-check task-check-icon"></i>
-                                <div>
-                                    <h3 class="task-name">Bshrfxn</h3>
-                                    <p class="list-of-task">hgcmhckhgcghcgchg,c</p>
-                                </div>
-                            </div>
-
-                            <div class="icons-status">
-                                <div>
-                                    <i class="fa-solid fa-pencil" onclick="openEditTaskDialog(event)"></i>
-                                    <i class="fa-regular fa-trash-can"
-                                        onclick="openDeleteTaskDialog(event)"></i>
-                                </div>
-
-                                <span class="status"></span>
-                            </div>
-                        </div>
-
-                        <p class="task-start-due-date">21 April | 29 April</p>
-                        <!-- hidden -->
-                        <p class="task-description hide">task desciption in main, hidden</p>
-                        <p class="task-created-date hide">task created date from main, hidden</p>
-                        <!--  -->
-                    </div>
-
-                    <div class="task high to-do" data-type="task" data-id="5">
-                        <div class="task-header">
-                            <div class="task-name-wrap">
-                                <i class="fa-solid fa-check check-task-icon"></i>
-                                <div>
-                                    <h3 class="task-name">Bshrfxn</h3>
-                                    <p class="list-of-task">hgcmhckhgcghcgchg,c</p>
-                                </div>
-                            </div>
-
-                            <div class="icons-status">
-                                <div>
-                                    <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-dialog"></i>
-                                    <i class="fa-regular fa-trash-can task-delete-icon"
-                                        data-dialog-target="#delete-task-dialog"></i>
-                                </div>
-
-                                <span class="status"></span>
-                            </div>
-                        </div>
-
-                        <p class="task-start-due-date">21 April | 29 April</p>
-                        <!-- hidden -->
-                        <p class="task-description hide">task desciption in main, hidden</p>
-                        <p class="task-created-date hide">task created date from main, hidden</p>
-                        <!--  -->
-                    </div>
-
-
-                </div>
-            </div>
-
-
-            <div id="note-list" class="main-window" data-type="noteList" data-id="20">
-                <div class="note-list-header">
-                    <i class="fa-solid fa-plus" onclick="openCreateNoteDialog(event)"></i>
-                    <!-- <i class="fa-solid fa-plus create-task-list-icon" data-dialog-target="#create-note-dialog"></i> -->
-                    <div>
-                        <i class="fa-solid fa-pencil" data-dialog-target="#edit-note-list-dialog"></i>
-                        <i class="fa-regular fa-trash-can task-delete-icon"
-                            data-dialog-target="#delete-note-list-dialog"></i>
-                    </div>
-                </div>
-
-                <div class="notes-container">
-                </div>
-                
-            </div>
         </main>
 
         <!-- sidebar -->
         <div id="sidebar-div" class="sidebar modal"></div>
+
         <dialog id="sidebar-dialog" class="sidebar modal">
             <aside class="sidebar-aside">
                 <header class="sidebar-header">
@@ -195,67 +60,30 @@
                 <section>
                     <h3>Views</h3>
                     <ul class="views">
-                        <li data-type="taskView" data-view="today">
-                            <i class="fa-solid fa-bars"></i>
-                            <p class="item-title">Today</p>
-                        </li>
-                        <li data-type="taskView" data-view="week">
-                            <i class="fa-solid fa-bars"></i>
-                            <p class="item-title">Week</p>
-                        </li>
-                        <li data-type="taskView" data-view="all">
-                            <i class="fa-solid fa-bars"></i>
-                            <p class="item-title">All</p>
-                        </li>
                     </ul>
                 </section>
 
                 <section>
                     <div class="section-title">
                         <h3>Lists</h3>
-                        <i class="fa-solid fa-plus" onclick="openCreateTaskListDialog(event)"></i>
-                        <!-- <i class="fa-solid fa-plus create-task-list-icon"
-                            data-dialog-target="#create-task-list-dialog"></i> -->
+                        <i class="fa-solid fa-plus create-task-list-icon" onclick="openCreateTaskListDialog(event)"></i>
                     </div>
-                    <ul class="task-lists">
-                        <li data-type="taskList" data-id="1">
-                            <i class="fa-solid fa-list"></i>
-                            <p class="item-title">abc</p>
-                        </li>
-                        <li data-type="taskList" data-id="2">
-                            <i class="fa-solid fa-list"></i>
-                            <p class="item-title">abc</p>
-                        </li>
-                        <li data-type="taskList" data-id="3">
-                            <i class="fa-solid fa-list"></i>
-                            <p class="item-title">abc</p>
-                        </li>
+                    <ul class="tasks">
                     </ul>
                 </section>
 
                 <section>
                     <div class="section-title">
                         <h3>Notes</h3>
-                        <i class="fa-solid fa-plus" onclick="openCreateNoteListDialog(event)"></i>
-                        <!-- <i class="fa-solid fa-plus create-task-list-icon"
-                            data-dialog-target="#create-note-list-dialog"></i> -->
+                        <i class="fa-solid fa-plus create-note-list-icon" onclick="openCreateNoteListDialog(event)"></i>
                     </div>
-                    <ul class="note-lists">
-                        <li data-type="noteList" data-id="1">
-                            <i class="fa-regular fa-note-sticky"></i>
-                            <p class="item-title">Tod5354ay</p>
-                        </li>
-                        <li data-type="noteList" data-id="2">
-                            <i class="fa-regular fa-note-sticky"></i>
-                            <p class="item-title">To453day</p>
-                        </li>
+                    <ul class="notes">
                     </ul>
                 </section>
 
                 <footer class="sidebar-footer">
                     <!--  -->
                     <p class="logout-word" onclick="openLogoutDialog(event)">Logout</p>
-                    <!-- <p class="logout-word" data-dialog-target="#logout-dialog">Logout</p> -->
                     <a href="#">About</a>
                     <a href="#">Contact Us</a>
                 </footer>
@@ -264,82 +92,20 @@
 
         <!-- right-side -->
         <div id="right-side-div" class="right-side modal" data-type="" data-id=""></div>
-        <dialog id="right-side-dialog" class="right-side modal" data-type="" data-id="">
+
+        <dialog id="right-side-dialog" class="right-side modal">
 
             <aside class="right-side-aside">
                 <header class="right-side-header">
                     <i class="fa-solid fa-angles-right right-side-close-icon"></i>
                     <h2 class="right-side-title"></h2>
                 </header>
-
-                <!-- <div class="task right-side-view low done" data-type="task" data-id="1"> -->
-                <div class="task right-side-view low done" data-type="task" data-id="1">
-                    <div class="task-header">
-                        <div>
-                            <h2 class="task-name"></h2>
-                            <p class="list-of-task"></p>
-                        </div>
-                        <div class="priority-status">
-                            <span class="priority"></span>
-                            <span class="status"></span>
-                        </div>
-                    </div>
-
-                    <div class="task-actions">
-                        <i class="fa-solid fa-check check-task-icon"></i>
-                        <div>
-                            <i class="fa-solid fa-pencil" data-dialog-target="#edit-task-dialog"></i>
-                            <i class="fa-regular fa-trash-can task-delete-icon"
-                                data-dialog-target="#delete-task-dialog"></i>
-                        </div>
-                    </div>
-
-                    <div class="task-details">
-                        <div class="task-start-due-date"></div>
-
-                        <div class="description-box">
-                            <span class="description-label">Description</span>
-                            <p class="task-description">
-
-                            </p>
-                        </div>
-
-                        <p class="task-created-date"></p>
-                    </div>
-                </div>
-
-                <div class="note right-side-view" data-type="note" data-id="1">
-                    <div class="note-header">
-                        <div>
-                            <h2 class="note-name"></h2>
-                            <p class="list-of-note"></p>
-                        </div>
-                        <div class="note-actions">
-                            <i class="fa-solid fa-pencil" data-dialog-target="#edit-note-dialog"></i>
-                            <i class="fa-regular fa-trash-can task-delete-icon"
-                                data-dialog-target="#delete-note-dialog"></i>
-                        </div>
-                    </div>
-
-
-                    <div class="note-details">
-
-                        <div class="description-box">
-                            <span class="description-label">Description</span>
-                            <p class="note-description"></p>
-                        </div>
-
-                        <p class="note-created-date"></p>
-                    </div>
-                </div>
             </aside>
         </dialog>
 
 
 
-        <!-- النوافذ اللي حتطلع في نص الشاشة عشان تصنع وتحذف وتعدل وفيها زر اللي حتشتغل عليه موجودة تحت -->
-        <!-- create-dialog -->
-
+        <!-- ##### Action Dialog -->
         <dialog id="action-dialog" class="modal" data-id="" data-action="">
         </dialog>
 

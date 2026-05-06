@@ -31,6 +31,9 @@
     --background-color-gray-2: rgba(255, 255, 255, 0.06);
     --background-color-gray-3: rgba(58, 64, 71, 0.95);
     --background-color-gray-4: #222;
+    --background-color-gray-5: rgba(128, 128, 128, 0.274); /* .sidebar li:hover */
+    --background-color-gray-6: rgba(128, 128, 128, 0.483); /* .sidebar li.selected */
+    
 
     /* Linear Gradient */
     --linear-gradient-1: linear-gradient(to top, #080f19, #112a3e);
@@ -99,12 +102,17 @@ button {
 }
 
 i {
-    color: white;
+    color: rgb(226, 226, 226);
     font-size: 1.5rem;
+    transition: all 0.1s linear;
 }
 
-.hide {
-    display: none;
+i:hover:not(.sidebar li i) {
+    color: white;
+    background-color: rgba(128, 128, 128, 0.601);
+    border-radius: 15px;
+    box-shadow: 0 0 2px 2px rgba(128, 128, 128, 0.18);
+    transform: scale(1.1);
 }
 
 dialog::backdrop {
@@ -194,24 +202,24 @@ body {
     font-size: 1.8em;
 }
 
-#header #main-title {
+#header #header-title {
     margin-right: 0.3rem;
 }
 
-#header .main-window-type {
+#header #header-type {
     color: var(--font-color-gray-1);
     font-weight: 600;
 }
 
-#header .main-window-type.views::before {
+#header #header-type.views::before {
     content: "/views";
 }
 
-#header .main-window-type.tasks::before {
+#header #header-type.tasks::before {
     content: "/tasks";
 }
 
-#header .main-window-type.notes::before {
+#header #header-type.notes::before {
     content: "/notes";
 }
 
@@ -253,10 +261,6 @@ body {
     width: 100%;
     height: 100%;
     /* padding: 3rem; */
-}
-
-.main-window:not(.active) {
-    display: none;
 }
 
 /* #today-view */
@@ -504,11 +508,22 @@ div[id*="side"]:not(.active) {
     font-size: 1.5rem;
     font-weight: 600;
     list-style: none;
+    padding-left: 0.2rem;
+    transition: all 0.1s linear;
+}
+
+.sidebar li:hover {
+    background-color: var(--background-color-gray-5);
+    border-radius: 8px;
+}
+
+.sidebar li.selected {
+    background-color: var(--background-color-gray-6);
+    border-radius: 8px;
 }
 
 .sidebar li i {
     display: inline-block;
-    /* margin-right: 1rem; */
 }
 
 .sidebar-footer {
@@ -567,7 +582,7 @@ div[id*="side"]:not(.active) {
 
 /* .task and .note */
 .right-side-view {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 1.5rem;
     width: 100%;
@@ -575,11 +590,6 @@ div[id*="side"]:not(.active) {
     margin-top: 1.5rem;
     color: white;
 }
-
-.right-side-view.active {
-    display: flex;
-}
-
 
 .right-side-view div[class*="header"] {
     display: flex;
@@ -712,13 +722,6 @@ div[id*="side"]:not(.active) {
     color: var(--font-color-gray-2);
     font-weight: bold;
 }
-
-
-
-
-/* for all .new-dialog and .new-list-dialog */
-
-
 
 /* for all .new-dialog and .new-list-dialog */
 #action-dialog {

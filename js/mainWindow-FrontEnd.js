@@ -2,96 +2,48 @@
 const rightSideDialog = document.querySelector("#right-side-dialog");
 const rightSideDiv = document.querySelector("#right-side-div");
 
+// Duplicate Dialog Inner html to Div in wide screen
 rightSideDiv.innerHTML = rightSideDialog.innerHTML;
 
-var rightSideStatus = false;
-var currentRightSideType = rightSideDialog.dataset.type;
-var currentRightSideId = rightSideDialog.dataset.id;
+// Global RightSide Variables
+window.rightSideStatus = false;
+window.currentRightSideType = null;
+window.currentRightSideId = null;
 
-// const openRightSideButtons = document.querySelectorAll("#main :is(.task, .note)");
+// Query RightSide Close Buttons
 const closeRightSideButtons = document.querySelectorAll(".right-side-close-icon");
 
-setupRightSide();
 
-function setupRightSide() {
-    const openRightSideButtons = document.querySelectorAll("#main :is(.task, .note)");
-    openRightSideButtons.forEach(item => {
-        item.addEventListener("click", event => {
-            if (event.target.closest(".task-delete-icon, .note-delete-icon, .delete-task-btn, .delete-note-btn, .task-check-icon")) {
-                return;
-            }
+// Right-side close buttons 
+closeRightSideButtons.forEach(btn => {
+    btn.addEventListener("click", event => {
+        event.stopPropagation();
 
-            const type = item.classList.contains("task") ? "task" : "note";
-            const id = item.dataset.id.trim();
+        currentRightSideType = null;
+        currentRightSideId = null;
 
-            if (rightSideStatus && currentRightSideType === type && currentRightSideId === id) {
-                toggleRightSide(false);
-                return;
-            }
-
-            var rightSideView = null;
-            if (type === "task") {
-                rightSideView = document.querySelectorAll(".right-side .task");
-            }
-            else {
-                rightSideView = document.querySelectorAll(".right-side .note");
-            }
-
-            currentRightSideType = type;
-            currentRightSideId = id;
-
-            setRightSideView(type);
-            toggleRightSide(true);
-        });
+        toggleRightSide(false);
     });
+});
 
-    closeRightSideButtons.forEach(btn => {
-        btn.addEventListener("click", event => {
-            event.stopPropagation();
-            toggleRightSide(false);
-        });
-    });
+// Backdrop click (dialog only)
+rightSideDialog.addEventListener("click", event => {
+    if (event.target === rightSideDialog) {
 
-    rightSideDialog.addEventListener("click", event => {
-        if (event.target === rightSideDialog) {
-            toggleRightSide(false);
-        }
-    });
-}
+        currentRightSideType = null;
+        currentRightSideId = null;
 
-function setRightSideView(type) {
-    const rightSides = [rightSideDialog, rightSideDiv];
+        toggleRightSide(false);
+    }
+});
 
-    rightSides.forEach(side => {
-        side.querySelectorAll(".right-side .task, .right-side .note").forEach(view => {
-            view.classList.remove("active");
-        });
-
-        var rightSideTitle = document.querySelectorAll(".right-side-title");
-        var rsTitle;
-        if (type === "task") {
-            side.querySelector(".right-side .task").classList.add("active");
-            rsTitle = "Task";
-        }
-
-        if (type === "note") {
-            side.querySelector(".right-side .note").classList.add("active");
-            rsTitle = "Note";
-        }
-
-        rightSideTitle.forEach(title => {
-            title.textContent = rsTitle;
-        });
-    });
-}
-
+// Toggle RightSide with open(true / false)
 function toggleRightSide(open) {
     rightSideStatus = open;
 
     if (!open) {
         currentRightSideType = null;
         currentRightSideId = null;
-        setRightSideView(null);
     }
 
     if (window.innerWidth < 768) {
@@ -104,7 +56,6 @@ function toggleRightSide(open) {
             rightSideDialog.classList.remove("appear");
             setTimeout(() => rightSideDialog.close(), 200);
         }
-
         return;
     }
 
@@ -117,19 +68,25 @@ function toggleRightSide(open) {
     }
 }
 
-// ### Handle Sidebar ### //
+
+
+// ###### Handle Sidebar ######## //
 var sidebarStatus = true;
 
 const sidebarDialog = document.querySelector("#sidebar-dialog");
 const sidebarDiv = document.querySelector("#sidebar-div");
 
+// Duplicate Dialog Inner html to Div in wide screen
 sidebarDiv.innerHTML = sidebarDialog.innerHTML;
 
+// Query SideBar open and close buttons
 const openSidebarDialog = document.querySelectorAll(".list-icon");
 const closeSidebarDialog = document.querySelectorAll(".list-close-icon");
 
+// SideBar buttons listener call
 addSidebarListener();
 
+// ## Sidebar buttons listener ##
 function addSidebarListener() {
     [...openSidebarDialog, ...closeSidebarDialog].forEach(btn => {
         btn.addEventListener("click", handleSidebar);
@@ -142,6 +99,7 @@ function addSidebarListener() {
     });
 }
 
+// ## Toggle SideBar ##
 function handleSidebar() {
     if (window.innerWidth < 576) {
         if (sidebarDialog.open) {
@@ -167,86 +125,16 @@ function handleSidebar() {
     sidebarStatus = !isOpen;
 }
 
-// ##### main view
-var mainType = null;
-var mainID = null;
-var mainView = null;
-var mainWindow = document.querySelector("#task-list");
+// ##### Global main view variables #####
+window.mainType = null;
+window.mainID = null;
+window.mainView = null;
 
-mainWindow.classList.add("active");
-
-function setupMainView() {
-    const sidebarItems = document.querySelectorAll(".sidebar li");
-
-    sidebarItems.forEach(item => {
-        item.addEventListener("click", event => {
-            // event.stopPropagation();
-
-            if (mainWindow) {
-                mainWindow.classList.remove("active");
-            }
-
-            const type = item.dataset.type;
-            const id = item.dataset.id || null;
-            const view = item.dataset.view || null;
-
-            if (!(mainType === type && mainID === id && mainView === view)) {
-                toggleRightSide(false);
-            }
-
-            mainType = type;
-            mainID = id;
-            mainView = view;
-
-            var newView;
-
-            var mainTitle = document.querySelector("#main-title");
-            var itemTitle = item.querySelector(".item-title").textContent || null;
-            // mainTitle.textContent = itemTitle.textContent;
-            mainTitle.textContent = itemTitle;
-
-            var mainWindowType = document.querySelector(".main-window-type");
-            if (type === "taskView") {
-                mainWindowType.textContent = "/views";
-                mainWindow = document.querySelector("#today-view");
-                // TODO: change view content based on Today / This Week / All
-            }
-            else if (type === "taskList") {
-                mainWindowType.textContent = "/tasks";
-                mainWindow = document.querySelector("#task-list");
-
-                // TODO: load tasks using mainID
-            }
-            else if (type === "noteList") {
-                mainWindowType.textContent = "/notes";
-                mainWindow = document.querySelector("#note-list");
-
-                // TODO: load notes using mainID
-            }
-
-            mainWindow.dataset.id = id;
-            console.log(mainWindow.dataset.id);
-
-            if (mainWindow) {
-                mainWindow.classList.add("active");
-                // 
-                let sideBarDialog = item.closest("dialog");
-                sideBarDialog.classList.remove("appear");
-                setTimeout(() => {
-                    sideBarDialog.close();
-                }, 200);
-                // 
-            }
-        });
-    });
-}
-
-// setupMainView();
-
-// ### Handle Window Resize ### //
+// Handle Window Resize call
 window.addEventListener("resize", checkWindowResize);
 window.addEventListener("load", checkWindowResize);
 
+// ### Handle Window Resize ### //
 function checkWindowResize() {
     // sidebar stay dialog below 576px
     if (window.innerWidth < 576) {
@@ -286,88 +174,3 @@ function checkWindowResize() {
         }
     }
 }
-
-// ############################################################################
-// ##### Dialog Open #######/////////////
-var currentModalType = null;
-var currentModalID = null;
-
-function setupOpenDialogs() {
-    const openButtons = document.querySelectorAll("[data-dialog-target]");
-
-    openButtons.forEach(button => {
-        button.addEventListener("click", event => {
-            event.stopPropagation();
-
-            const dialog = document.querySelector(button.dataset.dialogTarget);
-            if (!dialog) return;
-
-            const source = event.target.closest(".task, .note, #task-list, #note-list");
-
-            currentModalType = source ? source.dataset.type : null;
-            currentModalID = source ? source.dataset.id : null;
-
-            dialog.dataset.id = source ? source.dataset.id : null;
-            console.log(dialog.dataset.id);
-
-            if (!(dialog.classList.contains("simple-dialog"))) {
-                const form = dialog.querySelector("form");
-                const errorMsg = form.querySelector(".error-message");
-
-                form.reset();
-                errorMsg.textContent = "";
-                errorMsg.classList.remove("error");
-            }
-
-            dialog.showModal();
-        });
-    });
-}
-
-setupOpenDialogs();
-
-// Dialog Buttons: Cancel and Confirm
-function setupDialogActions() {
-    const dialogActionButtons = document.querySelectorAll('button[class*="-dialog-button"]');
-
-    // CONFIRM
-    dialogActionButtons.forEach(button => {
-        button.addEventListener("click", (event) => {
-            event.preventDefault();
-
-            const dialog = button.closest("dialog");
-            if (!dialog) return;
-
-            if (button.classList.contains("confirm-dialog-button")) {
-                return;
-            }
-
-            // if (!(dialog.classList.contains("simple-dialog"))) {
-            //     const form = dialog.querySelector("form");
-            //     const errorMsg = form.querySelector(".error-message");
-
-            //     form.reset();
-            //     errorMsg.textContent = "";
-            //     errorMsg.classList.remove("error");
-            // }
-
-            // before close 
-            currentModalType = null;
-            currentModalID = null;
-            // const errorMsg = dialog.querySelector(".error-message");
-            // clearError(errorMsg);
-            dialog.close();
-        });
-    });
-}
-
-setupDialogActions();
-
-
-// ##############################################
-// ##############################################
-// ##############################################
-// ##############################################
-// ##############################################
-// ##############################################
-
