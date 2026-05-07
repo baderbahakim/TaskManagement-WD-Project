@@ -12,6 +12,16 @@ var notes = [
 ];
 // $$
 
+// $$ سوي كول للفنكشن اللي تحت
+// loadNotes();
+// $$
+
+// $$ سوي فنكشن تجيب النوتس من الداتا بيس وتحطها في الارراي اللي فوق
+function loadNotes() {
+
+}
+// $$
+
 // ## Create Note Dialog ##
 function openCreateNoteDialog(event) {
     event.stopPropagation();

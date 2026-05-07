@@ -42,8 +42,12 @@ function changeHeaderTitleType(title, type) {
     document.querySelector("#header #header-type").textContent = type || null;
 }
 
+window.selectedSidebarItem;
+
 // Change background color for selected .sidebar item
 function selectSidebarItem(selectedItem) {
+    selectedSidebarItem = selectedItem;
+
     const type = selectedItem.dataset.type;
     const id = selectedItem.dataset.id;
     const name = selectedItem.dataset.name;
@@ -67,12 +71,23 @@ function selectSidebarItem(selectedItem) {
     });
 }
 
+// When editing a tasklist or notelist name it keeps the edited item selected after rendering
+function keepSidebarSelection(type, id) {
+    const selectedItem = document.querySelector(
+        `.sidebar li[data-type="${type}"][data-id="${id}"]`
+    );
+
+    if (selectedItem) {
+        selectSidebarItem(selectedItem);
+    }
+}
+
 // Handle Main View
 function handleMainItemClick(item) {
 
     const newType = item.dataset.type;
     const newID = item.dataset.id || null;
-    const newView = item.dataset.view || null;
+    const newView = item.dataset.name || item.dataset.view || null;
 
     const sameList =
         mainType === newType &&
@@ -97,5 +112,31 @@ function handleMainItemClick(item) {
     if (sidebarDialogParent && window.innerWidth < 576) {
         sidebarDialogParent.classList.remove("appear");
         setTimeout(() => sidebarDialogParent.close(), 200);
+    }
+}
+
+// Refresh the current view
+function refreshCurrentView() {
+    if (mainType === "view") {
+        const view = views.find(v => v.name === mainView);
+        if (view) renderView(view);
+        return;
+    }
+
+    if (mainType === "taskList") {
+        const item = document.querySelector(
+            `.sidebar .task-list[data-id="${mainID}"]`
+        );
+
+        if (item) taskListClick(item);
+        return;
+    }
+
+    if (mainType === "noteList") {
+        const item = document.querySelector(
+            `.sidebar .note-list[data-id="${mainID}"]`
+        );
+
+        if (item) noteListClick(item);
     }
 }

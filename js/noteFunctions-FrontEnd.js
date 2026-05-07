@@ -132,7 +132,7 @@ function createEditNote(event, create) {
     const form = actionDialog.querySelector("form");
 
     const name = form.querySelector("#note-name").value.trim();
-    const listId = form.querySelector("#note-list").value;
+    const listId = form.querySelector("#note-list").value; // %% استخدم هذا الاي دي حق النوت ليست
     const description = form.querySelector("#note-description").value.trim();
     const errorMsg = form.querySelector(".error-message");
 
@@ -156,8 +156,9 @@ function createEditNote(event, create) {
     // Create Path
     if (create) {
         // $$ صنع النوت
+        // %% الاي دي حق النوت ليست موجود فوق
         const newNote = {
-            id: Date.now(),
+            id: Date.now(), // %% ما راح تستخدم هذا الاي دي أحذف هذا السطر
             listId: Number(listId),
             name: name,
             description: description,
@@ -166,34 +167,41 @@ function createEditNote(event, create) {
 
         notes.push(newNote);
         // $$
+        refreshCurrentView();
     }
-
     // Edit Path
     else {
-        const noteID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
+        const noteID = actionDialog.dataset.id; // %% الاي دي حق النوت
 
-        // $$ تعديل النوت
         const note = notes.find(n => n.id == noteID);
         if (!note) return;
 
+        // $$ تعديل النوت
+        // %% اي دي النوت فوق
         note.listId = Number(listId);
         note.name = name;
         note.description = description;
         // $$
-    }
 
-    const selectedList = noteLists.find(list => list.id == listId);
-    const noteListName = selectedList ? selectedList.name : "";
+        if (mainType === "noteList") {
+            const newListItem = document.querySelector(
+                `.sidebar .note-list[data-id="${note.listId}"]`
+            );
 
-    const filteredNotes = notes.filter(n => n.listId == listId);
+            if (newListItem) {
+                selectSidebarItem(newListItem);
+                handleMainItemClick(newListItem);
+                noteListClick(newListItem);
+            }
+        } else {
+            refreshCurrentView();
+        }
 
-    fillNotesFromList(filteredNotes, noteListName);
+        if (currentRightSideType === "note" && currentRightSideId == noteID) {
+            const noteList = noteLists.find(list => list.id == note.listId);
+            const noteListName = noteList ? noteList.name : "";
 
-    // If rightside is open and note edited is the same in rightside, update rightside
-    if (currentRightSideType === "note" && currentRightSideId == actionDialog.dataset.id) {
-        const updatedNote = notes.find(n => n.id == actionDialog.dataset.id);
-        if (updatedNote) {
-            fillRightSideNote(updatedNote, noteListName);
+            fillRightSideNote(note, noteListName);
         }
     }
 
@@ -212,17 +220,12 @@ function deleteNote(event) {
     const listId = note.listId; // %% اي دي الليست
 
     // $$ حذف النوت
+    // %% اي دي النوت فوق
     notes = notes.filter(n => n.id != noteId);
     // $$
 
-    const selectedList = noteLists.find(list => list.id == listId);
-    const noteListName = selectedList ? selectedList.name : "";
+    refreshCurrentView();
 
-    const filteredNotes = notes.filter(n => n.listId == listId);
-
-    fillNotesFromList(filteredNotes, noteListName);
-
-    // If rightside is open and note deleted is the same in rightside, close rightside
     if (currentRightSideType === "note" && currentRightSideId == noteId) {
         toggleRightSide(false);
     }

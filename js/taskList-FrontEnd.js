@@ -7,6 +7,16 @@ var taskLists = [
 ];
 // $$
 
+// $$ سوي كول للفنكشن اللي تحت
+// loadTaskLists();
+// $$
+
+// $$ سوي فنكشن تجيب التاسك ليستس من الداتا بيس وتحطها في الارراي اللي فوق
+function loadTaskLists() {
+
+}
+// $$
+
 // ## Create TaskList Dialog ##
 function openCreateTaskListDialog(event) {
     event.stopPropagation();

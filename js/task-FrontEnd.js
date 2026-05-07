@@ -12,6 +12,16 @@ var tasks = [
 ];
 // $$
 
+// $$ سوي كول للفنكشن اللي تحت
+// loadTasks();
+// $$
+
+// $$ سوي فنكشن تجيب التاسكس من الداتا بيس وتحطها في الارراي اللي فوق
+function loadTasks() {
+
+}
+// $$
+
 const priorities = [
     { value: "", name: "Choose priority" },
     { value: "high", name: "High" },

@@ -68,9 +68,11 @@ function taskListClick(taskListItem) {
     fillTasksFromList(filteredTasks, taskListName);
 }
 
-// ## Create Edit TaskList ##
+// ## Create / Edit TaskList ##
 function createEditTaskList(event, create) {
     event.preventDefault();
+
+    let selectedId;
 
     const form = actionDialog.querySelector("form");
 
@@ -88,26 +90,34 @@ function createEditTaskList(event, create) {
     if (create) {
         // $$ صنع التاسك ليست
         const newTaskList = {
-            id: Date.now(),
+            id: Date.now(), // %% ما راح تستخدم هذا الاي دي أحذف هذا السطر
             name: name
         };
 
         taskLists.push(newTaskList);
         // $$
     }
+    
     // Edit Path
     else {
         const taskListID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
         // $$ تعديل التاسك ليست
+        // %% اي دي التاسك ليست فوق
         const taskList = taskLists.find(l => l.id == taskListID);
         if (!taskList) return;
 
         taskList.name = name;
         // $$
+        selectedId = taskListID;
     }
 
     renderTaskLists(taskLists);
+    
+    // Keep the current selected item selected
+    if (create) selectSidebarItem(selectedSidebarItem);
+    // Keep the edited tasklist item selected
+    else keepSidebarSelection("taskList", selectedId);
 
     closeActionDialog(event);
 }
@@ -119,6 +129,7 @@ function deleteTaskList(event) {
     const taskListId = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
     // $$ حذف التاسك ليست
+    // %% اي دي التاسك ليست فوق
     taskLists = taskLists.filter(l => l.id != taskListId);
 
     tasks = tasks.filter(t => t.listId != taskListId);
@@ -130,5 +141,5 @@ function deleteTaskList(event) {
 
     closeActionDialog(event);
 
-    viewDashboard();
+    viewChosenDashboard();
 }

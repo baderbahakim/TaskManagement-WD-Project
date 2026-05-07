@@ -30,7 +30,7 @@ function renderNoteLists(noteLists) {
                 // Change main status and handle rightside call
                 handleMainItemClick(noteListItem);
 
-                // ىخفثlist click call
+                // noteist click call
                 noteListClick(noteListItem);
             });
 
@@ -41,6 +41,7 @@ function renderNoteLists(noteLists) {
 
 // ## NoteList click ##
 function noteListClick(noteListItem) {
+
     const noteListID = noteListItem.dataset.id;
     const noteListName = noteListItem.querySelector(".item-title").textContent;
 
@@ -69,9 +70,11 @@ function noteListClick(noteListItem) {
     fillNotesFromList(filteredNotes, noteListName);
 }
 
-// ## Create Edit NoteList ##
+// ## Create / Edit NoteList ##
 function createEditNoteList(event, create) {
     event.preventDefault();
+
+    let selectedId;
 
     const form = actionDialog.querySelector("form");
 
@@ -89,7 +92,7 @@ function createEditNoteList(event, create) {
     if (create) {
         // $$ صنع النوت ليست
         const newNoteList = {
-            id: Date.now(),
+            id: Date.now(), // %% ما راح تستخدم هذا الاي دي أحذف هذا السطر
             name: name
         };
 
@@ -102,14 +105,21 @@ function createEditNoteList(event, create) {
         const noteListID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
         // $$ تعديل النوت ليست
+        // %% اي دي النوت ليست فوق
         const noteList = noteLists.find(l => l.id == noteListID);
         if (!noteList) return;
 
         noteList.name = name;
         // $$
+        selectedId = noteListID;
     }
 
     renderNoteLists(noteLists);
+
+    // Keep the current selected item selected
+    if (create) selectSidebarItem(selectedSidebarItem);
+    // Keep the edited tasklist item selected
+    else keepSidebarSelection("noteList", selectedId);
 
     closeActionDialog(event);
 }
@@ -121,6 +131,7 @@ function deleteNoteList(event) {
     const noteListId = actionDialog.dataset.id; // %% استخدم هذا الاي دي
 
     // $$ حذف النوت ليست
+    // %% اي دي النوت ليست فوق
     noteLists = noteLists.filter(l => l.id != noteListId);
 
     notes = notes.filter(n => n.listId != noteListId);
@@ -132,5 +143,5 @@ function deleteNoteList(event) {
 
     closeActionDialog(event);
 
-    viewDashboard();
+    viewChosenDashboard();
 }

@@ -149,7 +149,7 @@ function createEditTask(event, create) {
     const form = actionDialog.querySelector("form");
 
     const name = form.querySelector("#task-name").value.trim();
-    const listId = form.querySelector("#task-list").value;
+    const listId = form.querySelector("#task-list").value; // %% استخدم هذا الاي دي حق التاسك ليست
     const status = form.querySelector("#task-status").value;
     const priority = form.querySelector("#task-priority").value;
     const startDate = form.querySelector("#task-start-date").value;
@@ -197,8 +197,9 @@ function createEditTask(event, create) {
     // Create Path
     if (create) {
         // $$ صنع التاسك
+        // %% الاي دي حق التاسك ليست موجود فوق
         const newTask = {
-            id: Date.now(),
+            id: Date.now(), // %% ما راح تستخدم هذا الاي دي أحذف هذا السطر
             listId: Number(listId),
             name: name,
             priority: priority,
@@ -211,15 +212,17 @@ function createEditTask(event, create) {
 
         tasks.push(newTask);
         // $$
+        refreshCurrentView();
     }
     // Edit Path
     else {
-        const taskID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
+        const taskID = actionDialog.dataset.id; // %% الاي دي حق التاسك
 
-        // $$ تعديل التاسك
         const task = tasks.find(t => t.id == taskID);
         if (!task) return;
 
+        // $$ تعديل التاسك
+        // %% اي دي التاسك فوق
         task.listId = Number(listId);
         task.name = name;
         task.priority = priority;
@@ -228,20 +231,26 @@ function createEditTask(event, create) {
         task.dueDate = dueDate;
         task.description = description;
         // $$
-    }
 
-    const selectedList = taskLists.find(list => list.id == listId);
-    const taskListName = selectedList ? selectedList.name : "";
+        if (mainType === "taskList") {
+            const newListItem = document.querySelector(
+                `.sidebar .task-list[data-id="${task.listId}"]`
+            );
 
-    const filteredTasks = tasks.filter(task => task.listId == listId);
+            if (newListItem) {
+                selectSidebarItem(newListItem);
+                handleMainItemClick(newListItem);
+                taskListClick(newListItem);
+            }
+        } else {
+            refreshCurrentView();
+        }
 
-    fillTasksFromList(filteredTasks, taskListName);
+        if (currentRightSideType === "task" && currentRightSideId == taskID) {
+            const taskList = taskLists.find(list => list.id == task.listId);
+            const taskListName = taskList ? taskList.name : "";
 
-    // If rightside is open and task edited is the same in rightside, update rightside
-    if (currentRightSideType === "task" && currentRightSideId == actionDialog.dataset.id) {
-        const updatedTask = tasks.find(t => t.id == actionDialog.dataset.id);
-        if (updatedTask) {
-            fillRightSideTask(updatedTask, taskListName);
+            fillRightSideTask(task, taskListName);
         }
     }
 
@@ -260,17 +269,12 @@ function deleteTask(event) {
     const listId = task.listId; // %% اي دي الليست
 
     // $$ حذف التاسك
+    // %% اي دي التاسك فوق
     tasks = tasks.filter(t => t.id != taskId);
     // $$
+    
+    refreshCurrentView();
 
-    const selectedList = taskLists.find(list => list.id == listId);
-    const taskListName = selectedList ? selectedList.name : "";
-
-    const filteredTasks = tasks.filter(t => t.listId == listId);
-
-    fillTasksFromList(filteredTasks, taskListName);
-
-    // If rightside is open and task deleted is the same in rightside, close rightside
     if (currentRightSideType === "task" && currentRightSideId == taskId) {
         toggleRightSide(false);
     }

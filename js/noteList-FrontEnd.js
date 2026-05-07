@@ -7,6 +7,16 @@ var noteLists = [
 ];
 // $$
 
+// $$ سوي كول للفنكشن اللي تحت
+// loadNoteLists();
+// $$
+
+// $$ سوي فنكشن تجيب النوتس ليستس من الداتا بيس وتحطها في الارراي اللي فوق
+function loadNoteLists() {
+
+}
+// $$
+
 // ## Create NoteList Dialog ##
 function openCreateNoteListDialog(event) {
     event.stopPropagation();
