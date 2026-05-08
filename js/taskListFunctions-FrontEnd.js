@@ -46,6 +46,7 @@ function taskListClick(taskListItem) {
     const taskListID = taskListItem.dataset.id;
     const taskListName = taskListItem.querySelector(".item-title").textContent;
     
+    // Change header icon, title, and type for the clicked sidebar item
     changeHeaderIconTitleType(taskListIcon, taskListName, "/tasks");
 
     const main = document.querySelector("#main");
@@ -71,6 +72,7 @@ function taskListClick(taskListItem) {
         task.completed === false
     );
 
+    // fill tasks for the clickced tasklist in main call
     fillTasksFromList(filteredTasks, taskListName);
 }
 
@@ -118,10 +120,12 @@ function createEditTaskList(event, create) {
         selectedId = taskListID;
     }
 
+    // Update tasklists on sidebar when create or edit
     renderTaskLists(taskLists);
 
     // Keep the current selected item selected
     if (create) selectSidebarItem(selectedSidebarItem);
+
     // Keep the edited tasklist item selected
     else keepSidebarSelection("taskList", selectedId);
 
@@ -141,11 +145,14 @@ function deleteTaskList(event) {
     tasks = tasks.filter(t => t.listId != taskListId);
     // $$
 
+    // Update tasklists on sidebar when delete
     renderTaskLists(taskLists);
 
+    // Empty the tasks container from tasks when deleting the tasklist
     document.querySelector("#task-list .tasks-container").innerHTML = "";
 
     closeActionDialog(event);
 
+    // After deleting the tasklist go back to the default dashboard
     viewChosenDashboard();
 }

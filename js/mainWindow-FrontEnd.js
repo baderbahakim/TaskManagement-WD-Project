@@ -1,4 +1,6 @@
 // ### Handle RightSide ### //
+
+// Query both rightside dialog and div
 const rightSideDialog = document.querySelector("#right-side-dialog");
 const rightSideDiv = document.querySelector("#right-side-div");
 
@@ -14,14 +16,16 @@ window.currentRightSideId = null;
 const closeRightSideButtons = document.querySelectorAll(".right-side-close-icon");
 
 
-// Right-side close buttons 
+// Right-side close buttons click event listener
 closeRightSideButtons.forEach(btn => {
     btn.addEventListener("click", event => {
         event.stopPropagation();
 
+        // make rightside type and id null
         currentRightSideType = null;
         currentRightSideId = null;
 
+        // close rightside
         toggleRightSide(false);
     });
 });
@@ -30,9 +34,11 @@ closeRightSideButtons.forEach(btn => {
 rightSideDialog.addEventListener("click", event => {
     if (event.target === rightSideDialog) {
 
+        // make rightside type and id null
         currentRightSideType = null;
         currentRightSideId = null;
 
+        // close rightside
         toggleRightSide(false);
     }
 });
@@ -41,18 +47,23 @@ rightSideDialog.addEventListener("click", event => {
 function toggleRightSide(open) {
     rightSideStatus = open;
 
+    // When called to close
     if (!open) {
         currentRightSideType = null;
         currentRightSideId = null;
+        document.body.style.overflow = "auto";
     }
 
+    // When small screen, deal with rightside dialog
     if (window.innerWidth < 992) {
+        // When called to open
         if (open) {
             if (!rightSideDialog.open) {
                 rightSideDialog.showModal();
                 document.body.style.overflow = "hidden";
             }
             rightSideDialog.classList.add("appear");
+        // When called to close
         } else {
             rightSideDialog.classList.remove("appear");
             setTimeout(() => {
@@ -62,13 +73,18 @@ function toggleRightSide(open) {
         }
         return;
     }
+    // When wide screen, deal with rightside div
 
+    // When called to open
     if (open) {
         rightSideDiv.classList.add("active");
         setTimeout(() => rightSideDiv.classList.add("appear"), 1);
-    } else {
+    }
+    // When called to close
+    else {
         rightSideDiv.classList.remove("appear");
         setTimeout(() => rightSideDiv.classList.remove("active"), 200);
+        document.body.style.overflow = "auto";
     }
 }
 
@@ -77,6 +93,7 @@ function toggleRightSide(open) {
 // ###### Handle Sidebar ######## //
 var sidebarStatus = true;
 
+// Query both rightside dialog and div
 const sidebarDialog = document.querySelector("#sidebar-dialog");
 const sidebarDiv = document.querySelector("#sidebar-div");
 
@@ -96,6 +113,7 @@ function addSidebarListener() {
         btn.addEventListener("click", handleSidebar);
     });
 
+    // Backdrop click (dialog only)
     sidebarDialog.addEventListener("click", event => {
         if (event.target === sidebarDialog) {
             handleSidebar();
@@ -105,6 +123,8 @@ function addSidebarListener() {
 
 // ## Toggle SideBar ##
 function handleSidebar() {
+
+    // When small screen, deal with sidebar dialog
     if (window.innerWidth < 576) {
         if (sidebarDialog.open) {
             sidebarDialog.classList.remove("appear");
@@ -120,6 +140,7 @@ function handleSidebar() {
         return;
     }
 
+    // When wide screen, deal with sidebar div
     const isOpen = sidebarDiv.classList.contains("active");
 
     if (isOpen) {
@@ -138,7 +159,7 @@ window.mainType = null;
 window.mainID = null;
 window.mainView = null;
 
-// Handle Window Resize call
+// Handle Window Resize and Load call
 window.addEventListener("resize", checkWindowResize);
 window.addEventListener("load", checkWindowResize);
 
@@ -147,11 +168,14 @@ function checkWindowResize() {
     // sidebar stay dialog below 576px
     if (window.innerWidth < 576) {
         sidebarDiv.classList.remove("active", "appear");
-    } else {
+    } 
+    // Wide screen 
+    else {
         sidebarDialog.close();
         sidebarDialog.classList.remove("appear");
         document.body.style.overflow = "auto";
 
+        // If sidebar status true show
         if (sidebarStatus) {
             sidebarDiv.classList.add("active", "appear");
         } else {
@@ -163,23 +187,31 @@ function checkWindowResize() {
     if (window.innerWidth < 992) {
         rightSideDiv.classList.remove("active", "appear");
 
+        // if rightside status true open
         if (rightSideStatus) {
             if (!rightSideDialog.open) {
                 rightSideDialog.showModal();
             }
             rightSideDialog.classList.add("appear");
             document.body.style.overflow = "hidden";
-        } else {
+        } 
+        // If false
+        else {
             rightSideDialog.classList.remove("appear");
             rightSideDialog.close();
         }
-    } else {
+    } 
+    // Wide screen
+    else {
         rightSideDialog.close();
         rightSideDialog.classList.remove("appear");
 
+        // if rightside status true open
         if (rightSideStatus) {
             rightSideDiv.classList.add("active", "appear");
-        } else {
+        } 
+        // If false
+        else {
             rightSideDiv.classList.remove("active", "appear");
         }
     }

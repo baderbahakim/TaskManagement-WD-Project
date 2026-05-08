@@ -1,14 +1,16 @@
-// Query the Action Dialog to Fetch it Later
+// Query the Action Dialog to Fetch in it Later
 const actionDialog = document.querySelector("#action-dialog");
 
 // Dialog fill select options
 function createOptions(array, valueKey, nameKey, firstOptionText = null) {
     let options = "";
 
+    // Fill the first empty option 
     if (firstOptionText) {
         options += `<option value="">${firstOptionText}</option>`;
     }
 
+    // Fill the options with array items
     array.forEach(item => {
         options += `<option value="${item[valueKey]}">${item[nameKey]}</option>`;
     });
@@ -16,18 +18,19 @@ function createOptions(array, valueKey, nameKey, firstOptionText = null) {
     return options;
 }
 
-// Error Message Handling
+// Show error message
 function showError(errorMsg, message) {
     errorMsg.textContent = message;
     errorMsg.style.display = "block";
 }
 
+// Clear error message
 function clearError(errorMsg) {
     errorMsg.textContent = "";
     errorMsg.style.display = "none";
 }
 
-// Close Action Dialog
+// Close Action Dialog when clicking cancel or clicking submit button and passing the front end validation
 function closeActionDialog(event) {
     event.preventDefault();
     actionDialog.close();
@@ -36,13 +39,14 @@ function closeActionDialog(event) {
     actionDialog.dataset.action = "";
 }
 
-// Change Header Title and Type
+// Change Header Icon, Title, and Type for the clicked item
 function changeHeaderIconTitleType(iconClass, title, type) {
     document.querySelector("#header #header-icon").className = iconClass || null;
     document.querySelector("#header #header-title").textContent = title || null;
     document.querySelector("#header #header-type").textContent = type || null;
 }
 
+// The current selected sidebar item
 window.selectedSidebarItem;
 
 // Change background color for selected .sidebar item
@@ -57,6 +61,7 @@ function selectSidebarItem(selectedItem) {
         item.classList.remove("selected");
     });
 
+    // Make the query selector string for the selected item to make it selected
     let selector = `.sidebar li[data-type="${type}"]`;
 
     if (id) {
@@ -68,6 +73,7 @@ function selectSidebarItem(selectedItem) {
     }
 
     document.querySelectorAll(selector).forEach(item => {
+        // make the selected item selected
         item.classList.add("selected");
     });
 }
@@ -79,27 +85,30 @@ function keepSidebarSelection(type, id) {
     );
 
     if (selectedItem) {
+        // make the edited item selected after rendering
         selectSidebarItem(selectedItem);
     }
 }
 
-// Handle Main View
+// Handle 
 function handleMainItemClick(item) {
 
     const newType = item.dataset.type;
     const newID = item.dataset.id || null;
-    const newView = item.dataset.name || item.dataset.view || null;
+    const newView = item.dataset.name || null;
 
-    const sameList =
+    // make the boolean variable that will determine if the current item viewed is the same as the clicked or not
+    const sameItem =
         mainType === newType &&
         mainID === newID &&
         mainView === newView;
 
-    // close right-side only if different list clicked
-    if (!sameList && rightSideStatus) {
+    // close right-side only if different item clicked
+    if (!sameItem && rightSideStatus) {
         currentRightSideType = null;
         currentRightSideId = null;
 
+        // Cl;ose rightside
         toggleRightSide(false);
     }
 
@@ -110,21 +119,29 @@ function handleMainItemClick(item) {
 
     const sidebarDialogParent = item.closest("#sidebar-dialog");
 
+    // Close sidebar dialog when clicking an item on mobile screen
     if (sidebarDialogParent && window.innerWidth < 576) {
+
         sidebarDialogParent.classList.remove("appear");
-        setTimeout(() => sidebarDialogParent.close(), 200);
+
+        setTimeout(() => {
+            sidebarDialogParent.close();
+            document.body.style.overflow = "auto";
+        }, 200);
+
     }
 }
 
-// Refresh the current view
+// Refresh the current view on main after an operation on data
 function refreshCurrentView() {
     if (mainType === "view") {
         const view = views.find(v => v.name === mainView);
 
         const viewItem = document.querySelector(
-        `.sidebar li.view[data-name="${mainView}"]`
-    );
+            `.sidebar li.view[data-name="${mainView}"]`
+        );
 
+        // If a view item is viewed on main update the main for the same view
         if (viewItem) fillTasksFromView(viewItem);
         return;
     }
@@ -134,6 +151,7 @@ function refreshCurrentView() {
             `.sidebar .task-list[data-id="${mainID}"]`
         );
 
+        // If a tasklist item is viewed on main update the main for the tasklist with current main ID
         if (item) taskListClick(item);
         return;
     }
@@ -143,6 +161,7 @@ function refreshCurrentView() {
             `.sidebar .note-list[data-id="${mainID}"]`
         );
 
+        // If a notelist item is viewed on main update the main for the notelist with current main ID
         if (item) noteListClick(item);
     }
 }

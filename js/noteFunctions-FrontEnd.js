@@ -33,6 +33,7 @@ function fillNotesFromList(notes, noteListName) {
         `;
 
         div.addEventListener("click", event => {
+            // Exclude icons on note card to not call noteClick()
             if (event.target.closest(".delete-note-icon, .edit-note-icon")) {
                 return;
             }
@@ -68,6 +69,7 @@ function noteClick(noteElement) {
     const noteList = noteLists.find(l => l.id == note.listId);
     const noteListName = noteList ? noteList.name : "";
 
+    // Change rightside type and ID
     currentRightSideType = "note";
     currentRightSideId = noteID;
 
@@ -166,6 +168,8 @@ function createEditNote(event, create) {
 
         notes.push(newNote);
         // $$
+
+        // Check mainType if noteList to change, if view not change it, call
         refreshCurrentView();
     }
     // Edit Path
@@ -182,24 +186,33 @@ function createEditNote(event, create) {
         note.description = description;
         // $$
 
+        // Check if note edited from a noteList view
         if (mainType === "noteList") {
             const newListItem = document.querySelector(
                 `.sidebar .note-list[data-id="${note.listId}"]`
             );
 
             if (newListItem) {
+                // Change selected sidebar noteList to the new noteList
                 selectSidebarItem(newListItem);
+
+                // Check if notelist is edited to close rightside
                 handleMainItemClick(newListItem);
+
+                // Change notelist selected to the new edited to notelist if note viewed on rightside
                 noteListClick(newListItem);
             }
         } else {
+            // Check mainType to change it or not call
             refreshCurrentView();
         }
 
+        // Check if edited note is the one viewed on the rightside or not, to update it
         if (currentRightSideType === "note" && currentRightSideId == noteID) {
             const noteList = noteLists.find(list => list.id == note.listId);
             const noteListName = noteList ? noteList.name : "";
 
+            // Show note details on rightside (Update)
             fillRightSideNote(note, noteListName);
         }
     }
@@ -223,8 +236,10 @@ function deleteNote(event) {
     notes = notes.filter(n => n.id != noteId);
     // $$
 
+    // Check mainType to change it or not call
     refreshCurrentView();
 
+    // Check if deleted note is the one viewed on the rightside or not, to close it
     if (currentRightSideType === "note" && currentRightSideId == noteId) {
         toggleRightSide(false);
     }

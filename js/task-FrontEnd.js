@@ -12,7 +12,13 @@ var tasks = [
 
     { id: 7, listId: 35, name: "CCC house", priority: "high", status: "in-progress", completed: true, startDate: "2026-05-06", dueDate: "2026-08-26", description: "task task ger ertge rgre gre gre rtask task ", createdDate: "2026-01-06" },
     { id: 8, listId: 20, name: "CCC Car", priority: "medium", status: "done", completed: true, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" },
-    { id: 9, listId: 1, name: "CCC hospital", priority: "medium", status: "done", completed: true, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" }
+    { id: 9, listId: 1, name: "CCC hospital", priority: "medium", status: "done", completed: true, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" },
+    { id: 10, listId: 20, name: "house", priority: "high", status: "in-progress", completed: false, startDate: "2026-05-06", dueDate: "2026-08-26", description: "task task ger ertge rgre gre gre rtask task ", createdDate: "2026-01-06" },
+    { id: 11, listId: 20, name: "Car", priority: "medium", status: "done", completed: false, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" },
+    { id: 12, listId: 20, name: "hospital", priority: "medium", status: "done", completed: false, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" },
+    { id: 13, listId: 20, name: "house", priority: "high", status: "in-progress", completed: false, startDate: "2026-05-06", dueDate: "2026-08-26", description: "task task ger ertge rgre gre gre rtask task ", createdDate: "2026-01-06" },
+    { id: 14, listId: 20, name: "Car", priority: "medium", status: "done", completed: false, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" },
+    { id: 15, listId: 20, name: "hospital", priority: "medium", status: "done", completed: false, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" }
 ];
 // $$
 
@@ -27,14 +33,12 @@ function loadTasks() {
 // $$
 
 const priorities = [
-    { value: "", name: "Choose priority" },
     { value: "high", name: "High" },
     { value: "medium", name: "Medium" },
     { value: "low", name: "Low" }
 ];
 
 const statuses = [
-    { value: "", name: "Choose status" },
     { value: "to-do", name: "To-do" },
     { value: "in-progress", name: "In-progress" },
     { value: "done", name: "Done" }
@@ -75,14 +79,14 @@ function openCreateTaskDialog(event) {
                     <div class="field">
                         <label>Status</label>
                         <select id="task-status" name="task-status">
-                            ${createOptions(statuses, "value", "name")}
+                            ${createOptions(statuses, "value", "name", "Choose status")}
                         </select>
                     </div>
 
                     <div class="field">
                         <label>Priority</label>
                         <select id="task-priority" name="task-priority">
-                            ${createOptions(priorities, "value", "name")}
+                            ${createOptions(priorities, "value", "name", "Choose priority")}
                         </select>
                     </div>
                 </div>
@@ -154,14 +158,14 @@ function openEditTaskDialog(event) {
                 <div class="field">
                     <label>Status</label>
                     <select id="task-status" name="task-status">
-                        ${createOptions(statuses, "value", "name")}
+                        ${createOptions(statuses, "value", "name", "Choose status")}
                     </select>
                 </div>
 
                 <div class="field">
                     <label>Priority</label>
                     <select id="task-priority" name="task-priority">
-                        ${createOptions(priorities, "value", "name")}
+                        ${createOptions(priorities, "value", "name", "Choose priority")}
                     </select>
                 </div>
             </div>

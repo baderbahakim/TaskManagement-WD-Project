@@ -1,7 +1,7 @@
-// Render Today view (to-do)
+// Fill tasks in Today view (to-do)
 
-// Render Kanban view
-function renderKanbanView() {
+// Fill tasks in kanban view
+function fillTasksKanbanView() {
     const main = document.querySelector("#main");
 
     main.innerHTML = `
@@ -25,6 +25,7 @@ function renderKanbanView() {
         </div>
     `;
 
+    // Query all the not completed tasks
     const completedTasks = tasks.filter(task => !task.completed);
 
     completedTasks.forEach(task => {
@@ -80,8 +81,8 @@ function renderKanbanView() {
     });
 }
 
-// Render Completed view
-function renderCompletedView() {
+// Fill tasks in completed view
+function fillTasksCompletedView() {
     const main = document.querySelector("#main");
 
     main.innerHTML = `
@@ -92,6 +93,7 @@ function renderCompletedView() {
 
     const container = main.querySelector(".tasks-container");
 
+    // Query all the completed tasks
     const completedTasks = tasks.filter(task => task.completed);
 
     completedTasks.forEach(task => {

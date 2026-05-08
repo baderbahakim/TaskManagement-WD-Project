@@ -46,6 +46,7 @@ function noteListClick(noteListItem) {
     const noteListID = noteListItem.dataset.id;
     const noteListName = noteListItem.querySelector(".item-title").textContent;
     
+    // Change header icon, title, and type for the clicked sidebar item
     changeHeaderIconTitleType(noteListIcon, noteListName, "/notes");
 
     const main = document.querySelector("#main");
@@ -70,6 +71,7 @@ function noteListClick(noteListItem) {
 
     const filteredNotes = notes.filter(note => note.listId == noteListID);
 
+    // fill notes for the clickced notelist in main call
     fillNotesFromList(filteredNotes, noteListName);
 }
 
@@ -117,11 +119,13 @@ function createEditNoteList(event, create) {
         selectedId = noteListID;
     }
 
+    // Update notelists on sidebar when create or edit
     renderNoteLists(noteLists);
 
     // Keep the current selected item selected
     if (create) selectSidebarItem(selectedSidebarItem);
-    // Keep the edited tasklist item selected
+
+    // Keep the edited notelist item selected
     else keepSidebarSelection("noteList", selectedId);
 
     closeActionDialog(event);
@@ -140,11 +144,14 @@ function deleteNoteList(event) {
     notes = notes.filter(n => n.listId != noteListId);
     // $$
 
+    // Update tasklists on sidebar when delete
     renderNoteLists(noteLists);
 
+    // Empty the notes container from notes when deleting the notelist
     document.querySelector("#note-list .notes-container").innerHTML = "";
 
     closeActionDialog(event);
 
+    // After deleting the notelist go back to the default dashboard
     viewChosenDashboard();
 }

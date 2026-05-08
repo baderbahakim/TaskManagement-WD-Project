@@ -36,6 +36,7 @@ function fillTasksFromList(tasks, taskListName) {
         `;
 
         div.addEventListener("click", event => {
+            // Exclude icons on task card to not call taskClick()
             if (event.target.closest(".delete-task-icon, .edit-task-icon, .task-check-icon, .task-uncomplete-icon")) {
                 return;
             }
@@ -54,7 +55,7 @@ function fillTasksFromList(tasks, taskListName) {
 function taskClick(taskElement) {
     const taskID = taskElement.dataset.id;
 
-    // Close rightside if viewed task same as clicked task
+    // Close rightside if open and if viewed task in rightside is same as clicked task
     if (
         rightSideStatus &&
         currentRightSideType === "task" &&
@@ -74,12 +75,14 @@ function taskClick(taskElement) {
     const taskList = taskLists.find(l => l.id == task.listId);
     const taskListName = taskList ? taskList.name : "";
 
+    // Change rightside type and ID
     currentRightSideType = "task";
     currentRightSideId = taskID;
 
-    // Show task details in rightside
+    // Show task details in rightside call
     fillRightSideTask(task, taskListName);
-    // Open rightside
+
+    // Open rightside call
     toggleRightSide(true);
 }
 
@@ -151,7 +154,7 @@ function createEditTask(event, create) {
     const form = actionDialog.querySelector("form");
 
     const name = form.querySelector("#task-name").value.trim();
-    const listId = form.querySelector("#task-list").value; // %% استخدم هذا الاي دي حق التاسك ليست
+    const listId = form.querySelector("#task-list").value; // %% استخدم هذا الاي دي حق التاسك ليست لما تسوي تاسك
     const status = form.querySelector("#task-status").value;
     const priority = form.querySelector("#task-priority").value;
     const startDate = form.querySelector("#task-start-date").value;
@@ -206,6 +209,7 @@ function createEditTask(event, create) {
             name: name,
             priority: priority,
             status: status,
+            completed: false,
             startDate: startDate,
             dueDate: dueDate,
             description: description,
@@ -214,6 +218,8 @@ function createEditTask(event, create) {
 
         tasks.push(newTask);
         // $$
+
+        // Check mainType if taskList to change, if view not change it, call
         refreshCurrentView();
     }
     // Edit Path
@@ -234,24 +240,34 @@ function createEditTask(event, create) {
         task.description = description;
         // $$
 
+        // Check if task edited from a taskList view to change the view
         if (mainType === "taskList") {
             const newListItem = document.querySelector(
                 `.sidebar .task-list[data-id="${task.listId}"]`
             );
 
             if (newListItem) {
+                // Change selected sidebar taskList to the new taskList
                 selectSidebarItem(newListItem);
+
+                // Check if tasklist is edited to close rightside
                 handleMainItemClick(newListItem);
+
+                // Change tasklist selected to the new edited to tasklist if task viewed on rightside
                 taskListClick(newListItem);
             }
+            // Task is edited from a Dashboard view
         } else {
+            // Check mainType to change it or not call
             refreshCurrentView();
         }
 
+        // Check if edited task is the one viewed on the rightside or not, to update it
         if (currentRightSideType === "task" && currentRightSideId == taskID) {
             const taskList = taskLists.find(list => list.id == task.listId);
             const taskListName = taskList ? taskList.name : "";
 
+            // Show task details on rightside (Update)
             fillRightSideTask(task, taskListName);
         }
     }
@@ -266,21 +282,29 @@ function toggleTaskCompleted(event) {
     const taskElement = event.target.closest(".task");
     if (!taskElement) return;
 
-    const taskId = taskElement.dataset.id;
+    const taskId = taskElement.dataset.id; // %% استخدم هذا الاي دي
 
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
 
-    task.completed = !task.completed;
-    toggleRightSide(false);
+    // $$ تعديل الكومبليت للتاسك
+    // %% استخدم التاسك اي دي اللي فوق
+    // %% سوي toggle لل complete
 
+
+    task.completed = !task.completed;
+    // $$
+
+    // If the task complete status was toggled it will stay on the same view (tasklist or completed) and update the tasks viewed
     refreshCurrentView();
 
+    // If the task completed or uncompleted is viewed on the rightside, close rightside
     if (currentRightSideType === "task" && currentRightSideId == taskId) {
         const taskList = taskLists.find(list => list.id == task.listId);
         const taskListName = taskList ? taskList.name : "";
 
-        fillRightSideTask(task, taskListName);
+        // Close rightside
+        toggleRightSide(false);
     }
 }
 
@@ -298,8 +322,10 @@ function deleteTask(event) {
     tasks = tasks.filter(t => t.id != taskId);
     // $$
 
+    // Check mainType to change it or not call
     refreshCurrentView();
 
+    // Check if deleted task is the one viewed on the rightside or not, to close it
     if (currentRightSideType === "task" && currentRightSideId == taskId) {
         toggleRightSide(false);
     }
