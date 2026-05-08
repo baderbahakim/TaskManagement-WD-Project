@@ -1,14 +1,18 @@
 // Tasks Local Data
 // $$ خليها فاضية $$
 var tasks = [
-    { id: 1, listId: 1, name: "Learn variables", priority: "high", status: "to-do", startDate: "2026-05-01", dueDate: "2026-09-09", description: "task task task rtask task ", createdDate: "2024-05-26" },
-    { id: 2, listId: 1, name: "Practice functions", priority: "low", status: "done", startDate: "2026-05-06", dueDate: "2027-05-06", description: "abc abc anc kyuf  iugf ", createdDate: "2023-08-16" },
+    { id: 1, listId: 1, name: "Learn variables", priority: "high", status: "to-do", completed: false, startDate: "2026-05-01", dueDate: "2026-09-09", description: "task task task rtask task ", createdDate: "2024-05-26" },
+    { id: 2, listId: 1, name: "Practice functions", priority: "low", status: "done", completed: false, startDate: "2026-05-06", dueDate: "2027-05-06", description: "abc abc anc kyuf  iugf ", createdDate: "2023-08-16" },
 
-    { id: 3, listId: 35, name: "مهمة 1", priority: "high", status: "to-do", startDate: "2026-05-06", dueDate: "2027-09-06", description: "task task task rtask task ", createdDate: "2026-04-06" },
-    { id: 4, listId: 35, name: "مهمة 2", priority: "low", status: "in-progress", startDate: "2026-05-06", dueDate: "2026-07-06", description: "taskdf vfgngft rnfgn thth th ", createdDate: "2026-05-06" },
+    { id: 3, listId: 35, name: "مهمة 1", priority: "high", status: "to-do", completed: false, startDate: "2026-05-06", dueDate: "2027-09-06", description: "task task task rtask task ", createdDate: "2026-04-06" },
+    { id: 4, listId: 35, name: "مهمة 2", priority: "low", status: "in-progress", completed: false, startDate: "2026-05-06", dueDate: "2026-07-06", description: "taskdf vfgngft rnfgn thth th ", createdDate: "2026-05-06" },
 
-    { id: 5, listId: 20, name: "Chest workout", priority: "high", status: "in-progress", startDate: "2026-05-06", dueDate: "2026-08-26", description: "task task ger ertge rgre gre gre rtask task ", createdDate: "2026-01-06" },
-    { id: 6, listId: 20, name: "Leg day", priority: "medium", status: "done", startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" }
+    { id: 5, listId: 20, name: "Chest workout", priority: "high", status: "in-progress", completed: false, startDate: "2026-05-06", dueDate: "2026-08-26", description: "task task ger ertge rgre gre gre rtask task ", createdDate: "2026-01-06" },
+    { id: 6, listId: 20, name: "Leg day", priority: "medium", status: "done", completed: false, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" },
+
+    { id: 7, listId: 35, name: "CCC house", priority: "high", status: "in-progress", completed: true, startDate: "2026-05-06", dueDate: "2026-08-26", description: "task task ger ertge rgre gre gre rtask task ", createdDate: "2026-01-06" },
+    { id: 8, listId: 20, name: "CCC Car", priority: "medium", status: "done", completed: true, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" },
+    { id: 9, listId: 1, name: "CCC hospital", priority: "medium", status: "done", completed: true, startDate: "2026-05-06", dueDate: "2026-05-16", description: "task task task rtask task ", createdDate: "2025-05-06" }
 ];
 // $$
 

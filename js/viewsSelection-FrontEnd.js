@@ -1,5 +1,7 @@
+// Render Today view (to-do)
+
 // Render Kanban view
-function renderKanbanView(tasks) {
+function renderKanbanView() {
     const main = document.querySelector("#main");
 
     main.innerHTML = `
@@ -23,7 +25,9 @@ function renderKanbanView(tasks) {
         </div>
     `;
 
-    tasks.forEach(task => {
+    const completedTasks = tasks.filter(task => !task.completed);
+
+    completedTasks.forEach(task => {
         const column = document.querySelector(
             `.kanban-column[data-status="${task.status}"] .kanban-tasks`
         );
@@ -42,7 +46,7 @@ function renderKanbanView(tasks) {
         card.innerHTML = `
         <div class="task-header">
             <div class="task-name-wrap">
-                <i class="fa-solid fa-check task-check-icon"></i>
+                <i class="fa-solid fa-check task-check-icon" onclick="toggleTaskCompleted(event)"></i>
 
                 <div>
                     <h3 class="task-name">${task.name}</h3>
@@ -73,5 +77,70 @@ function renderKanbanView(tasks) {
         });
 
         column.appendChild(card);
+    });
+}
+
+// Render Completed view
+function renderCompletedView() {
+    const main = document.querySelector("#main");
+
+    main.innerHTML = `
+        <div id="completed-view" class="main-window">
+            <div class="tasks-container"></div>
+        </div>
+    `;
+
+    const container = main.querySelector(".tasks-container");
+
+    const completedTasks = tasks.filter(task => task.completed);
+
+    completedTasks.forEach(task => {
+        const taskList = taskLists.find(list => list.id == task.listId);
+        const taskListName = taskList ? taskList.name : "";
+
+        const div = document.createElement("div");
+
+        div.classList.add("task", task.priority, task.status);
+        div.dataset.type = "task";
+        div.dataset.id = task.id;
+
+        div.innerHTML = `
+            <div class="task-header">
+                <div class="task-name-wrap">
+                    <i class="fa-solid fa-rotate-left task-uncomplete-icon" onclick="toggleTaskCompleted(event)"></i>
+
+                    <div>
+                        <h3 class="task-name">${task.name}</h3>
+                        <p class="list-of-task">${taskListName}</p>
+                    </div>
+                </div>
+
+                <div class="icons-status">
+                    <div>
+                        <i class="fa-solid fa-pencil edit-task-icon"
+                           onclick="openEditTaskDialog(event)"></i>
+
+                        <i class="fa-regular fa-trash-can delete-task-icon"
+                           onclick="openDeleteTaskDialog(event)"></i>
+                    </div>
+
+                    <span class="status"></span>
+                </div>
+            </div>
+
+            <p class="task-start-due-date">
+                ${task.startDate} | ${task.dueDate}
+            </p>
+        `;
+
+        div.addEventListener("click", event => {
+            if (event.target.closest(".delete-task-icon, .edit-task-icon, .task-check-icon, .task-uncomplete-icon")) {
+                return;
+            }
+
+            taskClick(div);
+        });
+
+        container.appendChild(div);
     });
 }

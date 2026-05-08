@@ -37,7 +37,8 @@ function closeActionDialog(event) {
 }
 
 // Change Header Title and Type
-function changeHeaderTitleType(title, type) {
+function changeHeaderIconTitleType(iconClass, title, type) {
+    document.querySelector("#header #header-icon").className = iconClass || null;
     document.querySelector("#header #header-title").textContent = title || null;
     document.querySelector("#header #header-type").textContent = type || null;
 }
@@ -119,7 +120,12 @@ function handleMainItemClick(item) {
 function refreshCurrentView() {
     if (mainType === "view") {
         const view = views.find(v => v.name === mainView);
-        if (view) renderView(view);
+
+        const viewItem = document.querySelector(
+        `.sidebar li.view[data-name="${mainView}"]`
+    );
+
+        if (viewItem) fillTasksFromView(viewItem);
         return;
     }
 

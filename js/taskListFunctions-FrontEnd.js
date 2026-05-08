@@ -41,9 +41,12 @@ function renderTaskLists(taskLists) {
 
 // ## TaskList Click ##
 function taskListClick(taskListItem) {
-
+    
+    const taskListIcon = taskListItem.querySelector("i").className;
     const taskListID = taskListItem.dataset.id;
     const taskListName = taskListItem.querySelector(".item-title").textContent;
+    
+    changeHeaderIconTitleType(taskListIcon, taskListName, "/tasks");
 
     const main = document.querySelector("#main");
 
@@ -63,7 +66,10 @@ function taskListClick(taskListItem) {
         </div>
     `;
 
-    const filteredTasks = tasks.filter(task => task.listId == taskListID);
+    const filteredTasks = tasks.filter(task =>
+        task.listId == taskListID &&
+        task.completed === false
+    );
 
     fillTasksFromList(filteredTasks, taskListName);
 }
@@ -97,7 +103,7 @@ function createEditTaskList(event, create) {
         taskLists.push(newTaskList);
         // $$
     }
-    
+
     // Edit Path
     else {
         const taskListID = actionDialog.dataset.id; // %% استخدم هذا الاي دي
@@ -113,7 +119,7 @@ function createEditTaskList(event, create) {
     }
 
     renderTaskLists(taskLists);
-    
+
     // Keep the current selected item selected
     if (create) selectSidebarItem(selectedSidebarItem);
     // Keep the edited tasklist item selected

@@ -1,6 +1,5 @@
 // ## fill notes in main ##
 function fillNotesFromList(notes, noteListName) {
-    changeHeaderTitleType(noteListName, "/notes");
 
     const container = document.querySelector("#note-list .notes-container");
 

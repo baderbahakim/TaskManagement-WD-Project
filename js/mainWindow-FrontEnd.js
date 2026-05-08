@@ -46,15 +46,19 @@ function toggleRightSide(open) {
         currentRightSideId = null;
     }
 
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 992) {
         if (open) {
             if (!rightSideDialog.open) {
                 rightSideDialog.showModal();
+                document.body.style.overflow = "hidden";
             }
             rightSideDialog.classList.add("appear");
         } else {
             rightSideDialog.classList.remove("appear");
-            setTimeout(() => rightSideDialog.close(), 200);
+            setTimeout(() => {
+                rightSideDialog.close();
+                document.body.style.overflow = "auto";
+            }, 200);
         }
         return;
     }
@@ -80,7 +84,7 @@ const sidebarDiv = document.querySelector("#sidebar-div");
 sidebarDiv.innerHTML = sidebarDialog.innerHTML;
 
 // Query SideBar open and close buttons
-const openSidebarDialog = document.querySelectorAll(".list-icon");
+const openSidebarDialog = document.querySelectorAll("#header-icon");
 const closeSidebarDialog = document.querySelectorAll(".list-close-icon");
 
 // SideBar buttons listener call
@@ -104,10 +108,14 @@ function handleSidebar() {
     if (window.innerWidth < 576) {
         if (sidebarDialog.open) {
             sidebarDialog.classList.remove("appear");
-            setTimeout(() => sidebarDialog.close(), 200);
+            setTimeout(() => {
+                sidebarDialog.close();
+                document.body.style.overflow = "auto";
+            }, 200);
         } else {
             sidebarDialog.showModal();
             sidebarDialog.classList.add("appear");
+            document.body.style.overflow = "hidden";
         }
         return;
     }
@@ -142,6 +150,7 @@ function checkWindowResize() {
     } else {
         sidebarDialog.close();
         sidebarDialog.classList.remove("appear");
+        document.body.style.overflow = "auto";
 
         if (sidebarStatus) {
             sidebarDiv.classList.add("active", "appear");
@@ -151,7 +160,7 @@ function checkWindowResize() {
     }
 
     // right-side stay dialog below 768px
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 992) {
         rightSideDiv.classList.remove("active", "appear");
 
         if (rightSideStatus) {
@@ -159,6 +168,7 @@ function checkWindowResize() {
                 rightSideDialog.showModal();
             }
             rightSideDialog.classList.add("appear");
+            document.body.style.overflow = "hidden";
         } else {
             rightSideDialog.classList.remove("appear");
             rightSideDialog.close();

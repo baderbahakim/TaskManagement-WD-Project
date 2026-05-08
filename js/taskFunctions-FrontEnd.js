@@ -1,6 +1,5 @@
 // ## fill tasks in main ##
 function fillTasksFromList(tasks, taskListName) {
-    changeHeaderTitleType(taskListName, "/tasks");
 
     const container = document.querySelector("#task-list .tasks-container");
 
@@ -16,7 +15,7 @@ function fillTasksFromList(tasks, taskListName) {
         div.innerHTML = `
             <div class="task-header">
             <div class="task-name-wrap">
-            <i class="fa-solid fa-check task-check-icon"></i>
+            <i class="fa-solid fa-check task-check-icon" onclick="toggleTaskCompleted(event)"></i>
             <div>
             <h3 class="task-name">${task.name}</h3>
             <p class="list-of-task">${taskListName}</p>
@@ -37,7 +36,7 @@ function fillTasksFromList(tasks, taskListName) {
         `;
 
         div.addEventListener("click", event => {
-            if (event.target.closest(".delete-task-icon, .edit-task-icon, .task-check-icon")) {
+            if (event.target.closest(".delete-task-icon, .edit-task-icon, .task-check-icon, .task-uncomplete-icon")) {
                 return;
             }
             console.log("Reached task click istener");
@@ -115,7 +114,10 @@ function fillRightSideTask(task, taskListName) {
             </div>
 
             <div class="task-actions">
-                <i class="fa-solid fa-check check-task-icon"></i>
+                ${task.completed
+                ? `<i class="fa-solid fa-rotate-left task-uncomplete-icon" onclick="toggleTaskCompleted(event)"></i>`
+                : `<i class="fa-solid fa-check task-check-icon" onclick="toggleTaskCompleted(event)"></i>`
+            }
 
                 <div>
                     <i class="fa-solid fa-pencil edit-task-icon"
@@ -257,6 +259,31 @@ function createEditTask(event, create) {
     closeActionDialog(event);
 }
 
+// Toggle Task Complete
+function toggleTaskCompleted(event) {
+    event.stopPropagation();
+
+    const taskElement = event.target.closest(".task");
+    if (!taskElement) return;
+
+    const taskId = taskElement.dataset.id;
+
+    const task = tasks.find(t => t.id == taskId);
+    if (!task) return;
+
+    task.completed = !task.completed;
+    toggleRightSide(false);
+
+    refreshCurrentView();
+
+    if (currentRightSideType === "task" && currentRightSideId == taskId) {
+        const taskList = taskLists.find(list => list.id == task.listId);
+        const taskListName = taskList ? taskList.name : "";
+
+        fillRightSideTask(task, taskListName);
+    }
+}
+
 // ## Delete Task ##
 function deleteTask(event) {
     event.preventDefault();
@@ -266,13 +293,11 @@ function deleteTask(event) {
     const task = tasks.find(t => t.id == taskId);
     if (!task) return;
 
-    const listId = task.listId; // %% اي دي الليست
-
     // $$ حذف التاسك
     // %% اي دي التاسك فوق
     tasks = tasks.filter(t => t.id != taskId);
     // $$
-    
+
     refreshCurrentView();
 
     if (currentRightSideType === "task" && currentRightSideId == taskId) {

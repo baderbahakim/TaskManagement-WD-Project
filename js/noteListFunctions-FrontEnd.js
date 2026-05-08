@@ -41,9 +41,12 @@ function renderNoteLists(noteLists) {
 
 // ## NoteList click ##
 function noteListClick(noteListItem) {
-
+    
+    const noteListIcon = noteListItem.querySelector("i").className;
     const noteListID = noteListItem.dataset.id;
     const noteListName = noteListItem.querySelector(".item-title").textContent;
+    
+    changeHeaderIconTitleType(noteListIcon, noteListName, "/notes");
 
     const main = document.querySelector("#main");
 
